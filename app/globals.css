@@ -2,26 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+@import "../style/animation/bounce-in.css";
+@import "../style/animation/bounce-out.css";
+
+html {
+  overflow-y: scroll;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+.textarea {
+  height: 52px
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #000;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
   }
-}
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  @keyframes rotation {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+} 
+
+.post-enter {
+  transform: scaleY(0);
+  max-height: 0;
+  display: block;
+}
+.post-enter-active {
+  transform: scaleY(1);
+  max-height: 2000px;
+  display: block;
+  transform-origin: top;
+  transition: transform 0.5s ease, max-height 3s ease;
+}
+.post-exit {
+  transform: scaleY(1);    
+  max-height: 160px;
+  display: block;
+}
+.post-exit-active {
+  transform: scaleY(0);    
+  max-height: 0;
+  display: block;
+  transform-origin: top;
+  transition: transform 0.75s ease, max-height 0.75s ease;
 }

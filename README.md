@@ -14,21 +14,32 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Running locally
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Add environment in .env
 
-## Learn More
+```
+NEXT_PUBLIC_AUTH_API_URL=http://192.168.10.225:8080/api/v1/auth
+NEXT_PUBLIC_AUTH_API_KEY=test
 
-To learn more about Next.js, take a look at the following resources:
+API_URL=http://192.168.10.225:8081/api/v1
+NEXT_PUBLIC_API_URL=http://192.168.10.225:8081/api/v1
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+NEXT_PUBLIC_IMAGE_API_URL=http://192.168.10.225:8082/media
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+JWT_SECRET=ouvezmcEqYLpP6yJc4oGHaNxppJjXiITfc1dl8ZW9ZI1uqLsjjqj56CjGCPP96Qf
+```
 
-## Deploy on Vercel
+Create `image-remote-patterns.js` for image server.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```
+const remotePatterns = [
+  {
+    protocol: 'http',
+    hostname: '192.168.10.225',
+    port: '8082',
+    pathname: '/media/**'
+  }
+]
+export default remotePatterns
+```
