@@ -1,4 +1,3 @@
-import apiService from "@/lib/api-service";
 import NavigationMenu from "./NavigationMenu";
 
 export default function LeftSideBar() {

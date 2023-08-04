@@ -28,6 +28,10 @@ class AuthService extends AbstractApiService {
       this.setCookies(body.token, body.refreshToken, body.expiresAt)
     })
   }
+
+  logout = async () => {
+    this.removeCookies()
+  }
   
   authenticated = async (request: NextRequest) => {
     const authToken = request.cookies.get("authToken")

@@ -1,9 +1,15 @@
 /** @type {import('next').NextConfig} */
-import remotePatterns from './image-remote-patterns'
 
 const nextConfig = {
   images: {
-    remotePatterns
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: '192.168.10.225',
+        port: '8082',
+        pathname: '/media/**'
+      }
+    ]
   },
 }
 
