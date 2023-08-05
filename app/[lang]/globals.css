@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "../style/animation/bounce-in.css";
-@import "../style/animation/bounce-out.css";
+@import "../../style/animation/bounce-in.css";
+@import "../../style/animation/bounce-out.css";
 
 html {
   overflow-y: scroll;

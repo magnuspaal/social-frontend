@@ -10,10 +10,9 @@ import { useRouter } from 'next/navigation'
 export default function Navigation({me}: {me: User}) {
 
   const router = useRouter()
-  const pathname = usePathname()
+  const pathname = usePathname().substring(3)
 
-  const isHome = () => pathname == '/'
-
+  const isHome = () => pathname == '' || pathname == '/'
   const isMeProfile = () => pathname.startsWith(`/profile/${me.id}`)
 
   const logout = () => {

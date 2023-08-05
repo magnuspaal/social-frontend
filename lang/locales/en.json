@@ -1,0 +1,36 @@
+{
+  "login": {
+    "email": "Email",
+    "password": "Password",
+    "messages": {
+      "default": "Something went wrong, please try again later",
+      "wrong_credentials": "Wrong username or password"
+    }
+  },
+  "register": {
+    "username": "Username",
+    "email": "Email",
+    "firstname": "First name",
+    "lastname": "Last name",
+    "password": "Password",
+    "signup": "Sign up",
+    "messages": {
+      "default": "Something went wrong, please try again later",
+      "email_already_taken": "This email address is already taken",
+      "invalid_email": "The email address is not correct",
+      "email_null": "Email is required",
+      "firstname_null": "First name is required",
+      "firstname_too_short": "First name should be at least one character",
+      "firstname_too_long": "First name should not be over 100 characters",
+      "lastname_null": "Last name name is required",
+      "lastname_too_short": "First name should be at least one character",
+      "lastname_too_long": "Last name should not be over 100 characters",
+      "username_null": "User name is required",
+      "username_too_short": "Username should be at least one character",
+      "username_too_long": "Username should not be over 100 characters",
+      "password": "Last name name is required",
+      "password_too_short": "The password should be at least 6 characters",
+      "password_too_long": "The password should bot be over 100 characters"
+    }
+  }
+}

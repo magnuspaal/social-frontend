@@ -15,8 +15,8 @@ class AuthService extends AbstractApiService {
     }
   }
 
-  postRegister = async (username: String, password: String) => {
-    return this.post(`${apiUrl}/register`, JSON.stringify({username, password})
+  postRegister = async (email: string, password: String, firstName: string, lastName: string, username: string) => {
+    return this.post(`${apiUrl}/register`, JSON.stringify({email, password, firstName, lastName, username})
     ).then(async (body) => {
       this.setCookies(body.token, body.refreshToken, body.expiresAt)
     })
@@ -109,12 +109,14 @@ class AuthService extends AbstractApiService {
     cookies.remove("expiresAt")
   }
 
-  handleError = (res: Response) => {
-    if (res.url.includes('/refresh')) {
-      throw new Error("Refreshing token failed")
-    }
+  handleError = async (res: Response) => {
     if ([401, 403].includes(res.status)) {
-      throw new Error("Wrong username or password")
+      return Promise.reject(["wrong_credentials"])
+    } else if (![200, 201].includes(res.status)) {
+      const body = await res.json().catch(() => console.error("No body on request"))
+      if (body?.codes) {
+        return Promise.reject(body.codes)
+      }
     }
     return Promise.resolve(false)
   }

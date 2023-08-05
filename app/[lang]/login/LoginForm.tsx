@@ -4,22 +4,23 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import authService from '@/lib/auth-service';
 
-export default function LoginForm() {
+export default function LoginForm({dict}: any) {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
+  const [errorCodes, setErrorCodes] = useState([])
 
   const router = useRouter()
 
   const submit = async(event: any) => {
     event.preventDefault()
-    try {
-      await authService.postLogin(email, password)
-    } catch (err: any) {
-      setError(err.message)
-    }
-    router.push("/")
+    await authService.postLogin(email, password)
+      .then(() => router.push('/'))
+      .catch((codes) => setErrorCodes(codes))
+  }
+
+  const handleSignup = async () => {
+    router.push('/register')
   }
 
   return (
@@ -27,20 +28,26 @@ export default function LoginForm() {
       <input
         className="p-2 rounded border border-solid"
         type="text"
-        placeholder="Email"
+        placeholder={dict.login['email']}
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
       <input
         className="p-2 rounded border border-solid"
         type="password"
-        placeholder="Password"
+        placeholder={dict.login['password']}
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <p className='m-y-1.5 text-red-600 italic text-center'>{error}</p>
+      <div>{
+        errorCodes.map((code, index) => <p className='m-y-1.5 text-red-600 italic text-center' key={code + index}>{dict.login.messages[code] ?? dict.login.messages['default']}</p>)
+      }</div>
+
       <button className='p-2 rounded bg-secondary font-sans font-bold' type='submit'>
         LOGIN
+      </button>
+      <button onClick={handleSignup} className='rounded border border-black/40 p-2' type='button'>
+        SIGN UP
       </button>
     </form>
   )
