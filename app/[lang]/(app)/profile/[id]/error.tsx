@@ -15,7 +15,7 @@ export default function GlobalError({
 
   return (
     <div className="h-full flex justify-center items-center">
-      <h2>Something went wrong</h2>
+      <h2>Something went wrong when getting profile</h2>
     </div>
   )
 }

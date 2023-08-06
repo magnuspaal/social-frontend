@@ -44,7 +44,7 @@ class ClientApiService extends AbstractApiService {
 
   getPost = (id: number): Promise<Post> => this.get(`${apiUrl}/post/${id}`)
 
-  handleError = async (res: Response): Promise<boolean> => {
+  handleResponseError = async (res: Response): Promise<boolean> => {
     if ([401, 403].includes(res.status)) {
       return authService.handleClientRefreshToken()
     }

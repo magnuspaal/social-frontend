@@ -1,4 +1,4 @@
-import apiService from "@/lib/api-service";
+import apiService from "@/services/api-service";
 import AccountPreview from "@/components/right-side-bar/AccountPreview";
 
 export default async function Post({ params }: any) {

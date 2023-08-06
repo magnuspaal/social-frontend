@@ -1,5 +1,5 @@
 import AccountPreview from "@/components/right-side-bar/AccountPreview";
-import apiService from "@/lib/api-service";
+import apiService from "@/services/api-service";
 
 export default async function Post({ params }: any) {
 

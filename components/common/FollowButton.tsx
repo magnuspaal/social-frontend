@@ -1,6 +1,6 @@
 'use client'
 
-import useClientApiService from "@/lib/client-api-service"
+import useClientApiService from "@/services/client-api-service"
 import { User } from "@/types/user"
 import { useRouter } from "next/navigation"
 

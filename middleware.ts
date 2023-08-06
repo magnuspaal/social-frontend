@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { NextRequest } from 'next/server'
-import authService from './lib/auth-service';
+import authService from './services/auth-service';
 import Negotiator from 'negotiator';
 import { match } from '@formatjs/intl-localematcher';
 
@@ -21,27 +21,21 @@ export async function middleware(request: NextRequest) {
     )
   }
 
-  const prevUrl = request.nextUrl.searchParams.get('url')
+  let response = NextResponse.next();
 
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set('x-url', request.nextUrl.pathname);
+  const { authenticated, authCookies } = await authService.authenticated(request)
 
-  let response = NextResponse.next({request: {
-    headers: requestHeaders,
-  }});
-
-  const isAuthenticated = await authService.authenticated(request)
-
-  if (isAuthenticated && pathname.startsWith(`/${locale}/login`)) {
-    response = NextResponse.redirect(prevUrl ? new URL(prevUrl) : new URL(`/${locale}/`, request.url))
+  if (authenticated && pathname.startsWith(`/${locale}/login`)) {
+    response = NextResponse.redirect(new URL(`/${locale}/`, request.url))
   } 
-  else if (!isAuthenticated && !pathname.startsWith(`/${locale}/login`) && !pathname.startsWith(`/${locale}/register`)) {
+  else if (!authenticated && !pathname.startsWith(`/${locale}/login`) && !pathname.startsWith(`/${locale}/register`)) {
     response = NextResponse.redirect(new URL(`/${locale}/login`, request.url))
   }
-  if (response) {
-    response.cookies.set("authToken", request.cookies.get("authToken")?.value ?? "")
-    response.cookies.set("refreshToken", request.cookies.get("refreshToken")?.value ?? "")
-    response.cookies.set("expiresAt", request.cookies.get("expiresAt")?.value ?? "")
+  if (authCookies) {
+    response = NextResponse.redirect(new URL(pathname, request.url))
+    response.cookies.set("authToken", authCookies.authToken)
+    response.cookies.set("refreshToken", authCookies.refreshToken)
+    response.cookies.set("expiresAt", authCookies.expiresAt)
   }
   return response;
 }

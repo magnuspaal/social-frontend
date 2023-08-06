@@ -3,7 +3,7 @@
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import SinglePost from "../post/SinglePost";
 import usePostInfiniteScroll from "@/hooks/use-infinite-scroll";
-import useClientApiService from "@/lib/client-api-service";
+import useClientApiService from "@/services/client-api-service";
 
 export default function Feed() {
 

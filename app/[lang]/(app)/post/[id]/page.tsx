@@ -1,7 +1,7 @@
 
 import ReplyToPost from "@/components/input/ReplyToPost";
 import SinglePost from "@/components/post/SinglePost";
-import apiService from "@/lib/api-service";
+import apiService from "@/services/api-service";
 
 export default async function Post({ params }: any) {
 

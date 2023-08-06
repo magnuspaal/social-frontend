@@ -1,4 +1,4 @@
-import apiService from "@/lib/api-service";
+import apiService from "@/services/api-service";
 import { getProfileAge } from "@/utils/date-utils";
 import FollowButton from "@/components/common/FollowButton";
 import ProfileActions from "./ProfileActions";

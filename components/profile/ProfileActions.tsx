@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 
 export default function Profile({ user }: {user: User}) {
 
-
   const pathname = usePathname().substring(3)
 
   const pathPosts = () => pathname == `/profile/${user.id}`

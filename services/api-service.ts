@@ -31,11 +31,9 @@ class ApiService extends AbstractApiService {
 
   getUserFollowing = (id: number): Promise<User[]> => this.get(`${apiUrl}/user/${id}/following`)
 
-  handleError = async (res: Response): Promise<boolean> => {
+  handleResponseError = async (res: Response): Promise<boolean> => {
     if ([401, 403].includes(res.status)) {
-      const headersList = headers();
-      const headerUrl = headersList.get('x-url') || "";
-      return redirect(`/login?url=${headerUrl}`)
+      redirect(`/login`)
     }
     return Promise.resolve(false)
   }

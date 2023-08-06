@@ -5,7 +5,7 @@ import { addPosts, clearPosts } from "@/store/post-slice";
 import { useCallback, useEffect, useRef } from "react";
 
 const usePostInfiniteScroll = (getPostsFunction: Function, options?: { userId: number }) => {
-  const posts = useAppSelector((state) => state.posts);
+  const posts = useAppSelector((state) => state.post.posts);
   const loadingMorePosts = useRef(false)
   const endOfPosts = useRef(false)
 

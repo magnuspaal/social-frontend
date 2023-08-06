@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import authService from '@/lib/auth-service';
+import authService from '@/services/auth-service';
 
 export default function RegisterForm({dict}: any) {
 

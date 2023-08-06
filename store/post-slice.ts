@@ -2,7 +2,7 @@ import { Post } from "@/types/post";
 import { createSlice } from "@reduxjs/toolkit";
 
 export const postSlice = createSlice({
-  name: 'counter',
+  name: 'post',
   initialState: {
     posts: [],
   } as {

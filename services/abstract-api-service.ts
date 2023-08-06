@@ -9,14 +9,16 @@ export abstract class AbstractApiService {
       return fetch(url, {...options, headers})
         .then(async (res: Response) => {
           if (!res.ok) {
-            const authenticated = await this.handleError(res)
+            const authenticated = await this.handleResponseError(res)
             if (retryRequest && authenticated) {
               throw new Error("retry_request")
-            } else {
-              throw new Error("error")
-            }
+            } 
+            return
           }
           return res.json()
+        })
+        .catch(async (error) => {
+          await this.handleFetchError(error)
         })
       }
 
@@ -44,5 +46,9 @@ export abstract class AbstractApiService {
     })
   }
 
-  handleError = async (res: Response): Promise<boolean> => Promise.resolve(false)
+  handleResponseError = async (res: Response): Promise<boolean> => {
+    return Promise.resolve(false)
+  }
+
+  handleFetchError = async (error: any) => {throw error}
 }

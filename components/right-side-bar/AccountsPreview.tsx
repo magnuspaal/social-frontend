@@ -1,4 +1,4 @@
-import apiService from "@/lib/api-service"
+import apiService from "@/services/api-service"
 import AccountPreview from "./AccountPreview"
 
 export default async function AccountsPreview() {

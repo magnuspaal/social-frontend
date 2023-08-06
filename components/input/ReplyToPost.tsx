@@ -1,8 +1,9 @@
 "use client"
+
 import useAutosizeTextArea from "@/utils/use-auto-size-textarea";
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import useClientApiService from "@/lib/client-api-service";
+import useClientApiService from "@/services/client-api-service";
 
 export default function ReplyToPost({ postId }: { postId: number }) {
 

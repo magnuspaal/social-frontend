@@ -1,4 +1,4 @@
-import apiService from '@/lib/api-service'
+import apiService from '@/services/api-service'
 import Navigation from './Navigation'
 
 export default async function NavigationMenu() {

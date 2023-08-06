@@ -4,7 +4,8 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { User } from "@/types/user";
 import SinglePost from "../post/SinglePost";
 import usePostInfiniteScroll from "@/hooks/use-infinite-scroll";
-import useClientApiService from "@/lib/client-api-service";
+import useClientApiService from "@/services/client-api-service";
+import { Post } from "@/types/post";
 
 export default function UserPostList({ userId, me }: { userId: number, me: User }) {
 
@@ -17,7 +18,7 @@ export default function UserPostList({ userId, me }: { userId: number, me: User 
   return (
     <div className="border border-black/40 rounded max-w-2xl">
       <TransitionGroup className="grid divide-y divide-black/40">
-        {posts?.map((post) => 
+        {posts?.map((post: Post) => 
           <CSSTransition
             key={post.id}
             timeout={2000}

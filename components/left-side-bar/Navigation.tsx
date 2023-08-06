@@ -1,6 +1,6 @@
 'use client'
 
-import authService from '@/lib/auth-service'
+import authService from '@/services/auth-service'
 import { User } from '@/types/user'
 import { revalidatePath } from 'next/cache'
 import Link from 'next/link'

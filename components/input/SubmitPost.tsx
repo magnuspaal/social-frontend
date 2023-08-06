@@ -2,16 +2,14 @@
 
 import useAutosizeTextArea from "@/utils/use-auto-size-textarea";
 import { useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/store/hooks";
 import { addPost } from "@/store/post-slice";
-import useClientApiService from "@/lib/client-api-service";
+import useClientApiService from "@/services/client-api-service";
 
 export default function SubmitPost() {
 
   const dispatch = useAppDispatch();
 
-  const router = useRouter();
   const clientApiService = useClientApiService()
 
   const [value, setValue] = useState("");

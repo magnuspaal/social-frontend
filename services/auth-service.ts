@@ -5,12 +5,10 @@ import { NextRequest } from "next/server";
 import { AbstractApiService } from "./abstract-api-service";
 
 const apiUrl = process.env.NEXT_PUBLIC_AUTH_API_URL ?? "http://localhost:8080/api/v1/auth"
-const apiKey = process.env.NEXT_PUBLIC_AUTH_API_KEY ?? "test"
 
 class AuthService extends AbstractApiService {
   getApiHeaders = () => {
     return {
-      "X-Api-Key": apiKey,
       "Content-Type": "application/json"
     }
   }
@@ -33,7 +31,7 @@ class AuthService extends AbstractApiService {
     this.removeCookies()
   }
   
-  authenticated = async (request: NextRequest) => {
+  authenticated = async (request: NextRequest): Promise<{authenticated: boolean, authCookies?: AuthCookies}> => {
     const authToken = request.cookies.get("authToken")
     const expiresAt = request.cookies.get("expiresAt")
   
@@ -43,29 +41,31 @@ class AuthService extends AbstractApiService {
       if (expiresDate < currentDate) {
         return await this.handleRefreshToken(request)
       } else {
-        return true
+        return {authenticated: true}
       }
     }
-    return false
+    return {authenticated: false}
   }
   
   postRefreshToken = async (refreshToken: String) => {
     return this.post(`${apiUrl}/refresh`, JSON.stringify({refreshToken})) 
   };
   
-  handleRefreshToken = async (request: NextRequest) => {
+  handleRefreshToken = async (request: NextRequest): Promise<{authenticated: boolean, authCookies?: AuthCookies}> => {
     const cookiesRefreshToken = request.cookies.get("refreshToken")
     if (cookiesRefreshToken) {
       return this.postRefreshToken(cookiesRefreshToken.value).then((body) => {
-        this.setHeaderCookies(request, body.token, body.refreshToken, body.expiresAt)
-        return true
+        return {
+          authenticated: true,
+          authCookies: {
+            authToken: body.token, refreshToken: body.refreshToken, expiresAt: body.expiresAt
+          }
+        }
       }).catch(() => {
-        this.removeHeaderCookies(request)
-        return false
+        return {authenticated: false}
       })
     } else {
-      this.removeHeaderCookies(request)
-      return false
+      return {authenticated: false}
     }
   }
 
@@ -83,19 +83,7 @@ class AuthService extends AbstractApiService {
       this.removeCookies()
       return false
     }
-  }
-  
-  removeHeaderCookies = (request: NextRequest) => {
-    request.cookies.delete("authToken")
-    request.cookies.delete("refreshToken")
-    request.cookies.delete("expiresAt")
-  }
-  
-  setHeaderCookies = (request: NextRequest, token: string, refreshToken: string, expiresAt: string) => {
-    request.cookies.set("authToken", token)
-    request.cookies.set("refreshToken", refreshToken)
-    request.cookies.set("expiresAt", expiresAt)
-  }
+  }  
   
   setCookies = (token: string, refreshToken: string, expiresAt: string) => {
     cookies.set("authToken", token)
@@ -109,7 +97,7 @@ class AuthService extends AbstractApiService {
     cookies.remove("expiresAt")
   }
 
-  handleError = async (res: Response) => {
+  handleResponseError = async (res: Response) => {
     if ([401, 403].includes(res.status)) {
       return Promise.reject(["wrong_credentials"])
     } else if (![200, 201].includes(res.status)) {

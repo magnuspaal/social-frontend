@@ -1,5 +1,5 @@
 import UserPostList from "@/components/profile/UserPostList";
-import apiService from "@/lib/api-service";
+import apiService from "@/services/api-service";
 
 export default async function ProfileHome({ params }: any) {
 
