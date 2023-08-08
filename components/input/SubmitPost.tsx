@@ -32,7 +32,7 @@ export default function SubmitPost() {
       <textarea 
         onChange={handleChange} 
         placeholder="What's on your mind?"
-        className="textarea w-full overflow-auto m-h-10 p-3 text-xl resize-none h-14 overflow-hidden bg-background focus:outline-0" 
+        className="h-[52px] w-full overflow-auto m-h-10 p-3 text-xl resize-none h-14 overflow-hidden bg-background focus:outline-0" 
         id="multiliner" 
         name="multiliner"
         ref={textAreaRef}

@@ -6,7 +6,7 @@ export abstract class AbstractApiService {
 
   private handleRequest = async (url: string, options: Record<any, any>) => {
     const request = async (retryRequest: boolean, headers: Record<any, any>) => {
-      return fetch(url, {...options, headers})
+      return fetch(url, {headers, ...options})
         .then(async (res: Response) => {
           if (!res.ok) {
             const authenticated = await this.handleResponseError(res)
@@ -38,7 +38,7 @@ export abstract class AbstractApiService {
     })
   }
 
-  async post(url: string, body?: string, options?: Record<any, any>) {
+  async post(url: string, body?: string | FormData, options?: Record<any, any>) {
     return this.handleRequest(url, {
       method: "POST",
       body,

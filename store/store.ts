@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import postReducer from "./post-slice";
+import alertReducer from "./alert-slice";
 
 
 export const store = configureStore({
   reducer: {
-    post: postReducer
+    post: postReducer,
+    alert: alertReducer
   }
 })
 

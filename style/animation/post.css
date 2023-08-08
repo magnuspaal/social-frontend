@@ -1,0 +1,24 @@
+.post-enter {
+  transform: scaleY(0);
+  max-height: 0;
+  display: block;
+}
+.post-enter-active {
+  transform: scaleY(1);
+  max-height: 2000px;
+  display: block;
+  transform-origin: top;
+  transition: transform 0.5s ease, max-height 3s ease;
+}
+.post-exit {
+  transform: scaleY(1);    
+  max-height: 160px;
+  display: block;
+}
+.post-exit-active {
+  transform: scaleY(0);    
+  max-height: 0;
+  display: block;
+  transform-origin: top;
+  transition: transform 0.75s ease, max-height 0.75s ease;
+}

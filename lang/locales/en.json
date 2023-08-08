@@ -1,4 +1,8 @@
 {
+  "navigation": {
+    "home": "Home",
+    "profile": "Profile"
+  },
   "login": {
     "email": "Email",
     "password": "Password",
@@ -32,5 +36,9 @@
       "password_too_short": "The password should be at least 6 characters",
       "password_too_long": "The password should bot be over 100 characters"
     }
+  },
+  "profile_settings": {
+    "upload": "Upload",
+    "select_image": "Select image"
   }
 }

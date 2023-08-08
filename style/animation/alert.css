@@ -1,0 +1,17 @@
+.alert-enter {
+  transform: translateY(-100px);
+}
+.alert-enter-active {
+  transform: translateY(0px);
+  transition: transform 1s ease;
+}
+.alert-exit {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+.alert-exit-active {
+  opacity: 0;
+  transform: translateY(-200px);
+  transition: transform 1s ease, opacity 1s ease;
+}

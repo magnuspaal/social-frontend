@@ -17,7 +17,6 @@ class ClientApiService extends AbstractApiService {
   getApiHeaders = () => {
     const authToken = Cookies.get("authToken")
     return {
-      "Content-Type": "application/json",
       "Authorization": "Bearer " + authToken,
     }
   }
@@ -43,6 +42,8 @@ class ClientApiService extends AbstractApiService {
   followUser = async (userId: number): Promise<Follow> => this.post(`${apiUrl}/user/${userId}/follow`)
 
   getPost = (id: number): Promise<Post> => this.get(`${apiUrl}/post/${id}`)
+
+  uploadProfileImage = (userId: number, body: FormData) => this.post(`${apiUrl}/user/${userId}/upload-image`, body)
 
   handleResponseError = async (res: Response): Promise<boolean> => {
     if ([401, 403].includes(res.status)) {

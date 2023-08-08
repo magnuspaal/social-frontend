@@ -23,7 +23,7 @@ class ApiService extends AbstractApiService {
 
   getAccounts = (): Promise<User[]> => this.get(`${apiUrl}/user`)
 
-  getMe = (): Promise<User> => this.get(`${apiUrl}/user/me`, { next: { revalidate: 0 } } )
+  getMe = (): Promise<User> => this.get(`${apiUrl}/user/me`, { next: { revalidate: 0, tags: ['me'] } } )
 
   getUser = (id: number): Promise<User> => this.get(`${apiUrl}/user/${id}`, { next: { revalidate: 0 } })
 
