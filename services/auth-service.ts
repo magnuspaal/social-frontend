@@ -14,10 +14,7 @@ class AuthService extends AbstractApiService {
   }
 
   postRegister = async (email: string, password: String, firstName: string, lastName: string, username: string) => {
-    return this.post(`${apiUrl}/register`, JSON.stringify({email, password, firstName, lastName, username})
-    ).then(async (body) => {
-      this.setCookies(body.token, body.refreshToken, body.expiresAt)
-    })
+    return this.post(`${apiUrl}/register`, JSON.stringify({email, password, firstName, lastName, username}))
   }
 
   postLogin = async (email: String, password: String) => {
@@ -86,9 +83,9 @@ class AuthService extends AbstractApiService {
   }  
   
   setCookies = (token: string, refreshToken: string, expiresAt: string) => {
-    cookies.set("authToken", token)
-    cookies.set("refreshToken", refreshToken)
-    cookies.set("expiresAt", expiresAt)
+    cookies.set("authToken", token, { expires: 60 * 10 / 86400 })
+    cookies.set("refreshToken", refreshToken, { expires: 60 * 60 * 24 * 30 * 6 / 86400 })
+    cookies.set("expiresAt", expiresAt, { expires: 60 * 10 / 86400 })
   }
 
   removeCookies = () => {

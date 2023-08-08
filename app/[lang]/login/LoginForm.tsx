@@ -8,7 +8,7 @@ export default function LoginForm({dict}: any) {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [errorCodes, setErrorCodes] = useState([])
+  const [errorCodes, setErrorCodes] = useState<string[]>([])
 
   const router = useRouter()
 
@@ -16,7 +16,14 @@ export default function LoginForm({dict}: any) {
     event.preventDefault()
     await authService.postLogin(email, password)
       .then(() => router.push('/'))
-      .catch((codes) => setErrorCodes(codes))
+      .catch((codes) => {
+        if (codes) {
+          console.log(codes)
+          setErrorCodes(codes)
+        } {
+          setErrorCodes(["login.messages.default"])
+        }
+      })
   }
 
   const handleSignup = async () => {
@@ -24,7 +31,7 @@ export default function LoginForm({dict}: any) {
   }
 
   return (
-    <form onSubmit={submit} className="flex flex-col grid gap-5">
+    <form onSubmit={submit} className="flex flex-col grid gap-5 w-80 max-w-80">
       <input
         className="p-2 rounded border border-solid"
         type="text"
@@ -44,10 +51,10 @@ export default function LoginForm({dict}: any) {
       }</div>
 
       <button className='p-2 rounded bg-secondary font-sans font-bold' type='submit'>
-        LOGIN
+        {dict.login.login}
       </button>
       <button onClick={handleSignup} className='rounded border border-black/40 p-2' type='button'>
-        SIGN UP
+      {dict.login.signup}
       </button>
     </form>
   )

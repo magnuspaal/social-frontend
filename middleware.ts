@@ -33,9 +33,9 @@ export async function middleware(request: NextRequest) {
   }
   if (authCookies) {
     response = NextResponse.redirect(new URL(pathname, request.url))
-    response.cookies.set("authToken", authCookies.authToken)
-    response.cookies.set("refreshToken", authCookies.refreshToken)
-    response.cookies.set("expiresAt", authCookies.expiresAt)
+    response.cookies.set("authToken", authCookies.authToken, { maxAge: 60 * 10 })
+    response.cookies.set("refreshToken", authCookies.refreshToken, { maxAge: 60 * 60 * 24 * 30 * 6 })
+    response.cookies.set("expiresAt", authCookies.expiresAt, { maxAge: 60 * 10 })
   }
   return response;
 }

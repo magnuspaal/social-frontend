@@ -6,6 +6,8 @@
   "login": {
     "email": "Email",
     "password": "Password",
+    "login": "LOGIN",
+    "signup": "SIGNUP",
     "messages": {
       "default": "Something went wrong, please try again later",
       "wrong_credentials": "Wrong username or password"
