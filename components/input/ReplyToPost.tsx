@@ -1,6 +1,6 @@
 "use client"
 
-import useAutosizeTextArea from "@/utils/use-auto-size-textarea";
+import useAutosizeTextArea from "@/hooks/use-auto-size-textarea";
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import useClientApiService from "@/services/client-api-service";
@@ -21,7 +21,9 @@ export default function ReplyToPost({ postId }: { postId: number }) {
 
   const submitPost = async () => {
     setValue("")
-    await clientApiService.postReply(value, postId)
+    let formData = new FormData();
+    formData.append('content', value);
+    await clientApiService.postReply(formData, postId)
     router.refresh()
   }
 

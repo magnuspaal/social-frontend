@@ -18,8 +18,8 @@ export default function AlertModal() {
   }, [alerts])
 
   return (
-    <div className="sticky top-10 left-0 right-0 ml-auto mr-auto h-20 flex justify-center items-start z-50">
-      <TransitionGroup className="flex flex-col items-center">   
+    <div className="sticky left-0 right-0 top-0 ml-auto mr-auto h-20 flex justify-center items-center z-50 pointer-events-none">
+      <TransitionGroup className="flex flex-col items-center justify-end">   
       {
         Object.values(alerts).map((alert) => (
           <CSSTransition
@@ -27,7 +27,7 @@ export default function AlertModal() {
             timeout={1000}
             classNames='alert'
           >
-            <div key={alert.index} className={`border rounded  p-4 w-fit ${alert.type == AlertType.ERROR ? 'bg-red-400' : 'bg-green-400'}`}>
+            <div key={alert.index} className={`rounded p-4 w-fit ${alert.type == AlertType.ERROR ? 'bg-red-400' : 'bg-green-400'}`}>
               <div>{alert.message}</div>
             </div>
           </CSSTransition>

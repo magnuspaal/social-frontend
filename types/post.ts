@@ -12,6 +12,7 @@ export interface Post {
   user: User; 
   replyParent: Post | null;
   repostParent: Post | null;
+  imageName: string;
 }
 
 export interface Repost extends Omit<Post, 'repostParent'> {

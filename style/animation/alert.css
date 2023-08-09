@@ -7,11 +7,13 @@
 }
 .alert-exit {
   opacity: 1;
+  position: absolute;
   transform: translateY(0px);
 }
 
 .alert-exit-active {
   opacity: 0;
-  transform: translateY(-200px);
+  transform: translateY(-100px);
+  position: absolute;
   transition: transform 1s ease, opacity 1s ease;
 }

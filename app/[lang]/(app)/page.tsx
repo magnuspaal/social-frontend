@@ -4,7 +4,7 @@ import Feed from "@/components/feed/Feed";
 export default function Home() {
 
   return (
-    <div>
+    <div className="flex flex-col justify-center items-stretch max-w-2xl w-full">
       <SubmitPost/>
       <Feed />
     </div>

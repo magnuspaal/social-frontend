@@ -6,6 +6,9 @@
 @import "../../style/animation/bounce-out.css";
 @import "../../style/animation/loader.css";
 @import "../../style/animation/post.css";
+@import "../../style/animation/alert.css";
+
+@import "../../style/svg-button.css";
 
 html {
   overflow-y: scroll;

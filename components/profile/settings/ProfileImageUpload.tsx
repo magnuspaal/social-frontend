@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import NextImage from "next/image";
 import { useAppDispatch } from "@/store/hooks";
 import { AlertType, addAlert } from "@/store/alert-slice";
+import { getImageAddress } from "@/utils/image-utils";
 
 export default function ProfileImageUpload({ user }: {user: User, dict: any}) {
 
@@ -65,11 +66,11 @@ export default function ProfileImageUpload({ user }: {user: User, dict: any}) {
     selectedFileChanged().then(async () => {
       const res = await uploadImage()
       if (res) {
-        dispatch(addAlert({message: "Image uploaded!", type: AlertType.SUCCESS, index: 0}))
+        dispatch(addAlert({message: "Image uploaded!", type: AlertType.SUCCESS}))
         router.refresh()
       } 
     }).catch((err) => {
-      dispatch(addAlert({message: err, type: AlertType.ERROR, index: 0}))
+      dispatch(addAlert({message: err, type: AlertType.ERROR}))
       setSelectedFile(null)
     })
   }, [selectedFile]) 
@@ -79,7 +80,7 @@ export default function ProfileImageUpload({ user }: {user: User, dict: any}) {
       <button onClick={onButtonClick} className="flex flex-col items-center">
         <div className="rounded border-2 border-black p-1 w-fit rounded-full fit-content">
           <NextImage 
-            src={currentImage ?? `${user.imageName ? `${imageApiUrl}/${user.imageName}` : `/blank-profile-picture.png`}`} 
+            src={currentImage ?? `${user.imageName ? getImageAddress(user.imageName) : `/blank-profile-picture.svg`}`} 
             alt="Profile picture"
             height={100}
             width={100}

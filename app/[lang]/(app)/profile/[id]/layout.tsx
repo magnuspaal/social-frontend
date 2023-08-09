@@ -8,8 +8,8 @@ export default function ProfileLayout({
   params: any
 }) {
   return (
-    <div className="p-2 divide-black/40 border border-black/40 rounded">
-      <div className="grid gap-3">
+    <div className="divide-black/40 border border-black/40 rounded max-w-2xl w-full">
+      <div className="grid gap-3 max-w-2xl w-full">
         <Profile userId={params.id}/>
         {children}
       </div>

@@ -1,0 +1,11 @@
+.post-action-button-active {
+  filter: invert(48%) sepia(89%) saturate(2085%) hue-rotate(179deg) brightness(105%) contrast(91%)
+}
+
+.image-post-button-active {
+  filter: invert(48%) sepia(89%) saturate(2085%) hue-rotate(179deg) brightness(105%) contrast(91%)
+}
+
+.image-post-button-hover:hover {
+  filter: invert(48%) sepia(89%) saturate(2085%) hue-rotate(179deg) brightness(105%) contrast(91%)
+}

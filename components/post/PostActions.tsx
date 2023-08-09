@@ -6,6 +6,7 @@ import { addPost, removePost, updatePost } from "@/store/post-slice";
 import { Post } from "@/types/post";
 import { useRouter } from "next/navigation";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
+import Image from "next/image"
 
 export default function PostActions({ 
   appendRepost = false,
@@ -44,17 +45,19 @@ export default function PostActions({
   }
 
   return (
-    <div className="flex flex-row pl-5 pt-4">
-      <div className="flex flex-row grid grid-cols-2"> 
+    <div className="flex flex-row px-5 pt-5 pb-4 w-full">
+      <div className="flex flex-row w-full justify-start"> 
         <SwitchTransition mode={'out-in'}>
           <CSSTransition 
             key={post.likeCount}
             timeout={250 * 0.75}
             classNames={{enter: "bounce-enter", appear: "bounce-enter", exit: "bounce-exit"}}
           >
-            <div className="flex flex-row">
-              <button onClick={handleLike} className={`mr-2 font-bold ${post.liked ? 'font-bold text-tertiary' : ''}`}>Like</button>
-              <div>{post.likeCount}</div>
+            <div className={`flex flex-row ${post.liked && "post-action-button-active"}`}>
+              <button onClick={handleLike} className="flex flex-row">
+                <Image src='/heart.svg' width={25} height={25} alt="like-btn"/>
+                <div className="w-20 ml-2 font-semibold text-start">{post.likeCount}</div>
+              </button>
             </div>
           </CSSTransition>
         </SwitchTransition>
@@ -65,9 +68,11 @@ export default function PostActions({
             timeout={250 * 0.75} 
             classNames={{enter: "bounce-enter", appear: "bounce-enter", exit: "bounce-exit"}}
           >
-            <div className="flex flex-row">
-              <button onClick={handleRepost} className={`mr-2 font-bold ${repostPost?.reposted ?? post.reposted ? 'font-bold text-tertiary' : ''}`}>Repost</button>
-              <div>{repostPost?.repostCount ?? post.repostCount}</div>
+            <div className={`flex flex-row ${(repostPost?.reposted ?? post.reposted) && "post-action-button-active"}`}>
+              <button onClick={handleRepost} className="flex flex-row">
+                <Image src='/repost.svg' width={25} height={25} alt="like-btn"/>
+                <div className="w-20 ml-2 font-semibold text-start">{repostPost?.repostCount ?? post.repostCount}</div>
+              </button>
             </div>
           </CSSTransition> 
         </SwitchTransition>

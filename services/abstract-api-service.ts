@@ -13,7 +13,7 @@ export abstract class AbstractApiService {
             if (retryRequest && authenticated) {
               throw new Error("retry_request")
             } 
-            return
+            throw new Error(res.statusText)
           }
           return res.json()
         })

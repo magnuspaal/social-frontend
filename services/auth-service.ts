@@ -31,15 +31,20 @@ class AuthService extends AbstractApiService {
   authenticated = async (request: NextRequest): Promise<{authenticated: boolean, authCookies?: AuthCookies}> => {
     const authToken = request.cookies.get("authToken")
     const expiresAt = request.cookies.get("expiresAt")
+    const refreshToken = request.cookies.get("refreshToken")
   
     if (authToken?.value && expiresAt?.value) {
-      const expiresDate = new Date(expiresAt.value).getTime()
-      const currentDate = new Date(new Date().toUTCString()).getTime()
-      if (expiresDate < currentDate) {
+      const expiresDate = new Date(expiresAt.value).getTime() / 1000
+      const currentDate = new Date(new Date().toUTCString()).getTime() / 1000
+      if (expiresDate < currentDate && refreshToken) {
         return await this.handleRefreshToken(request)
+      } else if (!refreshToken) {
+        return { authenticated: false }
       } else {
-        return {authenticated: true}
+        return { authenticated: true }
       }
+    } else if (refreshToken?.value) {
+      return await this.handleRefreshToken(request)
     }
     return {authenticated: false}
   }

@@ -5,17 +5,16 @@ import { SinglePostProps } from "../types/PostProps";
 import RepostPost from "./RepostPost";
 import ReplyPost from "./ReplyPost";
 import DefaultPost from "./DefaultPost";
-import { getPostTimestamp } from "@/utils/date-utils";
 
 export default function SinglePost({
-    post, 
-    clickable = true,
-    includeReplyHeader = true,
-    includeRepostHeader = true,
-    includePostActions = true,
-    appendRepost = false,
-    isMe = false
-  }: SinglePostProps) {
+  post, 
+  clickable = true,
+  includeReplyHeader = true,
+  includeRepostHeader = true,
+  includePostActions = true,
+  appendRepost = false,
+  isMe = false
+}: SinglePostProps) {
 
   const renderPost = (post: Post) => {
     if (post.repostParent) {
@@ -34,7 +33,7 @@ export default function SinglePost({
 
 
   const postWrapper = () => 
-    <div className={`pb-2 ${!includePostActions && 'pb-4'} ${clickable && 'hover:bg-shade cursor-pointer'}`}> 
+    <div className={`bg-background overflow-hidden ${!includePostActions && 'pb-4'} ${clickable && 'hover:bg-shade cursor-pointer'}`}> 
       { renderPost(post) }
       { getPostActions() }
     </div>

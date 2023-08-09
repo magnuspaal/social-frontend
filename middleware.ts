@@ -47,8 +47,11 @@ export const config = {
 };
 
 function getLocale(request: NextRequest) {
+
+  const negotiatorHeaders: Record<string, string> = {}
+  request.headers.forEach((value, key) => (negotiatorHeaders[key] = value))
   
-  const languages = new Negotiator({headers: {'accept-language': 'en-US,en;q=0.5'}}).languages()
+  const languages = new Negotiator({headers: negotiatorHeaders}).languages()
   const defaultLocale = 'en'
   
   return match(languages, locales, defaultLocale)
