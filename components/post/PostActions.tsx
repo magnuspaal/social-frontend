@@ -56,7 +56,7 @@ export default function PostActions({
             <div className={`flex flex-row ${post.liked && "post-action-button-active"}`}>
               <button onClick={handleLike} className="flex flex-row">
                 <Image src='/heart.svg' width={25} height={25} alt="like-btn"/>
-                <div className="w-20 ml-2 font-semibold text-start">{post.likeCount}</div>
+                <div className="w-8 ml-2 font-semibold text-start">{post.likeCount}</div>
               </button>
             </div>
           </CSSTransition>
@@ -71,7 +71,7 @@ export default function PostActions({
             <div className={`flex flex-row ${(repostPost?.reposted ?? post.reposted) && "post-action-button-active"}`}>
               <button onClick={handleRepost} className="flex flex-row">
                 <Image src='/repost.svg' width={25} height={25} alt="like-btn"/>
-                <div className="w-20 ml-2 font-semibold text-start">{repostPost?.repostCount ?? post.repostCount}</div>
+                <div className="w-8 ml-2 font-semibold text-start">{repostPost?.repostCount ?? post.repostCount}</div>
               </button>
             </div>
           </CSSTransition> 

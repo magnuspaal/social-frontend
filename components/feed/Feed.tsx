@@ -12,7 +12,7 @@ export default function Feed() {
   const {posts, endOfPosts} = usePostInfiniteScroll(clientApiService.getFeed)
 
   return (
-    <div className="border border-black/40 rounded max-w-2xl w-full overflow-hidden max-w-2xl w-full">
+    <div className="border border-black/40 rounded overflow-hidden">
       <TransitionGroup className="grid divide-y divide-black/40">        
         {posts?.map((post: any) => 
           <CSSTransition

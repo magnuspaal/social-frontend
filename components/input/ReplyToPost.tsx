@@ -38,7 +38,7 @@ export default function ReplyToPost({ postId }: { postId: number }) {
         ref={textAreaRef}
         value={value}
       ></textarea>
-      <button className="rounded bg-primary p-3 font-bold hover:bg-secondary max-h-12" onClick={submitPost}>POST</button>
+      <button className="rounded bg-primary p-3 font-bold hover:bg-secondary max-h-12 text-white" onClick={submitPost}>POST</button>
     </div>
   )
 }

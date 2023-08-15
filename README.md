@@ -29,17 +29,3 @@ NEXT_PUBLIC_IMAGE_API_URL=http://192.168.10.225:8082/media
 
 JWT_SECRET=ouvezmcEqYLpP6yJc4oGHaNxppJjXiITfc1dl8ZW9ZI1uqLsjjqj56CjGCPP96Qf
 ```
-
-Create `image-remote-patterns.js` for image server.
-
-```
-const remotePatterns = [
-  {
-    protocol: 'http',
-    hostname: '192.168.10.225',
-    port: '8082',
-    pathname: '/media/**'
-  }
-]
-export default remotePatterns
-```

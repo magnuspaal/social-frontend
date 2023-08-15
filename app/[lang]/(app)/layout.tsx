@@ -13,16 +13,19 @@ export default function RootLayout({
     <div>
       <AlertModal />
       <div className='flex justify-center w-full'>
-        <div className='max-2xl:grid-cols-4 grid-cols-3 grid w-full max-w-[1850px]'>
-          <div className='max-md:hidden flex items-start justify-end ml-5 col-span-1'>
+        <div className='max-md:grid-cols-6 max-xl:grid-cols-8 grid-cols-4 grid w-full max-w-[1850px]'>
+          <div className='flex items-start justify-end col-span-1'>
             <LeftSideBar params={params}/>
           </div>
-          <div className="max-md:col-span-4 max-lg:col-span-3 max-2xl:col-span-2 col-span-1 md:ml-5 md:mr-5 flex items-start">
-            {children}
+          <div className="max-md:col-span-5 max-xl:col-span-7 col-span-3 flex items-start max-sm:ml-1 sm:ml-5">
+            <div className='md:w-[600px] max-w-[600px] w-full md:mr-5'>
+             {children}
+            </div>
+            <div className='max-md:hidden'>
+              <RightSideBar/>
+            </div>
           </div>
-          <div className='max-lg:hidden col-span-1 mr-5'>
-            <RightSideBar/>
-          </div>
+
         </div>
       </div>
       

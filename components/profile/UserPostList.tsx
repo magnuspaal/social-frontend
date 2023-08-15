@@ -16,7 +16,7 @@ export default function UserPostList({ userId, me }: { userId: number, me: User 
   const {posts, endOfPosts} = usePostInfiniteScroll(clientApiService.getUserPosts, {userId})
 
   return (
-    <div className="border-t border-black/40 max-w-2xl overflow-hidden">
+    <div className="border-t border-black/40 overflow-hidden">
       <TransitionGroup className="grid divide-y divide-black/40">
         {posts?.map((post: Post) => 
           <CSSTransition

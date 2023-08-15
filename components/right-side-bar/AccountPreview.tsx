@@ -7,7 +7,7 @@ import { getImageAddress } from "@/utils/image-utils"
 export default function AccountsPreview({account}: {account: User}) {
 
   return (
-    <Link href={`/profile/${account.id}`} className="pt-4 flex flex-row items-center">
+    <Link href={`/profile/${account.id}`} className="pt-4 flex flex-row items-center flex-wrap">
       <Image 
         src={account.imageName ? getImageAddress(account.imageName) : "/blank-profile-picture.svg"} 
         height={60}
