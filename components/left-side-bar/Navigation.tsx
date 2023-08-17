@@ -23,22 +23,22 @@ export default function Navigation({me, dict}: {me: User, dict: any}) {
   }
 
   return (
-    <div className="flex flex-col justify-start gap-4 grid">
+    <div className="flex flex-col gap-6 justify-start max-sm:flex-row max-sm:justify-around">
       <Link href="/" className={`text-xl flex ${isHome() ? 'font-bold' : 'font-medium'}`}>
-        <Image src="home.svg" alt="Logout logo" width={20} height={20} />
-        <div className='max-xl:hidden ml-1'>{dict.navigation.home}</div>
+        <Image src="/home.svg" alt="home" width={25} height={25} />
+        <div className='max-xl:hidden ml-2'>{dict.navigation.home}</div>
       </Link>
-      <Link href={`/profile/${me.id}`} className={`text-xl mt-6 flex ${isMeProfile() ? 'font-bold' : 'font-medium'}`}>
-        <Image src="profile.svg" alt="Profile logo" width={20} height={20} />
-        <div className='max-xl:hidden ml-1'>{me.username}</div>
+      <Link href={`/profile/${me.id}`} className={`text-xl flex ${isMeProfile() ? 'font-bold' : 'font-medium'}`}>
+        <Image src="/profile.svg" alt="profile" width={25} height={25} />
+        <div className='max-xl:hidden ml-2'>{me.username}</div>
       </Link>
-      <Link href={`/profile/settings`} className={`hover:cursor-pointer hover:underline flex ${isProfileSettings() ? 'underline' : ''}`}>
-        <Image src="settings.svg" alt="Settings logo" width={20} height={20} />
-        <div className='max-xl:hidden ml-1'>{dict.navigation.profile}</div>
+      <Link href={`/profile/settings`} className={`text-xl flex ${isProfileSettings() ? 'font-bold' : 'font-medium'}`}>
+        <Image src="/settings.svg" alt="settings" width={25} height={25} />
+        <div className='max-xl:hidden ml-2'>{dict.navigation.profile}</div>
       </Link>
-      <a onClick={logout} className='hover:cursor-pointer hover:underline flex'>
-        <Image src="logout.svg" alt="Logout logo" width={20} height={20} />
-        <div className='max-xl:hidden ml-1'>Logout</div>
+      <a onClick={logout} className='text-xl flex font-medium cursor-pointer'>
+        <Image src="/logout.svg" alt="logout" width={25} height={25} />
+        <div className='max-xl:hidden ml-2'>Logout</div>
       </a>
     </div>
   )
