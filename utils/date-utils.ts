@@ -1,12 +1,17 @@
 import dayjs, { Dayjs } from "dayjs";
+import utc from 'dayjs/plugin/utc';
+import tz from 'dayjs/plugin/timezone'
 
 const getDateFromISOString = (string: string) => {
   return dayjs(string)
 }
 
 export const getPostTimestamp = (string: string) => {
+  dayjs.extend(utc)
+  dayjs.extend(tz)
   const date = getDateFromISOString(string)
-  const now = dayjs()
+  let now = dayjs()
+  now = now.subtract(now.utcOffset(), 'minutes')
 
   const diffInMinutes = now.diff(date, 'minutes')
 
