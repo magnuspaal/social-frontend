@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import postReducer from "./post-slice";
 import alertReducer from "./alert-slice";
+import navigationSlice from "./navigation-slice";
 
 
 export const store = configureStore({
   reducer: {
     post: postReducer,
-    alert: alertReducer
+    alert: alertReducer,
+    navigation: navigationSlice
   }
 })
 

@@ -1,22 +1,35 @@
+'use client'
+
 import { Post } from "@/types/post";
 import PostHeader from "./header/PostHeader";
 import Image from "next/image";
 import { getImageAddress } from "@/utils/image-utils";
+import { useAppDispatch } from "@/store/hooks";
+import { setOverlayImage } from "@/store/navigation-slice";
 
 export default function ReplyPost({
     post, 
   }: {post: Post}) {
 
+  const dispatch = useAppDispatch()
+
+  const showImageOverlay = (event: any) => {
+    event.preventDefault()
+    dispatch(setOverlayImage(post.imageName));
+  }
+
   const renderImage = (imageName: string) => {
     if (imageName) {
+      const ratio = Number(imageName.split('.')[0].split('-')[1])
+
       return (
-        <div className="mt-8 mx-5">
+        <div onClick={showImageOverlay} className="mt-8 mx-5">
           <Image 
             src={getImageAddress(imageName)} 
             alt={`post-${post.id}-image`} 
-            width={2000}
-            height={2000}
-            className="rounded-lg"
+            width={558}
+            height={558 / (ratio / 100000)}
+            className="rounded-lg w-full hover:opacity-90 w-auto h-auto w-"
           />
         </div>
       )

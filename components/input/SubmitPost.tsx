@@ -17,6 +17,7 @@ export default function SubmitPost() {
   const clientApiService = useClientApiService()
 
   const [value, setValue] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const inputFile = useRef<HTMLInputElement | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -35,6 +36,7 @@ export default function SubmitPost() {
 
   const submitPost = async () => {
     setValue("")
+    setLoading(true)
     let formData = new FormData();
     formData.append('content', value);
     if (selectedFile) {
@@ -48,6 +50,9 @@ export default function SubmitPost() {
       .catch((err) => {
         removeImage()
         dispatch(addAlert({message: "Failed to post", type: AlertType.ERROR}))
+      })
+      .finally(() => {
+        setLoading(false)
       })
   }
 
@@ -79,7 +84,7 @@ export default function SubmitPost() {
       return (
         <div className="mx-12 mb-5 mt-3 relative">
           <button onClick={removeImage} className="absolute top-2 right-2 rounded-full bg-background">
-            <NextImage src="/close.svg" height={30} width={30} alt="Post image remove" className=""></NextImage>
+            <NextImage src="/close.svg" height={30} width={30} alt="Post image remove" className="" />
           </button>
           <NextImage 
             src={currentImage} 
@@ -96,24 +101,34 @@ export default function SubmitPost() {
   return (
     <div className="flex border border-black/40 border-b-4 border-b-black rounded mb-5 items-start overflow-hidden">
       <div className="flex flex-col w-full">
-        <textarea 
-          onChange={handleChange} 
-          placeholder="What's on your mind?"
-          className="h-[28px] overflow-auto m-h-10 mt-10 mb-4 mx-7 text-xl resize-none h-14 overflow-hidden bg-background focus:outline-0" 
-          id="multiliner" 
-          name="multiliner"
-          ref={textAreaRef}
-          value={value}
-        />
-        {renderPostImage()}
-        <div className="flex flex-row justify-between">
-          <div className="flex flex-row items-center ml-3 px-4">
-            <button onClick={openFileSelector} className={`image-post-button-hover ${selectedFile && "image-post-button-active"}`}>
-              <NextImage src="/img.svg" height={25} width={25} alt="Image post icon"></NextImage>
-            </button>
-          </div>
-          <button className="rounded-tl bg-primary p-3 font-bold hover:bg-secondary hover:text-black max-h-12 text-white" onClick={submitPost}>POST</button>
-        </div>
+          {
+            loading ?
+            <div className="flex justify-center p-6"> 
+              <span className="loader"></span>
+            </div>
+            :
+            <div>
+              <textarea 
+                onChange={handleChange} 
+                placeholder="What's on your mind?"
+                className="h-[28px] overflow-auto m-h-10 mt-10 mb-4 mx-7 text-xl resize-none h-14 overflow-hidden bg-background focus:outline-0" 
+                id="multiliner" 
+                name="multiliner"
+                ref={textAreaRef}
+                value={value}
+              />
+              {renderPostImage()}
+              <div className="flex flex-row justify-between">
+                <div className="flex flex-row items-center ml-3 px-4">
+                  <button onClick={openFileSelector} className={`image-post-button-hover ${selectedFile && "image-post-button-active"}`}>
+                    <NextImage src="/img.svg" height={25} width={25} alt="Image post icon"></NextImage>
+                  </button>
+                </div>
+                <button className="rounded-tl bg-primary p-3 font-bold hover:bg-secondary hover:text-black max-h-12 text-white" onClick={submitPost}>POST</button>
+              </div>
+            </div>
+          }
+
         <input type='file' id='file' ref={inputFile} style={{display: 'none'}} onChange={(e) => setSelectedFile(e?.target?.files ? e.target.files[0] : null)}/>
       </div>
     </div>

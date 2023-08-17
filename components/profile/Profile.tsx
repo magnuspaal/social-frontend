@@ -3,7 +3,7 @@ import { getProfileAge } from "@/utils/date-utils";
 import FollowButton from "@/components/common/FollowButton";
 import ProfileActions from "./ProfileActions";
 import Image from "next/image";
-import { getImageAddress } from "@/utils/image-utils";
+import { ImageSize, getImageAddress } from "@/utils/image-utils";
 
 export default async function Profile({ userId }: {userId: number}) {
 
@@ -17,7 +17,7 @@ export default async function Profile({ userId }: {userId: number}) {
       <div className="ml-4">
         <div className="flex items-center mt-4 flex-wrap">
           <Image 
-            src={user?.imageName ? getImageAddress(user.imageName) : "/blank-profile-picture.svg"}  
+            src={user?.imageName ? getImageAddress(user.imageName, ImageSize.XS) : "/blank-profile-picture.svg"}  
             alt="Profile picture"
             height={75}
             width={75}

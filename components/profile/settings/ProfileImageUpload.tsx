@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import NextImage from "next/image";
 import { useAppDispatch } from "@/store/hooks";
 import { AlertType, addAlert } from "@/store/alert-slice";
-import { getImageAddress } from "@/utils/image-utils";
+import { ImageSize, getImageAddress } from "@/utils/image-utils";
 
 export default function ProfileImageUpload({ user }: {user: User, dict: any}) {
 
@@ -80,7 +80,7 @@ export default function ProfileImageUpload({ user }: {user: User, dict: any}) {
       <button onClick={onButtonClick} className="flex flex-col items-center">
         <div className="rounded border-2 border-black p-1 w-fit rounded-full fit-content">
           <NextImage 
-            src={currentImage ?? `${user.imageName ? getImageAddress(user.imageName) : `/blank-profile-picture.svg`}`} 
+            src={currentImage ?? `${user.imageName ? getImageAddress(user.imageName, ImageSize.SM) : `/blank-profile-picture.svg`}`} 
             alt="Profile picture"
             height={100}
             width={100}

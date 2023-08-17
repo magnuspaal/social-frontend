@@ -1,5 +1,6 @@
 import LeftSideBar from '@/components/left-side-bar/LeftSideBar'
 import AlertModal from '@/components/modals/AlertModal'
+import ImageOverlay from '@/components/modals/ImageOverlay'
 import RightSideBar from '@/components/right-side-bar/RightSideBar'
 
 export default function RootLayout({
@@ -28,7 +29,7 @@ export default function RootLayout({
 
         </div>
       </div>
-      
+      <ImageOverlay />
       <div className='h-40'></div>
     </div>
   )

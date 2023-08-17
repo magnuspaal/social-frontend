@@ -1,5 +1,3 @@
-'use client'
-
 import { useRouter } from "next/navigation";
 import { ReplyPostProps } from "../types/PostProps";
 import PostHeader from "./header/PostHeader";

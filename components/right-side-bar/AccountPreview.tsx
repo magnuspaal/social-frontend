@@ -2,14 +2,14 @@ import { User } from "@/types/user"
 import FollowButton from "../common/FollowButton"
 import Link from "next/link"
 import Image from 'next/image'
-import { getImageAddress } from "@/utils/image-utils"
+import { ImageSize, getImageAddress } from "@/utils/image-utils"
 
 export default function AccountsPreview({account}: {account: User}) {
 
   return (
     <Link href={`/profile/${account.id}`} className="pt-4 flex flex-row items-center flex-wrap">
       <Image 
-        src={account.imageName ? getImageAddress(account.imageName) : "/blank-profile-picture.svg"} 
+        src={account.imageName ? getImageAddress(account.imageName, ImageSize.XS) : "/blank-profile-picture.svg"} 
         height={60}
         width={60}
         alt={`Image of ${account.username}`}
