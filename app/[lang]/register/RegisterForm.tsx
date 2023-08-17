@@ -44,19 +44,32 @@ export default function RegisterForm({dict}: any) {
 
       <div className='flex flex-col'>
         <label htmlFor="username" className='font-semibold text-md'>{dict.register.username}</label>
-        <input className={`p-2 rounded border border-black border-solid ${getErrorsFor('username').length && 'border-2 border-rose-500'}`} type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
+        <input 
+          className={`p-2 rounded border border-black border-solid ${getErrorsFor('username').length && 'border-2 border-rose-500'}`} 
+          type="text" id="username" 
+          value={username} 
+          onChange={(e) => setUsername(e.target.value)} 
+          autoCapitalize='none' 
+        />
         {renderErrorMessageFor('username')}
       </div>
 
       <div className='flex flex-col'>
         <label htmlFor="email" className='font-semibold text-md'>{dict.register.email}</label>
-        <input className={`p-2 rounded border border-black  border-solid ${getErrorsFor('email').length && 'border-2 border-rose-500'}`} type="text" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <input 
+          className={`p-2 rounded border border-black  border-solid ${getErrorsFor('email').length && 'border-2 border-rose-500'}`} 
+          type="text" 
+          id="email" 
+          value={email} 
+          onChange={(e) => setEmail(e.target.value)} 
+          autoCapitalize='none'
+        />
         {renderErrorMessageFor('email')}
       </div>
 
       <div className='flex flex-col'>
         <label htmlFor="password" className='font-semibold text-md'>{dict.register.password}</label>
-        <input className={`p-2 rounded border border-black  border-solid ${getErrorsFor('password').length && 'border-2 border-rose-500'}`} type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <input className={`p-2 rounded border border-black  border-solid ${getErrorsFor('password').length && 'border-2 border-rose-500'}`} type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} autoCapitalize='none' />
         {renderErrorMessageFor('password')}
       </div>
 

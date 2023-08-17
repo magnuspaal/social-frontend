@@ -38,6 +38,7 @@ export default function LoginForm({dict}: any) {
         placeholder={dict.login['email']}
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        autoCapitalize='none'
       />
       <input
         className="p-2 rounded border border-solid"
@@ -45,6 +46,7 @@ export default function LoginForm({dict}: any) {
         placeholder={dict.login['password']}
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        autoCapitalize='none'
       />
       <div>{
         errorCodes.map((code, index) => <p className='m-y-1.5 text-red-600 italic text-center' key={code + index}>{dict.login.messages[code] ?? dict.login.messages['default']}</p>)
