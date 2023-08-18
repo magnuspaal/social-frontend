@@ -4,13 +4,13 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'http',
-        hostname: '192.168.10.225',
-        port: '8082',
-        pathname: '/media/**'
+        protocol: process.env.FILE_API_PROTOCOL,
+        hostname: process.env.FILE_API_HOSTNAME,
+        port: process.env.FILE_API_PORT,
+        pathname:  process.env.PATHNAME
       }
     ]
-  },
+  }
 }
 
 module.exports = nextConfig

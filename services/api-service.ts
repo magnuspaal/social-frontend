@@ -1,12 +1,19 @@
-import { cookies, headers } from "next/headers"
+import { cookies } from "next/headers"
 import { AbstractApiService } from "./abstract-api-service"
 import { User } from "@/types/user"
 import { Post } from "@/types/post"
 import { redirect } from "next/navigation"
-
-const apiUrl = process.env.API_URL ?? "http://localhost:8081/api/v1"
+import { ConfigService } from "./config-service"
 
 class ApiService extends AbstractApiService {
+
+  private apiUrl: string
+
+  constructor() {
+    super()
+    this.apiUrl = ConfigService.getApiUrl()
+  }
+
   getApiHeaders = () => {
     const authToken = cookies().get("authToken")
     return {
@@ -15,21 +22,21 @@ class ApiService extends AbstractApiService {
     }
   }
 
-  getFeed = (offset: number, limit: number): Promise<Post[]> => this.get(`${apiUrl}/post/feed?offset=${offset}&limit=${limit}`)
+  getFeed = (offset: number, limit: number): Promise<Post[]> => this.get(`${this.apiUrl}/post/feed?offset=${offset}&limit=${limit}`)
 
-  getPost = (id: number): Promise<Post> => this.get(`${apiUrl}/post/${id}`)
+  getPost = (id: number): Promise<Post> => this.get(`${this.apiUrl}/post/${id}`)
 
-  getPostReplies = (id: number, offset: number, limit: number): Promise<Post[]> => this.get(`${apiUrl}/post/${id}/replies?offset=${offset}&limit=${limit}`)
+  getPostReplies = (id: number, offset: number, limit: number): Promise<Post[]> => this.get(`${this.apiUrl}/post/${id}/replies?offset=${offset}&limit=${limit}`)
 
-  getAccounts = (): Promise<User[]> => this.get(`${apiUrl}/user`)
+  getAccounts = (): Promise<User[]> => this.get(`${this.apiUrl}/user`)
 
-  getMe = (): Promise<User> => this.get(`${apiUrl}/user/me`, { next: { revalidate: 0, tags: ['me'] } } )
+  getMe = (): Promise<User> => this.get(`${this.apiUrl}/user/me`, { next: { revalidate: 0, tags: ['me'] } } )
 
-  getUser = (id: number): Promise<User> => this.get(`${apiUrl}/user/${id}`, { next: { revalidate: 0 } })
+  getUser = (id: number): Promise<User> => this.get(`${this.apiUrl}/user/${id}`, { next: { revalidate: 0 } })
 
-  getUserFollowers = (id: number): Promise<User[]> => this.get(`${apiUrl}/user/${id}/followers`)
+  getUserFollowers = (id: number): Promise<User[]> => this.get(`${this.apiUrl}/user/${id}/followers`)
 
-  getUserFollowing = (id: number): Promise<User[]> => this.get(`${apiUrl}/user/${id}/following`)
+  getUserFollowing = (id: number): Promise<User[]> => this.get(`${this.apiUrl}/user/${id}/following`)
 
   handleResponseError = async (res: Response): Promise<boolean> => {
     if ([401, 403].includes(res.status)) {

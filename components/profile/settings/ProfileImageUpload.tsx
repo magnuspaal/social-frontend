@@ -9,9 +9,9 @@ import { useAppDispatch } from "@/store/hooks";
 import { AlertType, addAlert } from "@/store/alert-slice";
 import { ImageSize, getImageAddress } from "@/utils/image-utils";
 
+
 export default function ProfileImageUpload({ user }: {user: User, dict: any}) {
 
-  const imageApiUrl = process.env.NEXT_PUBLIC_IMAGE_API_URL
   const validImageTypes = ["image/jpg", "image/jpeg", "image/png"];
 
   const clientApiService = useClientApiService()

@@ -1,5 +1,7 @@
+import { ConfigService } from '@/services/config-service'
+import getConfig from 'next/config'
 
-const imageApiUrl = process.env.NEXT_PUBLIC_IMAGE_API_URL
+const imageApiUrl = ConfigService.getFileApiUrl()
 
 export enum ImageSize {
   XS = "xs",

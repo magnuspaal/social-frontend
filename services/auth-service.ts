@@ -3,10 +3,17 @@
 import cookies from "js-cookie";
 import { NextRequest } from "next/server";
 import { AbstractApiService } from "./abstract-api-service";
-
-const apiUrl = process.env.NEXT_PUBLIC_AUTH_API_URL ?? "http://localhost:8080/api/v1/auth"
+import { ConfigService } from "./config-service";
 
 class AuthService extends AbstractApiService {
+
+  private apiUrl: string
+
+  constructor() {
+    super()
+    this.apiUrl = ConfigService.getAuthApiUrl()
+  }
+
   getApiHeaders = () => {
     return {
       "Content-Type": "application/json"
@@ -14,11 +21,11 @@ class AuthService extends AbstractApiService {
   }
 
   postRegister = async (email: string, password: String, firstName: string, lastName: string, username: string) => {
-    return this.post(`${apiUrl}/register`, JSON.stringify({email, password, firstName, lastName, username}))
+    return this.post(`${this.apiUrl}/register`, JSON.stringify({email, password, firstName, lastName, username}))
   }
 
   postLogin = async (email: String, password: String) => {
-    return this.post(`${apiUrl}/authenticate`, JSON.stringify({email, password})
+    return this.post(`${this.apiUrl}/authenticate`, JSON.stringify({email, password})
     ).then(async (body) => {
       this.setCookies(body.token, body.refreshToken, body.expiresAt)
     })
@@ -50,7 +57,7 @@ class AuthService extends AbstractApiService {
   }
   
   postRefreshToken = async (refreshToken: String) => {
-    return this.post(`${apiUrl}/refresh`, JSON.stringify({refreshToken})) 
+    return this.post(`${this.apiUrl}/refresh`, JSON.stringify({refreshToken})) 
   };
   
   handleRefreshToken = async (request: NextRequest): Promise<{authenticated: boolean, authCookies?: AuthCookies}> => {
