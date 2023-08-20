@@ -6,6 +6,7 @@ import authService from '@/services/auth-service';
 
 export default function RegisterForm({dict}: any) {
 
+  const [loading, setLoading] = useState(false)
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -17,9 +18,17 @@ export default function RegisterForm({dict}: any) {
 
   const submit = async(event: any) => {
     event.preventDefault()
-    setErrorCodes([])
+    setLoading(true)
+
     await authService.postRegister(email, password, firstName, lastName, username)
-      .then(() => router.push("/login")).catch((codes) => { setErrorCodes(codes)})
+      .then(() => {
+        router.push("/login?registered=true")
+        setErrorCodes([])
+      })
+      .catch((codes) => { setErrorCodes(codes)})
+      .finally(() => {
+        setLoading(false)
+      })
   }
 
   const getErrorsFor = (code: string) => errorCodes.flatMap((error: string) => { 
@@ -40,7 +49,7 @@ export default function RegisterForm({dict}: any) {
   }
 
   return (
-    <form onSubmit={submit} className="flex flex-col grid gap-5 w-[300px] max-w-[300px] w-full">
+    <form onSubmit={submit} className="flex flex-col grid gap-5 min-w-[300px] max-w-[300px] w-full">
 
       <div className='flex flex-col'>
         <label htmlFor="username" className='font-semibold text-md'>{dict.register.username}</label>
@@ -49,7 +58,8 @@ export default function RegisterForm({dict}: any) {
           type="text" id="username" 
           value={username} 
           onChange={(e) => setUsername(e.target.value)} 
-          autoCapitalize='none' 
+          autoCapitalize='none'
+          disabled={loading}
         />
         {renderErrorMessageFor('username')}
       </div>
@@ -63,31 +73,38 @@ export default function RegisterForm({dict}: any) {
           value={email} 
           onChange={(e) => setEmail(e.target.value)} 
           autoCapitalize='none'
+          disabled={loading}
         />
         {renderErrorMessageFor('email')}
       </div>
 
       <div className='flex flex-col'>
         <label htmlFor="password" className='font-semibold text-md'>{dict.register.password}</label>
-        <input className={`p-2 rounded border border-black  border-solid ${getErrorsFor('password').length && 'border-2 border-rose-500'}`} type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} autoCapitalize='none' />
+        <input className={`p-2 rounded border border-black  border-solid ${getErrorsFor('password').length && 'border-2 border-rose-500'}`} type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} autoCapitalize='none' disabled={loading}/>
         {renderErrorMessageFor('password')}
       </div>
 
       <div className='flex flex-col'>
         <label htmlFor="first-name" className='font-semibold text-md'>{dict.register.firstname}</label>
-        <input className={`p-2 rounded border border-black border-solid ${getErrorsFor('firstname').length  && 'border-2 border-rose-500'}`} type="text" id='first-name' value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+        <input className={`p-2 rounded border border-black border-solid ${getErrorsFor('firstname').length  && 'border-2 border-rose-500'}`} type="text" id='first-name' value={firstName} onChange={(e) => setFirstName(e.target.value)} disabled={loading}/>
         {renderErrorMessageFor('firstname')}
       </div>
 
 
       <div className='flex flex-col'>
         <label htmlFor="last-name" className='font-semibold text-md'>{dict.register.lastname}</label>
-        <input className={`p-2 rounded border border-black border-solid ${getErrorsFor('lastname').length  && 'border-2 border-rose-500'}`} type="text" id="last-name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+        <input className={`p-2 rounded border border-black border-solid ${getErrorsFor('lastname').length  && 'border-2 border-rose-500'}`} type="text" id="last-name" value={lastName} onChange={(e) => setLastName(e.target.value)} disabled={loading}/>
         {renderErrorMessageFor('lastname')}
       </div>
       
-      <button className='p-2 rounded bg-secondary font-sans font-bold' type='submit'>
-        {dict.register.signup}
+      <button className='p-2 rounded bg-secondary font-sans font-bold' type='submit' disabled={loading}>
+        {
+          loading 
+          ? 
+          <span className="loader w-8 h-8"></span>
+          :
+          <div>{dict.register.signup}</div>
+        }
       </button>
     </form>
   )

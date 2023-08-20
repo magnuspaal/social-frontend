@@ -23,7 +23,7 @@ export default function RootLayout({
              {children}
             </div>
             <div className='max-md:hidden'>
-              <RightSideBar/>
+              {/* <RightSideBar/> */}
             </div>
           </div>
 
