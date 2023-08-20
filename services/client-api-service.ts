@@ -6,6 +6,7 @@ import { Post } from "@/types/post"
 import { Follow } from "@/types/follow"
 import authService from "./auth-service"
 import { ConfigService } from "./config-service"
+import { Search } from "@/types/search"
 
 class ClientApiService extends AbstractApiService {
 
@@ -46,6 +47,8 @@ class ClientApiService extends AbstractApiService {
   getPost = (id: number): Promise<Post> => this.get(`${this.apiUrl}/post/${id}`)
 
   uploadProfileImage = (userId: number, body: FormData) => this.post(`${this.apiUrl}/user/${userId}/upload-image`, body)
+
+  search = (keyword: string): Promise<Search> => this.get(`${this.apiUrl}/search/${keyword}`)
 
   handleResponseError = async (res: Response): Promise<boolean> => {
     if ([401, 403].includes(res.status)) {

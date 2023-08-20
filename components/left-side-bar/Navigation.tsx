@@ -13,6 +13,7 @@ export default function Navigation({me, dict}: {me: User, dict: any}) {
   const pathname = usePathname().substring(3)
 
   const isHome = () => pathname == '' || pathname == '/'
+  const isSearch = () => pathname.startsWith(`/search`)
   const isMeProfile = () => pathname.startsWith(`/profile/${me.id}`)
   const isProfileSettings = () => pathname.startsWith(`/profile/settings`)
 
@@ -27,6 +28,10 @@ export default function Navigation({me, dict}: {me: User, dict: any}) {
       <Link href="/" className={`text-xl flex ${isHome() ? 'font-bold' : 'font-medium'}`}>
         <Image src="/home.svg" alt="home" width={25} height={25} />
         <div className='max-xl:hidden ml-2'>{dict.navigation.home}</div>
+      </Link>
+      <Link href="/search" className={`text-xl flex ${isSearch() ? 'font-bold' : 'font-medium'}`}>
+        <Image src="/search.svg" alt="home" width={25} height={25} />
+        <div className='max-xl:hidden ml-2'>{dict.navigation.search}</div>
       </Link>
       <Link href={`/profile/${me.id}`} className={`text-xl flex ${isMeProfile() ? 'font-bold' : 'font-medium'}`}>
         <Image src="/profile.svg" alt="profile" width={25} height={25} />

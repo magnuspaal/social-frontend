@@ -4,11 +4,12 @@ import authService from './services/auth-service';
 import Negotiator from 'negotiator';
 import { match } from '@formatjs/intl-localematcher';
 
-const locales = ['en']
+const locales = ['en', 'et']
  
 export async function middleware(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname
+  const search = request.nextUrl.search
   const locale = getLocale(request)
 
   // ** Direct to locale page **
@@ -16,8 +17,8 @@ export async function middleware(request: NextRequest) {
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
   )
   if (pathnameIsMissingLocale) {
-    return NextResponse.rewrite(
-      new URL(`/${locale}${pathname}`, request.url)
+    return NextResponse.redirect(
+      new URL(`/${locale}${pathname}${search}`, request.url)
     )
   }
 
@@ -42,7 +43,7 @@ export async function middleware(request: NextRequest) {
  
 export const config = {
   matcher: [    
-    '/((?!api|_next/static|_next/image|favicon.ico).*)'
+    '/((?!api|_next/static|_next/image|favicon.ico|.*\.svg).*)'
   ],
 };
 

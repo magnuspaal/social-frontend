@@ -1,27 +1,27 @@
 {
   "navigation": {
-    "home": "Home",
-    "search": "Search",
-    "profile": "Profile Settings"
+    "home": "Kodu",
+    "search": "Otsing",
+    "profile": "Profiili seaded"
   },
   "login": {
     "email": "Email",
-    "password": "Password",
-    "login": "LOGIN",
-    "signup": "SIGNUP",
+    "password": "Parool",
+    "login": "Logi sisse",
+    "signup": "Registreeri",
     "messages": {
-      "default": "Something went wrong, please try again later",
-      "wrong_credentials": "Wrong username or password"
+      "default": "Midagi läks valesti, proovi hiljem uuesti",
+      "wrong_credentials": "Vale email või parool"
     },
-    "verification_sent": "Verification link sent to email"
+    "verification_sent": "Kinnituse link saadetud emailile"
   },
   "register": {
-    "username": "Username",
+    "username": "Kasutajanimi",
     "email": "Email",
-    "firstname": "First name",
-    "lastname": "Last name",
-    "password": "Password",
-    "signup": "Sign up",
+    "firstname": "Eesnimi",
+    "lastname": "Perekonnanimi",
+    "password": "Parool",
+    "signup": "Registreeri",
     "messages": {
       "default": "Something went wrong, please try again later",
       "email_already_taken": "This email address is already taken",
@@ -42,12 +42,12 @@
     }
   },
   "profile_settings": {
-    "select_image": "Select image"
+    "select_image": "Vali pilt"
   },
   "search": {
-    "search": "Search",
+    "search": "Otsing",
     "messages": {
-      "default": "Search failed. Please try again."
+      "default": "Otsing nurjus. Palun proovige uuesti."
     }
   }
 }

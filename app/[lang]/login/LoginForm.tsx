@@ -39,7 +39,7 @@ export default function LoginForm({dict}: any) {
     <form onSubmit={submit} className="flex flex-col grid gap-5 min-w-[300px] max-w-[300px] w-full">
       {
         registeredMessage &&
-        <div className='border rounded border-green-400 p-4 bg-green-200 text-gray-800'>Verification sent to email</div>
+        <div className='border rounded border-green-400 p-4 bg-green-200 text-green-800'>{dict.login.verification_sent}</div>
       }
       <input
         className="p-2 rounded border border-solid"
@@ -63,13 +63,15 @@ export default function LoginForm({dict}: any) {
         errorCodes.map((code, index) => <p className='m-y-1.5 text-red-600 italic text-center' key={code + index}>{dict.login.messages[code] ?? dict.login.messages['default']}</p>)
       }</div>
 
-      <button className='p-2 rounded bg-secondary font-sans font-bold' type='submit' disabled={loading}>
+      <button className='p-4 rounded bg-secondary font-sans font-bold' type='submit' disabled={loading}>
         {
-          loading 
+          loading
           ? 
-          <span className="loader w-8 h-8"></span>
+          <div className='h-[40px] flex justify-center items-center'>
+            <span className="loader h-full w-10 h-10"></span>
+          </div>
           :
-          <div>{dict.login.login}</div>
+          <div  className='h-[40px] flex justify-center items-center'>{dict.login.login}</div>
         }
       </button>
     <button onClick={handleSignup} className='rounded border border-black/40 p-2' type='button' disabled={loading}>
