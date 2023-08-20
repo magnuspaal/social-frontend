@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "version": "node cicd/deploy/version $npm_package_version",
+    "postversion": "git add . && git commit -m \"docs: bump to $npm_package_version\" && git tag -a $npm_package_version -m \"\""
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.4.0",

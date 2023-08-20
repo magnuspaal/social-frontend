@@ -1,10 +1,8 @@
+[![Deploy Social Frontend](https://github.com/magnuspaal/social-frontend/actions/workflows/deploy.yml/badge.svg)](https://github.com/magnuspaal/social-frontend/actions/workflows/deploy.yml)
+
 #### Running locally
 
 Add environment in .env
-
-`npm run dev`
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ```
 NEXT_PUBLIC_AUTH_API_URL=http://192.168.10.225:8080/api/v1/auth
@@ -17,12 +15,8 @@ FILE_API_PORT=8082
 FILE_API_PATHNAME=/media/**
 ```
 
-## Release
+`npm run dev`
 
 #### Release
-* Bump version
-  * Change version in **package.json**
-  * Create commit with message `docs: bump to <version>`
-  * Create git tag with version
-* Build Docker image `docker build -t <registry/social-frontend:version> --build-arg="APP_VERSION=<version>" .`
-* Push Docker image `docker push <registry/social-frontend:version>`
+  * npm version [major,minor,patch]
+  * Push commit and tag and application will be deployed by Github Actions
