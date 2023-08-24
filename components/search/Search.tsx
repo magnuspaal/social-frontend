@@ -10,22 +10,20 @@ export default function Search({ dict }: {dict: any}) {
 
   const clientApiService = useClientApiService()
 
-  const [keyword, setKeyword] = useState("")
   const [result, setResult] = useState<User[]>([])
   const [currentTimeout, setCurrentTimout] = useState<any>(null)
   const [searchFailed, setSearchFailed] = useState(false)
 
   const search = (evt: any) => {
     setSearchFailed(false)
-    setKeyword(evt.target?.value)
     clearTimeout(currentTimeout)
     const timeout = setTimeout(() => {
-      submitSearch()
-    }, 700)
+      submitSearch(evt.target?.value)
+    }, 800)
     setCurrentTimout(timeout)
   }
 
-  const submitSearch = () => {
+  const submitSearch = (keyword: string) => {
     clientApiService.search(keyword)
       .then((response) => setResult(response.users))
       .catch(() => setSearchFailed(true))
