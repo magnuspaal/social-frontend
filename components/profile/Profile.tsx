@@ -28,7 +28,7 @@ export default async function Profile({ userId }: {userId: number}) {
             <div>Member for {getProfileAge(user.createdAt)}</div>
           </div>
           <div className="flex justify-center grow mx-6 mb-2 mt-4">
-            {!isMe() && <FollowButton account={user} className='text-lg max-w-[150px] min-w-[120px]' />}
+            {!isMe() && <FollowButton user={user} className='text-lg max-w-[150px] min-w-[120px]' />}
           </div>
 
         </div>

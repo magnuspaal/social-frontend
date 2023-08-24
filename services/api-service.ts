@@ -28,7 +28,7 @@ class ApiService extends AbstractApiService {
 
   getPostReplies = (id: number, offset: number, limit: number): Promise<Post[]> => this.get(`${this.apiUrl}/post/${id}/replies?offset=${offset}&limit=${limit}`)
 
-  getAccounts = (): Promise<User[]> => this.get(`${this.apiUrl}/user`)
+  getUsers = (): Promise<User[]> => this.get(`${this.apiUrl}/user`)
 
   getMe = (): Promise<User> => this.get(`${this.apiUrl}/user/me`, { next: { revalidate: 0, tags: ['me'] } } )
 

@@ -4,7 +4,7 @@ import useClientApiService from "@/services/client-api-service"
 import { User } from "@/types/user"
 import Image from "next/image"
 import { useState } from "react"
-import AccountPreview from "../right-side-bar/AccountPreview"
+import UserPreview from "@/components/common/UserPreview"
 
 export default function Search({ dict }: {dict: any}) {
 
@@ -39,16 +39,18 @@ export default function Search({ dict }: {dict: any}) {
           className="overflow-auto mx-7 text-xl bg-background focus:outline-0" 
         />
       </div>
+      <div className={result.length ? `flex mx-5 mt-5 mb-1` : ''}>
       {
         searchFailed ?
-        <div>
+        <div className="font-bold">
           {dict.search.messages.default}
         </div>
         :
-        <div>
-          {result.map((user) => <AccountPreview account={user} key={user.id}/>)}
+        <div className="w-full space-y-4">
+          {result.map((user) => <UserPreview user={user} key={user.id}/>)}
         </div>
       }
+      </div>
     </div>
   )
 }

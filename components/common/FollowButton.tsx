@@ -6,24 +6,24 @@ import { AlertType, addAlert } from "@/store/alert-slice"
 import { User } from "@/types/user"
 import { useState } from "react"
 
-export default function FollowButton({account, className='max-w-[100px] min-w-[100px] text-sm'}: {account: User, className?: string}) {
+export default function FollowButton({user, className='max-w-[100px] min-w-[100px] text-sm'}: {user: User, className?: string}) {
 
   const clientApiService = useClientApiService()
   
-  const [followed, setFollowed] = useState(account.followed)
+  const [followed, setFollowed] = useState(user.followed)
 
   const dispatch = useAppDispatch()
 
   const handleClick = async (event: any) => {
     event.preventDefault()
-    const follow = await clientApiService.followUser(account.id)
+    const follow = await clientApiService.followUser(user.id)
     if (!follow.deletedAt) {
       setFollowed(true)
-      dispatch(addAlert({message: `Following ${account.username}`, type: AlertType.SUCCESS}))
+      dispatch(addAlert({message: `Following ${user.username}`, type: AlertType.SUCCESS}))
     }
     else {
       setFollowed(false)
-      dispatch(addAlert({message: `Unfollowed ${account.username}`, type: AlertType.ERROR}))
+      dispatch(addAlert({message: `Unfollowed ${user.username}`, type: AlertType.ERROR}))
     }
   }
 

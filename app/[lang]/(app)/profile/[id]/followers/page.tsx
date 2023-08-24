@@ -1,5 +1,5 @@
 import apiService from "@/services/api-service";
-import AccountPreview from "@/components/right-side-bar/AccountPreview";
+import UserPreview from "@/components/common/UserPreview";
 
 export default async function Post({ params }: any) {
 
@@ -7,7 +7,7 @@ export default async function Post({ params }: any) {
 
   return (
     <div className="p-2">
-      {following.map((user) => <AccountPreview account={user} key={user.id}/>)}
+      {following.map((user) => <UserPreview user={user} key={user.id}/>)}
     </div>
   )
 }
