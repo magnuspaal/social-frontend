@@ -8,7 +8,7 @@ import { useAppDispatch } from "@/store/hooks";
 import { addPost, updatePost } from "@/store/post-slice";
 import { AlertType, addAlert } from "@/store/alert-slice";
 
-export default function ReplyToPost({ dict, postId, refresh = true, onPost, className }: { dict: any, postId: number, refresh?: boolean, onPost?: any, className?: string }) {
+export default function ReplyToPost({ dict, postId, onPost, className }: { dict: any, postId: number, onPost?: any, className?: string }) {
 
   const router = useRouter()
   const dispatch = useAppDispatch()
@@ -28,16 +28,18 @@ export default function ReplyToPost({ dict, postId, refresh = true, onPost, clas
       setValue("")
       let formData = new FormData();
       formData.append('content', value);
-      const response = await clientApiService.postReply(formData, postId)
-      if (refresh) {
-        router.refresh()
-      } else {
-        dispatch(updatePost(response.replyParent))
-        if (response.reply) {
-          dispatch(addPost(response.reply))
-        }
-      }
-      onPost()
+      await clientApiService.postReply(formData, postId)
+        .then((response) => {
+          dispatch(updatePost(response.replyParent))
+          if (response.reply) {
+            dispatch(addPost(response.reply))
+          }
+          router.refresh()
+          dispatch(addAlert({type: AlertType.SUCCESS, message: dict.post.messages.reply_posted}))
+          if (onPost) {
+            onPost()
+          }
+        })
     }
   }
 

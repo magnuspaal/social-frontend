@@ -22,10 +22,8 @@ export default function SubmitPostModal({dict}: {dict: any}) {
   
   const renderReplyInput = () => {
     return (
-      <div className='flex flex-col justify-center w-full max-w-[600px] h-full'>
-        <button onClick={closeOverlay} className="bg-background rounded-t pt-3 px-3 flex justify-end">
-          <Image src="/close.svg" height={30} width={30} alt="Close overlay" />
-        </button>
+      <div className='flex flex-col w-full max-w-[600px] h-full max-sm:bg-background justify-center'>
+        <div className='sm:hidden border border-black/30' />
         <SinglePost 
           dict={dict}
           post={replyParent!} 
@@ -36,15 +34,20 @@ export default function SubmitPostModal({dict}: {dict: any}) {
           includePostActions={false} 
           includeReplyHeader={false}
           includeRepostHeader={false}
-          className='flex flex-col rounded-b mb-4 pb-5'
-        />
-        <ReplyToPost dict={dict} postId={replyParent!.id} className='rounded px-3' refresh={false} onPost={closeOverlay}/>
+          className='flex flex-col rounded sm:mb-2'
+        >
+          <button onClick={closeOverlay} className="absolute top-2 right-2 flex justify-end">
+            <Image src="/close.svg" height={30} width={30} alt="Close overlay" />
+          </button>
+        </SinglePost>
+        <div className='sm:hidden border border-black/30' />
+        <ReplyToPost dict={dict} postId={replyParent!.id} className='rounded px-3' onPost={closeOverlay}/>
       </div>
     )
   }
 
   return modalOpen && (
-    <div className="fixed w-full h-screen top-0 flex justify-center bg-black/80 h-screen py-20 z-40">
+    <div className="fixed w-full h-screen top-0 flex justify-center bg-black/80 h-screen sm:py-20 z-40">
       { 
         replyParent &&
         renderReplyInput()

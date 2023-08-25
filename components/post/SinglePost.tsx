@@ -18,7 +18,8 @@ export default function SinglePost({
   includePostActions = true,
   appendRepost = false,
   isMe = false,
-  className = ''
+  className = '',
+  children
 }: SinglePostProps) {
 
   const repostProps = {dict, appendRepost, includePostActions, includeRepostHeader, isMe, clickableHeader, clickablePicture, className}
@@ -42,7 +43,8 @@ export default function SinglePost({
 
 
   const postWrapper = () => 
-    <div className={`bg-background overflow-hidden ${!includePostActions && 'pb-4'}  ${clickable && 'hover:bg-shade cursor-pointer'} flex flex-col h-fit ${className}`}> 
+    <div className={`relative bg-background overflow-hidden ${!includePostActions && 'pb-4'}  ${clickable && 'hover:bg-shade cursor-pointer'} flex flex-col h-fit ${className}`}> 
+      { children }
       { renderPost(post) }
       { getPostActions() }
     </div>

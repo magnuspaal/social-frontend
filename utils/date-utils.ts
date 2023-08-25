@@ -32,8 +32,11 @@ export const getProfileAge = (
   string: string, 
   time: {days: string, day: string, months: string, month: string, years: string, year: string}
 ) => {
+  dayjs.extend(utc)
+  dayjs.extend(tz)
   const date = getDateFromISOString(string)
-  const now = dayjs()
+  let now = dayjs()
+  now = now.subtract(now.utcOffset(), 'minutes')
 
   const diffInMonths = now.diff(date, 'months')
   const diffInDays = now.diff(date, 'days')

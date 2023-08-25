@@ -120,11 +120,11 @@ export default function SubmitPost({dict}: {dict: any}) {
               <span className="loader"></span>
             </div>
             :
-            <div>
+            <div className="flex flex-col justify-end">
               <textarea 
                 onChange={handleChange} 
                 placeholder={dict.post.placeholder}
-                className="h-[28px] overflow-auto m-h-10 mt-10 mb-4 mx-7 text-xl resize-none h-14 overflow-hidden bg-background focus:outline-0" 
+                className="h-[28px] overflow-auto pl-10 pr-10 mt-10 mb-4 text-xl resize-none overflow-hidden bg-background focus:outline-0 w-full" 
                 id="multiliner" 
                 name="multiliner"
                 ref={textAreaRef}

@@ -60,7 +60,9 @@
     "messages": {
       "default": "Failed to post",
       "too_short": "The post is too short",
-      "too_long": "The post is too long"
+      "too_long": "The post is too long",
+      "reply_posted": "Reply posted!",
+      "default_posted": "Posted!"
     }
   },
   "profile": {

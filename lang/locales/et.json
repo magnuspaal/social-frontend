@@ -60,7 +60,9 @@
     "messages": {
       "default": "Postitamine ebaõnnestus",
       "too_short": "Postitus on liiga lühike",
-      "too_long": "Postitus on liiga pikk"
+      "too_long": "Postitus on liiga pikk",
+      "reply_posted": "Vastus postitatud!",
+      "default_posted": "Postitatud!"
     }
   },
   "profile": {
