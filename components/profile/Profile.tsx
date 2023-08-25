@@ -5,7 +5,7 @@ import ProfileActions from "./ProfileActions";
 import Image from "next/image";
 import { ImageSize, getImageAddress } from "@/utils/image-utils";
 
-export default async function Profile({ userId }: {userId: number}) {
+export default async function Profile({ dict, userId }: {dict: any, userId: number}) {
 
   const user = await apiService.getUser(userId)
   
@@ -21,18 +21,19 @@ export default async function Profile({ userId }: {userId: number}) {
             alt="Profile picture"
             height={75}
             width={75}
+            quality={100}
             className="mr-3"
           />
           <div className="mb-4">
             <div className="text-3xl font-bold mb-1">{user.username}</div>
-            <div>Member for {getProfileAge(user.createdAt)}</div>
+            <div>{dict.profile.member_for} {getProfileAge(user.createdAt, dict.profile.time)}</div>
           </div>
           <div className="flex justify-center grow mx-6 mb-2 mt-4">
-            {!isMe() && <FollowButton user={user} className='text-lg max-w-[150px] min-w-[120px]' />}
+            {!isMe() && <FollowButton dict={dict} user={user} className='text-lg max-w-[150px] min-w-[120px]' />}
           </div>
 
         </div>
-        <ProfileActions user={user} />
+        <ProfileActions dict={dict} user={user} />
       </div>
     </div>
   )

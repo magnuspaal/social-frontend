@@ -8,21 +8,30 @@ import DefaultPost from "./DefaultPost";
 
 export default function SinglePost({
   post, 
+  dict,
   clickable = true,
+  clickablePicture = true,
+  clickableHeader = true,
+  clickableReplyHeader = true,
   includeReplyHeader = true,
   includeRepostHeader = true,
   includePostActions = true,
   appendRepost = false,
-  isMe = false
+  isMe = false,
+  className = ''
 }: SinglePostProps) {
+
+  const repostProps = {dict, appendRepost, includePostActions, includeRepostHeader, isMe, clickableHeader, clickablePicture, className}
+  const replyProps = {dict, includeReplyHeader, clickableReplyHeader, clickableHeader, clickablePicture, className}
+  const defaultPostProps = {dict, clickableHeader, clickablePicture, className}
 
   const renderPost = (post: Post) => {
     if (post.repostParent) {
-      return <RepostPost post={post as Repost} appendRepost={appendRepost} includePostActions={includePostActions} includeHeader={includeRepostHeader} isMe={isMe}/>
+      return <RepostPost post={post as Repost} includeHeader={includeRepostHeader} {...repostProps}/>
     } else if (post.replyParent) {
-      return <ReplyPost post={post as Reply} includeReplyHeader={includeReplyHeader} />
+      return <ReplyPost post={post as Reply} {...replyProps}/>
     } else {
-      return <DefaultPost post={post} />
+      return <DefaultPost post={post} {...defaultPostProps}/>
     }
   }
 
@@ -33,7 +42,7 @@ export default function SinglePost({
 
 
   const postWrapper = () => 
-    <div className={`bg-background overflow-hidden ${!includePostActions && 'pb-4'} ${clickable && 'hover:bg-shade cursor-pointer'}`}> 
+    <div className={`bg-background overflow-hidden ${!includePostActions && 'pb-4'}  ${clickable && 'hover:bg-shade cursor-pointer'} flex flex-col h-fit ${className}`}> 
       { renderPost(post) }
       { getPostActions() }
     </div>

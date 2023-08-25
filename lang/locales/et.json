@@ -49,5 +49,45 @@
     "messages": {
       "default": "Otsing nurjus. Palun proovige uuesti."
     }
+  },
+  "post": {
+    "post": "Postita",
+    "placeholder": "Mis on sul mõttes?",
+    "reply": "Kirjuta oma vastus",
+    "reply_to": "vastus kasutajale",
+    "reposted_by": "uuesti postitus",
+    "now": "nüüd",
+    "messages": {
+      "default": "Postitamine ebaõnnestus",
+      "too_short": "Postitus on liiga lühike",
+      "too_long": "Postitus on liiga pikk"
+    }
+  },
+  "profile": {
+    "member_for": "Kasutaja",
+    "posts": "Postitused",
+    "followers": "Jälgijat",
+    "following": "Jälgimist",
+    "time": {
+      "days": "päeva",
+      "day": "päev",
+      "months": "kuud",
+      "month": "kuu",
+      "years": "aastat",
+      "year": "aasta"
+    }
+  },
+  "follow": {
+    "following": "Jälgimas",
+    "follow": "Jälgi",
+    "following_started": "Jälgid -",
+    "following_ended": "Jälgimine lõpetatud -"
+  },
+  "settings": {
+    "uploaded": "Pilt üles laetud!",
+    "change_profile_picture": "Vaheta profiilipilti",
+    "messages": {
+      "wrong_file_format": "Toetatud formaadid .png, .jpg and .jpeg"
+    }
   }
 }

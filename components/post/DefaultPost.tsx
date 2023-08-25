@@ -7,15 +7,21 @@ import { getImageAddress } from "@/utils/image-utils";
 import { useAppDispatch } from "@/store/hooks";
 import { setOverlayImage } from "@/store/navigation-slice";
 
-export default function ReplyPost({
+export default function DefaultPost({
+    dict,
     post, 
-  }: {post: Post}) {
+    clickablePicture = true,
+    clickableHeader = true,
+    className = ''
+  }: {dict: any, post: Post, clickablePicture?: boolean, clickableHeader?: boolean, className?: string}) {
 
   const dispatch = useAppDispatch()
 
   const showImageOverlay = (event: any) => {
-    event.preventDefault()
-    dispatch(setOverlayImage(post.imageName));
+    if (clickablePicture) {
+      event.preventDefault()
+      dispatch(setOverlayImage(post.imageName));
+    }
   }
 
   const renderImage = (imageName: string) => {
@@ -23,13 +29,14 @@ export default function ReplyPost({
       const ratio = Number(imageName.split('.')[0].split('-')[1])
 
       return (
-        <div onClick={showImageOverlay} className="mt-8 mx-5">
+        <div onClick={showImageOverlay} className="flex rounded-lg overflow-hidden mx-8 mt-1 mb-4 h-full">
           <Image 
             src={getImageAddress(imageName)} 
-            alt={`post-${post.id}-image`} 
+            alt="Post image"
             width={558}
             height={558 / (ratio / 100000)}
-            className="rounded-lg w-full hover:opacity-90 w-auto h-auto w-"
+            quality={100}
+            className={`w-full h-full object-cover ${clickablePicture && 'hover:opacity-90'}`}
           />
         </div>
       )
@@ -37,9 +44,10 @@ export default function ReplyPost({
   }
 
   return (
-    <div>
-      <PostHeader post={post}></PostHeader>
-      <div className="mx-5 whitespace-break-spaces">{post.content}</div>
+    <div className={`flex flex-col h-full`}>
+      <PostHeader dict={dict} post={post} clickable={clickableHeader}>
+        <div className="whitespace-break-spaces">{post.content}</div>
+      </PostHeader>
       { renderImage(post.imageName) }
     </div>
   )

@@ -5,7 +5,7 @@ import SinglePost from "../post/SinglePost";
 import usePostInfiniteScroll from "@/hooks/use-infinite-scroll";
 import useClientApiService from "@/services/client-api-service";
 
-export default function Feed() {
+export default function Feed({dict}: any) {
 
   const clientApiService = useClientApiService()
 
@@ -19,7 +19,7 @@ export default function Feed() {
           key={post.id}
           timeout={2000}
           classNames='post'>
-            <SinglePost key={post.id} post={post} />
+            <SinglePost dict={dict} key={post.id} post={post} includeRepostHeader={false} />
           </CSSTransition>
         )}
       </TransitionGroup>

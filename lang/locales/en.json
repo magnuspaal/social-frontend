@@ -49,5 +49,45 @@
     "messages": {
       "default": "Search failed. Please try again."
     }
+  },
+  "post": {
+    "post": "Post",
+    "placeholder": "What's on your mind?",
+    "reply": "Write your reply",
+    "reply_to": "reply to",
+    "reposted_by": "repost",
+    "now": "now",
+    "messages": {
+      "default": "Failed to post",
+      "too_short": "The post is too short",
+      "too_long": "The post is too long"
+    }
+  },
+  "profile": {
+    "member_for": "Member for",
+    "posts": "Posts",
+    "followers": "Followers",
+    "following": "Following",
+    "time": {
+      "days": "days",
+      "day": "day",
+      "months": "months",
+      "month": "month",
+      "years": "years",
+      "year": "year"
+    }
+  },
+  "follow": {
+    "following": "Following",
+    "follow": "Follow",
+    "following_started": "Following",
+    "following_ended": "Unfollowed"
+  },
+  "settings": {
+    "uploaded": "Image uploaded!",
+    "change_profile_picture": "Change profile picture",
+    "messages": {
+      "wrong_file_format": "Supported formats are .png, .jpg and .jpeg"
+    }
   }
 }

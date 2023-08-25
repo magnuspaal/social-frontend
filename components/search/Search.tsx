@@ -17,10 +17,12 @@ export default function Search({ dict }: {dict: any}) {
   const search = (evt: any) => {
     setSearchFailed(false)
     clearTimeout(currentTimeout)
-    const timeout = setTimeout(() => {
-      submitSearch(evt.target?.value)
-    }, 800)
-    setCurrentTimout(timeout)
+    if (evt.target?.value) {
+      const timeout = setTimeout(() => {
+        submitSearch(evt.target?.value)
+      }, 800)
+      setCurrentTimout(timeout)
+    }
   }
 
   const submitSearch = (keyword: string) => {
@@ -39,7 +41,7 @@ export default function Search({ dict }: {dict: any}) {
           className="overflow-auto mx-7 text-xl bg-background focus:outline-0" 
         />
       </div>
-      <div className={result.length ? `flex mx-5 mt-5 mb-1` : ''}>
+      <div className={result.length ? `flex mx-2 mt-5 mb-2` : ''}>
       {
         searchFailed ?
         <div className="font-bold">
@@ -47,7 +49,7 @@ export default function Search({ dict }: {dict: any}) {
         </div>
         :
         <div className="w-full space-y-4">
-          {result.map((user) => <UserPreview user={user} key={user.id}/>)}
+          {result.map((user) => <UserPreview dict={dict} user={user} key={user.id}/>)}
         </div>
       }
       </div>

@@ -1,6 +1,14 @@
 import { Post, Reply, Repost } from "@/types/post"
 
-export interface SinglePostProps {
+interface BasePost {
+  dict: any,
+  className?: string
+  clickablePicture?: boolean
+  clickableHeader?: boolean
+  clickableReplyHeader?: boolean
+}
+
+export interface SinglePostProps extends BasePost {
   post: Post
   clickable?: boolean
   includeReplyHeader?: boolean
@@ -10,7 +18,7 @@ export interface SinglePostProps {
   isMe?: boolean
 }
 
-export interface RepostPostProps {
+export interface RepostPostProps extends BasePost {
   post: Repost
   includeHeader?: boolean
   includePostActions?: boolean
@@ -18,7 +26,7 @@ export interface RepostPostProps {
   isMe?: boolean
 }
 
-export interface ReplyPostProps {
+export interface ReplyPostProps extends BasePost {
   post: Reply
   includeReplyHeader?: boolean
 }

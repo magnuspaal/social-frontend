@@ -10,6 +10,14 @@
 
 @import "../../style/svg-button.css";
 
-html {
+body {
   overflow-y: scroll;
+}
+
+textarea {
+  outline: 0;
+}
+
+input {
+  outline: 0;
 }

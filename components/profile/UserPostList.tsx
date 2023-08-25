@@ -7,7 +7,7 @@ import usePostInfiniteScroll from "@/hooks/use-infinite-scroll";
 import useClientApiService from "@/services/client-api-service";
 import { Post } from "@/types/post";
 
-export default function UserPostList({ userId, me }: { userId: number, me: User }) {
+export default function UserPostList({ dict, userId, me }: { dict: any, userId: number, me: User }) {
 
   const isMe = () => me.id == userId
 
@@ -24,7 +24,7 @@ export default function UserPostList({ userId, me }: { userId: number, me: User 
             timeout={2000}
             classNames='post'
           >
-            <SinglePost appendRepost={isMe()} isMe={isMe()} key={post.id} post={post} includeRepostHeader={false}/>
+            <SinglePost dict={dict} appendRepost={isMe()} isMe={isMe()} key={post.id} post={post} includeRepostHeader={false}/>
           </CSSTransition>
         )}
       </TransitionGroup>

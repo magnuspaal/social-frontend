@@ -6,7 +6,7 @@ const getDateFromISOString = (string: string) => {
   return dayjs(string)
 }
 
-export const getPostTimestamp = (string: string) => {
+export const getPostTimestamp = (string: string, nowString: string) => {
   dayjs.extend(utc)
   dayjs.extend(tz)
   const date = getDateFromISOString(string)
@@ -16,7 +16,7 @@ export const getPostTimestamp = (string: string) => {
   const diffInMinutes = now.diff(date, 'minutes')
 
   if (diffInMinutes < 2) {
-    return "now"
+    return nowString
   } else if (diffInMinutes < 60) {
     return diffInMinutes + "m"
   } else if (diffInMinutes < 24 * 60) {
@@ -28,7 +28,10 @@ export const getPostTimestamp = (string: string) => {
   }
 }
 
-export const getProfileAge = (string: string) => {
+export const getProfileAge = (
+  string: string, 
+  time: {days: string, day: string, months: string, month: string, years: string, year: string}
+) => {
   const date = getDateFromISOString(string)
   const now = dayjs()
 
@@ -37,10 +40,10 @@ export const getProfileAge = (string: string) => {
   const diffInYears = now.diff(date, 'years')
 
   if (diffInMonths < 1) {
-    return diffInDays + " days"
+    return diffInDays + (diffInDays == 1 ? ` ${time.day}` : ` ${time.days}`)
   } else if (diffInMonths < 12) {
-    return diffInMonths + " months"
+    return diffInMonths + (diffInMonths == 1 ? ` ${time.month}` : ` ${time.months}`)
   } else {
-    return diffInYears + " years"
+    return diffInYears + (diffInYears == 1 ? ` ${time.year}` : ` ${time.years}`)
   }
 }

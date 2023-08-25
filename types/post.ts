@@ -7,6 +7,8 @@ export interface Post {
   content: string | null;
   likeCount: number;
   repostCount: number;
+  replyCount: number;
+  reply: Post | null;
   liked: boolean;
   reposted: boolean;
   user: User; 

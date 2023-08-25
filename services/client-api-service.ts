@@ -38,7 +38,7 @@ class ClientApiService extends AbstractApiService {
   
   createPost = async (body: FormData): Promise<Post> => this.post(`${this.apiUrl}/post`, body)
 
-  postReply = async (body: FormData, postId: number): Promise<Post> => this.post(`${this.apiUrl}/post/${postId}/reply`, body)
+  postReply = async (body: FormData, postId: number): Promise<{replyParent: Post, reply: Post}> => this.post(`${this.apiUrl}/post/${postId}/reply`, body)
 
   repostPost = async (postId: number): Promise<Post> => this.post(`${this.apiUrl}/post/${postId}/repost`)
 
