@@ -4,6 +4,7 @@ import ImageOverlay from '@/components/modals/ImageOverlay'
 import SubmitPostModal from '@/components/modals/SubmitPostModal'
 import RightSideBar from '@/components/right-side-bar/RightSideBar'
 import { getDictionary } from '@/lang/lang'
+import apiService from '@/services/api-service'
 
 export default async function RootLayout({
   children,
@@ -14,6 +15,7 @@ export default async function RootLayout({
 }) {
 
   const dict = await getDictionary(params.lang)
+  const me = await apiService.getMe()
 
   return (
     <div id="root-content">
@@ -36,7 +38,7 @@ export default async function RootLayout({
       </div>
       <div className='h-40'></div>
       <ImageOverlay />
-      <SubmitPostModal dict={dict}/>
+      <SubmitPostModal me={me} dict={dict}/>
     </div>
   )
 }

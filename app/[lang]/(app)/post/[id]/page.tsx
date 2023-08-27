@@ -17,7 +17,7 @@ export default async function Post({ params }: any) {
   return (
     <div className="p-2 grid divide-y divide-black/40 border border-black/40 rounded">
       <SinglePost dict={dict} key={"post-" + post.id} isMe={isMe()} post={post} clickable={false}/>
-      <ReplyToPost dict={dict} postId={post.id}/>
+      <ReplyToPost dict={dict} postId={post.id} me={me}/>
       { postReplies.length != 0 &&
         <div>
           <h2 className="pl-2 py-4 text-xl font-bold">Replies</h2>

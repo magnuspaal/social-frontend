@@ -74,8 +74,8 @@ export default function LoginForm({dict}: any) {
           <div  className='h-[40px] flex justify-center items-center'>{dict.login.login}</div>
         }
       </button>
-    <button onClick={handleSignup} className='rounded border border-black/40 p-2' type='button' disabled={loading}>
-      {dict.login.signup}
+      <button onClick={handleSignup} className='rounded border border-black/40 p-2' type='button' disabled={loading}>
+        {dict.login.signup}
       </button>
     </form>
   )

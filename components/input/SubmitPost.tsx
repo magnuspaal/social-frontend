@@ -7,8 +7,9 @@ import { addPost } from "@/store/post-slice";
 import useClientApiService from "@/services/client-api-service";
 import Image from 'next/image'
 import { AlertType, addAlert } from "@/store/alert-slice";
+import { User, UserSettingsKey, UserSettingsValue } from "@/types/user";
 
-export default function SubmitPost({dict}: {dict: any}) {
+export default function SubmitPost({dict, me}: {dict: any, me: User}) {
 
   const dispatch = useAppDispatch();
 
@@ -41,6 +42,13 @@ export default function SubmitPost({dict}: {dict: any}) {
       return false
     }
     return true
+  }
+
+  const postingDisallowed = () => {
+    return me.settings.some((setting) => 
+      setting.key === UserSettingsKey.POSTING_DISALLOWED 
+      && setting.value === UserSettingsValue.ENABLED
+    )
   }
 
   const submitPost = async () => {
@@ -124,20 +132,28 @@ export default function SubmitPost({dict}: {dict: any}) {
               <textarea 
                 onChange={handleChange} 
                 placeholder={dict.post.placeholder}
-                className="h-[28px] overflow-auto pl-10 pr-10 mt-10 mb-4 text-xl resize-none overflow-hidden bg-background focus:outline-0 w-full" 
+                className="h-[28px] overflow-auto pl-10 pr-10 mt-10 mb-4 text-xl resize-none overflow-hidden bg-background focus:outline-0 w-full disabled:hover:cursor-not-allowed" 
                 id="multiliner" 
                 name="multiliner"
                 ref={textAreaRef}
                 value={value}
+                disabled={postingDisallowed()}
               />
               {renderPostImage()}
               <div className="flex flex-row justify-between">
                 <div className="flex flex-row items-center ml-3 px-4">
-                  <button onClick={openFileSelector} className={`image-post-button-hover ${selectedFile && "image-post-button-active"}`}>
+                  <button onClick={openFileSelector} disabled={postingDisallowed()} className={`image-post-button-hover ${selectedFile && "image-post-button-active"}
+                  disabled:hover:cursor-not-allowed disabled:hover:filter-none`}>
                     <Image src="/img.svg" height={25} width={25} alt="Image post icon"></Image>
                   </button>
                 </div>
-                <button className="rounded-tl bg-primary p-3 font-bold hover:bg-secondary hover:text-black max-h-12 text-white uppercase" onClick={submitPost}>{dict.post.post}</button>
+                <button 
+                  className="rounded-tl bg-primary p-3 font-bold hover:bg-secondary hover:text-black max-h-12 text-white uppercase 
+                    disabled:hover:bg-primary disabled:hover:text-white disabled:hover:cursor-not-allowed" 
+                  disabled={postingDisallowed()} 
+                  onClick={submitPost}>
+                    {dict.post.post}
+                </button>
               </div>
             </div>
           }

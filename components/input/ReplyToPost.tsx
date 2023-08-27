@@ -7,8 +7,9 @@ import useClientApiService from "@/services/client-api-service";
 import { useAppDispatch } from "@/store/hooks";
 import { addPost, updatePost } from "@/store/post-slice";
 import { AlertType, addAlert } from "@/store/alert-slice";
+import { User, UserSettingsKey, UserSettingsValue } from "@/types/user";
 
-export default function ReplyToPost({ dict, postId, onPost, className }: { dict: any, postId: number, onPost?: any, className?: string }) {
+export default function ReplyToPost({ dict, postId, me, onPost, className }: { dict: any, postId: number, me: User, onPost?: any, className?: string }) {
 
   const router = useRouter()
   const dispatch = useAppDispatch()
@@ -54,18 +55,25 @@ export default function ReplyToPost({ dict, postId, onPost, className }: { dict:
     return true
   }
 
+  const postingDisallowed = () => {
+    return me.settings.some((setting) => setting.key === UserSettingsKey.POSTING_DISALLOWED && setting.value === UserSettingsValue.ENABLED)
+  }
+
   return (
     <div className={`flex pb-3 pt-3 items-end max-w-4 bg-background ${className}`}>
       <textarea 
         onChange={handleChange} 
         placeholder={dict.post.reply}
-        className="h-[52px] textarea w-full overflow-auto m-h-10 p-3 text-xl resize-none h-14 overflow-hidden bg-background focus:outline-0" 
+        className="h-[52px] textarea w-full overflow-auto m-h-10 p-3 text-xl resize-none h-14 overflow-hidden bg-background focus:outline-0"
         id="multiliner" 
         name="multiliner"
         ref={textAreaRef}
         value={value}
+        disabled={postingDisallowed()}
       ></textarea>
-      <button className="rounded bg-primary p-3 font-bold hover:bg-secondary max-h-12 text-white uppercase" onClick={submitPost}>{dict.post.post}</button>
+      <button className="rounded bg-primary p-3 font-bold hover:bg-secondary max-h-12 text-white uppercase disabled:hover:bg-primary disabled:hover:text-white" 
+        disabled={postingDisallowed()} onClick={submitPost}>{dict.post.post}
+      </button>
     </div>
   )
 }

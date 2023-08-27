@@ -9,5 +9,20 @@ export interface User {
   followerCount: number;
   followingCount: number;
   followed: boolean;
-  imageName: string
+  imageName: string;
+  settings: UserSetting[]
+}
+
+export interface UserSetting {
+  key: UserSettingsKey
+  value: UserSettingsValue
+}
+
+export enum UserSettingsKey {
+  POSTING_DISALLOWED = 'POSTING_DISALLOWED'
+}
+
+export enum UserSettingsValue {
+  ENABLED = 'ENABLED',
+  DISABLED = 'DISABLED'
 }
