@@ -30,9 +30,9 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./Dockerfile
+          file: ./cicd/deploy/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_REGISTRY_PATH }}/${{ secrets.APP_NAME }}:${{ env.RELEASE_VERSION }}
+          tags: ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_REGISTRY_PATH }}/social:frontend-${{ env.RELEASE_VERSION }}
           provenance: false
       - name: Copy new docker-compose.yml
         uses: appleboy/scp-action@master
