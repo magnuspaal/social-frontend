@@ -2,7 +2,8 @@
   "navigation": {
     "home": "Home",
     "search": "Search",
-    "profile": "Profile Settings"
+    "profile": "Profile Settings",
+    "chat": "Chat"
   },
   "login": {
     "email": "Email",
@@ -91,5 +92,9 @@
     "messages": {
       "wrong_file_format": "Supported formats are .png, .jpg and .jpeg"
     }
+  },
+  "chat": {
+    "send": "Send",
+    "write_message": "Write message"
   }
 }

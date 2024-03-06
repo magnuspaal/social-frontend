@@ -16,6 +16,7 @@ export default function Navigation({me, dict}: {me: User, dict: any}) {
   const isSearch = () => pathname.startsWith(`/search`)
   const isMeProfile = () => pathname.startsWith(`/profile/${me.id}`)
   const isProfileSettings = () => pathname.startsWith(`/profile/settings`)
+  const isMessaging = () => pathname.startsWith(`/messaging`)
 
   const logout = () => {
     authService.logout()
@@ -36,6 +37,10 @@ export default function Navigation({me, dict}: {me: User, dict: any}) {
       <Link href={`/profile/${me.id}`} className={`text-xl flex ${isMeProfile() ? 'font-bold' : 'font-medium'}`}>
         <Image src="/profile.svg" alt="profile" width={25} height={25} />
         <div className='max-xl:hidden ml-2'>{me.username}</div>
+      </Link>
+      <Link href={`/chat`} className={`text-xl flex ${isMessaging() ? 'font-bold' : 'font-medium'}`}>
+        <Image src="/chat.svg" alt="profile" width={25} height={25} />
+        <div className='max-xl:hidden ml-2'>{dict.navigation.chat}</div>
       </Link>
       <Link href={`/profile/settings`} className={`text-xl flex ${isProfileSettings() ? 'font-bold' : 'font-medium'}`}>
         <Image src="/settings.svg" alt="settings" width={25} height={25} />

@@ -2,7 +2,8 @@
   "navigation": {
     "home": "Kodu",
     "search": "Otsing",
-    "profile": "Profiili seaded"
+    "profile": "Profiili seaded",
+    "chat": "Vestlus"
   },
   "login": {
     "email": "Email",
@@ -91,5 +92,9 @@
     "messages": {
       "wrong_file_format": "Toetatud formaadid .png, .jpg and .jpeg"
     }
+  },
+  "chat": {
+    "send": "Saada",
+    "write_message": "Trüki sõnum"
   }
 }

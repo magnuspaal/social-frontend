@@ -7,11 +7,8 @@ import { ConfigService } from "./config-service";
 
 class AuthService extends AbstractApiService {
 
-  private apiUrl: string
-
   constructor() {
-    super()
-    this.apiUrl = ConfigService.getAuthApiUrl()
+    super(ConfigService.getAuthApiUrl())
   }
 
   getApiHeaders = () => {
@@ -21,11 +18,11 @@ class AuthService extends AbstractApiService {
   }
 
   postRegister = async (email: string, password: String, firstName: string, lastName: string, username: string) => {
-    return this.post(`${this.apiUrl}/register`, JSON.stringify({email, password, firstName, lastName, username}))
+    return this.post(`/register`, JSON.stringify({email, password, firstName, lastName, username}))
   }
 
   postLogin = async (email: String, password: String) => {
-    return this.post(`${this.apiUrl}/authenticate`, JSON.stringify({email, password})
+    return this.post(`/authenticate`, JSON.stringify({email, password})
     ).then(async (body) => {
       this.setCookies(body.token, body.refreshToken, body.expiresAt)
     })
@@ -57,7 +54,7 @@ class AuthService extends AbstractApiService {
   }
   
   postRefreshToken = async (refreshToken: String) => {
-    return this.post(`${this.apiUrl}/refresh`, JSON.stringify({refreshToken})) 
+    return this.post(`/refresh`, JSON.stringify({refreshToken})) 
   };
   
   handleRefreshToken = async (request: NextRequest): Promise<{authenticated: boolean, authCookies?: AuthCookies}> => {

@@ -4,13 +4,14 @@ import FollowButton from "@/components/common/FollowButton";
 import ProfileActions from "./ProfileActions";
 import Image from "next/image";
 import { ImageSize, getImageAddress } from "@/utils/image-utils";
+import SendMessageButton from "./SendMessageButton";
 
 export default async function Profile({ dict, userId }: {dict: any, userId: number}) {
 
   const user = await apiService.getUser(userId)
   
-  const profile = await apiService.getMe()
-  const isMe = () => profile.id == user.id
+  const me = await apiService.getMe()
+  const isMe = () => me.id == user.id
 
   return (
     <div className="m-2">
@@ -30,6 +31,7 @@ export default async function Profile({ dict, userId }: {dict: any, userId: numb
           </div>
           <div className="flex justify-center grow mx-6 mb-2 mt-4">
             {!isMe() && <FollowButton dict={dict} user={user} className='text-lg max-w-[150px] min-w-[120px]' />}
+            {!isMe() && <SendMessageButton dict={dict} me={me} user={user} className='ml-2'/>}
           </div>
 
         </div>

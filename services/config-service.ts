@@ -3,6 +3,8 @@ export class ConfigService {
   private static apiUrl: string
   private static authApiUrl: string
   private static fileApiUrl: string
+  private static messagingApiUrl: string
+  private static websocketUrl: string
 
   static {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL
@@ -11,10 +13,16 @@ export class ConfigService {
     if (!authApiUrl) throw new Error ("AUTH_API_URL not defined")
     const fileApiUrl = process.env.NEXT_PUBLIC_FILE_API_URL
     if (!fileApiUrl) throw new Error("FILE_API_URL not defined")
+    const messagingApiUrl = process.env.NEXT_PUBLIC_MESSAGING_API_URL
+    if (!messagingApiUrl) throw new Error("MESSAGING_API_URL not defined")
+    const websocketUrl = process.env.NEXT_PUBLIC_WEBSOCKET_URL
+    if (!websocketUrl) throw new Error("WEBSOCKET_URL not defined")
 
     this.apiUrl = apiUrl
     this.authApiUrl = authApiUrl
     this.fileApiUrl = fileApiUrl
+    this.messagingApiUrl = messagingApiUrl
+    this.websocketUrl = websocketUrl
   }
 
   static getApiUrl = () => {
@@ -27,5 +35,13 @@ export class ConfigService {
 
   static getFileApiUrl = () => {
     return this.fileApiUrl
+  }
+
+  static getMessagingApiUrl = () => {
+    return this.messagingApiUrl
+  }
+
+  static getWebsocketUrl = () => {
+    return this.websocketUrl
   }
 }

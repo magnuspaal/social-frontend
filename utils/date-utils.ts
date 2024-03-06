@@ -1,4 +1,4 @@
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import utc from 'dayjs/plugin/utc';
 import tz from 'dayjs/plugin/timezone'
 
@@ -48,5 +48,26 @@ export const getProfileAge = (
     return diffInMonths + (diffInMonths == 1 ? ` ${time.month}` : ` ${time.months}`)
   } else {
     return diffInYears + (diffInYears == 1 ? ` ${time.year}` : ` ${time.years}`)
+  }
+}
+
+export const getMessageTimestamp = (string: string) => {
+  dayjs.extend(utc)
+  dayjs.extend(tz)
+  const date = getDateFromISOString(string)
+  let now = dayjs()
+  now = now.subtract(now.utcOffset(), 'minutes')
+
+  const diffInMinutes = now.diff(date, 'minutes')
+
+  if (diffInMinutes < 24 * 60) {
+    if (date.date() != now.date()) {
+      return date.format("MMM DD HH:mm")
+    }
+    return date.format("HH:mm")
+  } else if (date.year() != now.year()) {
+    return date.format("MMM DD YYYY HH:mm")
+  } else {
+    return date.format("MMM DD HH:mm")
   }
 }

@@ -2,7 +2,6 @@ import LeftSideBar from '@/components/left-side-bar/LeftSideBar'
 import AlertModal from '@/components/modals/AlertModal'
 import ImageOverlay from '@/components/modals/ImageOverlay'
 import SubmitPostModal from '@/components/modals/SubmitPostModal'
-import RightSideBar from '@/components/right-side-bar/RightSideBar'
 import { getDictionary } from '@/lang/lang'
 import apiService from '@/services/api-service'
 
@@ -26,7 +25,7 @@ export default async function RootLayout({
             <LeftSideBar params={params}/>
           </div>
           <div className="max-sm:col-span-6 max-md:col-span-5 max-xl:col-span-7 col-span-3 flex items-start sm:max-md:ml-1 md:ml-5">
-            <div className='md:w-[600px] max-w-[600px] w-full md:mr-5'>
+            <div className='md:w-[600px] max-w-[600px] flex w-full h-full md:mr-5'>
              {children}
             </div>
             <div className='max-md:hidden'>

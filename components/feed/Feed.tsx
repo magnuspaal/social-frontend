@@ -2,14 +2,20 @@
 
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import SinglePost from "../post/SinglePost";
-import usePostInfiniteScroll from "@/hooks/use-infinite-scroll";
+import useInfiniteScroll from "@/hooks/use-infinite-scroll";
 import useClientApiService from "@/services/client-api-service";
+import { addPosts, clearPosts } from "@/store/post-slice";
 
 export default function Feed({dict}: any) {
 
   const clientApiService = useClientApiService()
 
-  const {posts, endOfPosts} = usePostInfiniteScroll(clientApiService.getFeed)
+  const [posts, endOfPosts] = useInfiniteScroll(
+    clientApiService.getFeed, 
+    (state) => state.post.posts,
+    clearPosts,
+    addPosts
+  )
 
   return (
     <div className="border border-black/40 rounded overflow-hidden">

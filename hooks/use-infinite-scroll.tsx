@@ -1,65 +1,87 @@
 'use client'
 
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { addPosts, clearPosts } from "@/store/post-slice";
-import { useCallback, useEffect, useRef } from "react";
+import { RefObject, useCallback, useEffect, useRef } from "react";
 
-const usePostInfiniteScroll = (getPostsFunction: Function, options?: { userId: number }) => {
-  const posts = useAppSelector((state) => state.post.posts);
-  const loadingMorePosts = useRef(false)
-  const endOfPosts = useRef(false)
+const useInfiniteScroll = (
+  getFunction: Function, 
+  stateFunction: (state: any) => any,
+  clearFunction: Function,
+  addFunction: Function,
+  scrollElement?: RefObject<HTMLDivElement>,
+  options?: { id: number, limit: number}) => {
+
+  const elements = useAppSelector(stateFunction);
+  const loadingMoreElements = useRef(false)
+  const endOfElements = useRef(false)
+
+  const timeout = useRef<NodeJS.Timeout>();
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(clearPosts())
-  }, [dispatch])
+    dispatch(clearFunction(options?.id))
+  }, [])
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      if (!posts.length && !loadingMorePosts.current) {
-        loadingMorePosts.current = true
-        const newPosts = await getPostsFunction(0, 10, options?.userId)
-        if (newPosts?.length) {
-          dispatch(addPosts(newPosts))
+    const fetchElements = async () => {
+      if (!loadingMoreElements.current) {
+        loadingMoreElements.current = true
+        const newElements = await getFunction(0, options?.limit ?? 10, options?.id)
+        if (newElements?.length) {
+          dispatch(addFunction(newElements))
         }
-        loadingMorePosts.current = false
+        loadingMoreElements.current = false
       }
     }
-    fetchPosts()
-  }, [dispatch, getPostsFunction, options?.userId, posts.length])
+    fetchElements()
+  },  [])
 
-  const getMorePosts = useCallback(async() => {
-    if (!endOfPosts.current && !loadingMorePosts.current) {
-      loadingMorePosts.current = true
-      const newPosts = await getPostsFunction(posts.length, 10, options?.userId)
+  const getMoreElements = useCallback(async() => {
+    if (!endOfElements.current && !loadingMoreElements.current) {
+      loadingMoreElements.current = true
+      const newPosts = await getFunction(elements.length, 10, options?.id)
         .catch((error: any) => console.log(error))
       if (newPosts?.length) {
-        dispatch(addPosts(newPosts))
+        dispatch(addFunction(newPosts))
       } else {
-        endOfPosts.current = true
+        endOfElements.current = true
       }
-      loadingMorePosts.current = false
+      loadingMoreElements.current = false
     }
-  }, [getPostsFunction, posts.length, options?.userId, dispatch])
+  }, [getFunction, elements, options?.id, dispatch, addFunction])
 
   const handleScroll = useCallback(() => {
-    const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 1000
-    if (bottom) {
-      getMorePosts()
+    let bottom: boolean = false
+    if (scrollElement?.current) {
+      bottom = Math.ceil(-scrollElement.current.scrollTop + 20) >= scrollElement.current.scrollHeight - scrollElement.current.offsetHeight
+    } else {
+      bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 1000
     }
-  }, [getMorePosts]);
+
+    if (bottom) {
+      getMoreElements()
+    }
+  }, [getMoreElements, scrollElement]);
+
+  const scrollDebounce = useCallback(() => {
+    clearTimeout(timeout.current)
+    timeout.current = setTimeout(() => {
+      handleScroll()
+    }, 50)
+  }, [handleScroll])
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll, {
+    const element = scrollElement?.current ?? window
+    element.addEventListener('scroll', scrollDebounce, {
       passive: true
     });
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      element.removeEventListener('scroll', scrollDebounce);
     };
-  }, [handleScroll]);
+  }, [handleScroll, scrollDebounce, scrollElement]);
 
-  return {posts, endOfPosts}
+  return [elements, endOfElements]
 } 
 
-export default usePostInfiniteScroll;
+export default useInfiniteScroll;

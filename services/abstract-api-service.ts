@@ -1,12 +1,16 @@
 export abstract class AbstractApiService {
 
-  constructor() {}
+  private apiUrl: string
 
-  getApiHeaders = () => ({}) ;
+  constructor(apiUrl: string) {
+    this.apiUrl = apiUrl
+  }
+
+  getApiHeaders = () => ({});
 
   private handleRequest = async (url: string, options: Record<any, any>) => {
     const request = async (retryRequest: boolean, headers: Record<any, any>) => {
-      return fetch(url, {headers, ...options})
+      return fetch(this.apiUrl + url, {headers, ...options})
         .then(async (res: Response) => {
           if (!res.ok) {
             const authenticated = await this.handleResponseError(res)

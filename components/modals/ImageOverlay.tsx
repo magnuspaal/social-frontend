@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { clearOverlayImage } from '@/store/navigation-slice'
 import { ImageSize, getImageAddress } from '@/utils/image-utils'
 import Image from 'next/image'
-import { useEffect } from 'react'
 
 export default function ImageOverlay() {
 

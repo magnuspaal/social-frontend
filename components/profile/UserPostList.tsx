@@ -3,9 +3,10 @@
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { User } from "@/types/user";
 import SinglePost from "../post/SinglePost";
-import usePostInfiniteScroll from "@/hooks/use-infinite-scroll";
+import useInfiniteScroll from "@/hooks/use-infinite-scroll";
 import useClientApiService from "@/services/client-api-service";
 import { Post } from "@/types/post";
+import { addPosts, clearPosts } from "@/store/post-slice";
 
 export default function UserPostList({ dict, userId, me }: { dict: any, userId: number, me: User }) {
 
@@ -13,7 +14,11 @@ export default function UserPostList({ dict, userId, me }: { dict: any, userId: 
 
   const clientApiService = useClientApiService()
 
-  const {posts, endOfPosts} = usePostInfiniteScroll(clientApiService.getUserPosts, {userId})
+  const [posts, endOfPosts] = useInfiniteScroll(
+    clientApiService.getFeed, 
+    (state) => state.post.posts,
+    clearPosts,
+    addPosts)
 
   return (
     <div className="border-t border-black/40 overflow-hidden">
