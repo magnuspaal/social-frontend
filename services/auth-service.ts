@@ -1,6 +1,6 @@
 'use client'
 
-import cookies from "js-cookie";
+import cookies, { CookieAttributes } from "js-cookie";
 import { NextRequest } from "next/server";
 import { AbstractApiService } from "./abstract-api-service";
 import { ConfigService } from "./config-service";
@@ -92,9 +92,11 @@ class AuthService extends AbstractApiService {
   }  
   
   setCookies = (token: string, refreshToken: string, expiresAt: string) => {
-    cookies.set("authToken", token, { expires: 60 * 10 / 86400 })
-    cookies.set("refreshToken", refreshToken, { expires: 60 * 60 * 24 * 30 * 6 / 86400 })
-    cookies.set("expiresAt", expiresAt, { expires: 60 * 10 / 86400 })
+    const secure = process.env.NODE_ENV == 'production'
+    const domain = ConfigService.getWebsocketDomain()
+    cookies.set("authToken", token, { expires: 60 * 10 / 86400, secure, domain})
+    cookies.set("refreshToken", refreshToken, { expires: 60 * 60 * 24 * 30 * 6 / 86400, secure, sameSite: "strict" })
+    cookies.set("expiresAt", expiresAt, { expires: 60 * 10 / 86400, secure, sameSite: "strict"})
   }
 
   removeCookies = () => {

@@ -3,6 +3,7 @@ import { NextRequest } from 'next/server'
 import authService from './services/auth-service';
 import Negotiator from 'negotiator';
 import { match } from '@formatjs/intl-localematcher';
+import { ConfigService } from './services/config-service';
 
 const locales = ['en', 'et']
  
@@ -34,9 +35,11 @@ export async function middleware(request: NextRequest) {
   }
   if (authCookies) {
     response = NextResponse.redirect(new URL(pathname, request.url))
-    response.cookies.set("authToken", authCookies.authToken, { maxAge: 60 * 10 })
-    response.cookies.set("refreshToken", authCookies.refreshToken, { maxAge: 60 * 60 * 24 * 30 * 6 })
-    response.cookies.set("expiresAt", authCookies.expiresAt, { maxAge: 60 * 10 })
+    const secure = process.env.NODE_ENV == 'production'
+    const domain = ConfigService.getWebsocketDomain()
+    response.cookies.set("authToken", authCookies.authToken, { maxAge: 60 * 10, secure, domain })
+    response.cookies.set("refreshToken", authCookies.refreshToken, { maxAge: 60 * 60 * 24 * 30 * 6, secure, sameSite: "strict" })
+    response.cookies.set("expiresAt", authCookies.expiresAt, { maxAge: 60 * 10, secure, sameSite: "strict" })
   }
   return response;
 }

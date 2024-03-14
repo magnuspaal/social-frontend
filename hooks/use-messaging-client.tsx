@@ -2,7 +2,7 @@
 
 import { ConfigService } from "@/services/config-service";
 import { Client } from "@stomp/stompjs";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import SockJS from "sockjs-client";
 
 const useMessagingClient = () => {

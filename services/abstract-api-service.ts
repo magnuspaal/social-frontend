@@ -10,7 +10,7 @@ export abstract class AbstractApiService {
 
   private handleRequest = async (url: string, options: Record<any, any>) => {
     const request = async (retryRequest: boolean, headers: Record<any, any>) => {
-      return fetch(this.apiUrl + url, {headers, ...options})
+      return fetch(this.apiUrl + url, {headers, credentials: 'include', ...options})
         .then(async (res: Response) => {
           if (!res.ok) {
             const authenticated = await this.handleResponseError(res)
