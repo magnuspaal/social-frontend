@@ -94,6 +94,7 @@
     }
   },
   "chat": {
+    "chat": "Chat",
     "send": "Send",
     "write_message": "Write message"
   }

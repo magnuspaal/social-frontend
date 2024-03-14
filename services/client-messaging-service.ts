@@ -16,10 +16,11 @@ class ClientMessagingApiService extends AbstractApiService {
     const authToken = Cookies.get("authToken")
     return {
       "Authorization": "Bearer " + authToken,
+      "Content-Type": "application/json"
     }
   }
 
-  createChat = (body: FormData) => this.post(`/chat`, body)
+  createChat = (body: string) => this.post(`/chat`, body, )
 
   getChatMessages = (offset: number, limit: number, id: number): Promise<ChatMessage[]> =>
     this.get(`/chat/${id}/messages?offset=${offset}&limit=${limit}`, {
@@ -27,7 +28,7 @@ class ClientMessagingApiService extends AbstractApiService {
     })
 
   handleResponseError = async (res: Response): Promise<boolean> => {
-    if ([401, 403].includes(res.status)) {
+    if (res.status == 401) {
       return authService.handleClientRefreshToken()
     }
     return Promise.resolve(false)

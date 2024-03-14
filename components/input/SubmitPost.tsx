@@ -120,7 +120,7 @@ export default function SubmitPost({dict, me}: {dict: any, me: User}) {
   }
 
   return (
-    <div className="flex border border-black/40 border-b-4 border-b-black rounded mb-5 items-start overflow-hidden bg-background">
+    <div className="flex border border-black/40 border-b-4 border-b-black rounded mb-5 items-start overflow-hidden bg-background w-full">
       <div className="flex flex-col w-full">
           {
             loading ?

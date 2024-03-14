@@ -15,10 +15,12 @@ export default function UserPostList({ dict, userId, me }: { dict: any, userId: 
   const clientApiService = useClientApiService()
 
   const [posts, endOfPosts] = useInfiniteScroll(
-    clientApiService.getFeed, 
+    clientApiService.getUserPosts, 
     (state) => state.post.posts,
+    addPosts,
     clearPosts,
-    addPosts)
+    undefined,
+    {id: userId})
 
   return (
     <div className="border-t border-black/40 overflow-hidden">

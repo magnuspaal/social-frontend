@@ -8,7 +8,7 @@ export default async function ProfileSettingsPage({ params }: any) {
   const dict = await getDictionary(params.lang)
 
   return (
-    <div className="p-2 divide-black/40 border border-black/40 rounded">
+    <div className="p-2 divide-black/40 border border-black/40 rounded w-full">
       <ProfileSettings user={user} dict={dict}></ProfileSettings>
     </div>
   )

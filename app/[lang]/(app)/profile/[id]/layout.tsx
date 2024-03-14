@@ -12,7 +12,7 @@ export default async function ProfileLayout({
   const dict = await getDictionary(params.lang)
 
   return (
-    <div className="divide-black/40 border border-black/40 rounded">
+    <div className="divide-black/40 border border-black/40 rounded w-full">
       <div className="grid gap-3">
         <Profile dict={dict} userId={params.id}/>
         {children}

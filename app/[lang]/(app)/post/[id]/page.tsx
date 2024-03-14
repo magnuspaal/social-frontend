@@ -15,7 +15,7 @@ export default async function Post({ params }: any) {
   const isMe = () => me.id == post.user.id
 
   return (
-    <div className="p-2 grid divide-y divide-black/40 border border-black/40 rounded">
+    <div className="p-2 grid divide-y divide-black/40 border border-black/40 rounded w-full">
       <SinglePost dict={dict} key={"post-" + post.id} isMe={isMe()} post={post} clickable={false}/>
       <ReplyToPost dict={dict} postId={post.id} me={me}/>
       { postReplies.length != 0 &&

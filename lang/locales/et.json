@@ -94,6 +94,7 @@
     }
   },
   "chat": {
+    "chat": "Vestlused",
     "send": "Saada",
     "write_message": "Trüki sõnum"
   }

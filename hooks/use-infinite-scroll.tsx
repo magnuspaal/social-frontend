@@ -1,15 +1,17 @@
 'use client'
 
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { RefObject, useCallback, useEffect, useRef } from "react";
+import { RefObject, useCallback, useEffect, useRef, useState } from "react";
 
 const useInfiniteScroll = (
   getFunction: Function, 
   stateFunction: (state: any) => any,
-  clearFunction: Function,
   addFunction: Function,
+  clearFunction?: Function,
   scrollElement?: RefObject<HTMLDivElement>,
-  options?: { id: number, limit: number}) => {
+  options?: { id?: number, limit?: number}) => {
+
+  const [, setError] = useState();
 
   const elements = useAppSelector(stateFunction);
   const loadingMoreElements = useRef(false)
@@ -20,7 +22,9 @@ const useInfiniteScroll = (
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(clearFunction(options?.id))
+    if (clearFunction) {
+      dispatch(clearFunction())
+    }
   }, [])
 
   useEffect(() => {
@@ -28,6 +32,7 @@ const useInfiniteScroll = (
       if (!loadingMoreElements.current) {
         loadingMoreElements.current = true
         const newElements = await getFunction(0, options?.limit ?? 10, options?.id)
+          .catch((error: any) => setError(() => {throw error}))
         if (newElements?.length) {
           dispatch(addFunction(newElements))
         }
@@ -41,7 +46,7 @@ const useInfiniteScroll = (
     if (!endOfElements.current && !loadingMoreElements.current) {
       loadingMoreElements.current = true
       const newPosts = await getFunction(elements.length, 10, options?.id)
-        .catch((error: any) => console.log(error))
+        .catch((error: any) => setError(() => {throw error}))
       if (newPosts?.length) {
         dispatch(addFunction(newPosts))
       } else {

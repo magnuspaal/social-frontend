@@ -18,7 +18,9 @@ class MessagingApiService extends AbstractApiService {
     }
   }
 
-  getUserChats = (userId: number): Promise<Chat[]> => this.get(`/user/${userId}/chats`)
+  getUserChats = (userId: number): Promise<Chat[]> => this.get(`/user/${userId}/chats`, {
+    cache: "no-store"
+  })
 
   handleResponseError = async (res: Response): Promise<boolean> => {
     console.log(res.status)

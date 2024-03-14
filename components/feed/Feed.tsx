@@ -13,8 +13,8 @@ export default function Feed({dict}: any) {
   const [posts, endOfPosts] = useInfiniteScroll(
     clientApiService.getFeed, 
     (state) => state.post.posts,
-    clearPosts,
-    addPosts
+    addPosts,
+    clearPosts
   )
 
   return (

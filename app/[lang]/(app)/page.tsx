@@ -9,7 +9,7 @@ export default async function Home({params}: any) {
   const me = await apiService.getMe();
 
   return (
-    <div className="flex flex-col justify-center items-stretch">
+    <div className="flex flex-col justify-center items-stretch w-full">
       <SubmitPost dict={dict} me={me}/>
       <Feed dict={dict} />
     </div>

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import { addMessage, addMessages, initChatMessages } from "@/store/messaging-slice";
+import { addMessage, addMessages } from "@/store/messaging-slice";
 
 import {StompSubscription} from "@stomp/stompjs";
 
@@ -32,8 +32,8 @@ export default function ChatWindow({me, chatId, dict}: {me: User, chatId: number
     (state: any) => {
       return state.messaging.messages[chatId]
     },
-    initChatMessages,
     addMessages,
+    undefined,
     chatWindowRef,
     {id: chatId, limit: 20}
   )
@@ -52,7 +52,7 @@ export default function ChatWindow({me, chatId, dict}: {me: User, chatId: number
   return (
     <div className="h-[70svh] flex flex-col">
       <div>{}</div>
-      <div className="overflow-y-auto flex flex-col-reverse" ref={chatWindowRef}>        
+      <div className="overflow-y-auto flex flex-col-reverse h-full" ref={chatWindowRef}>        
         {messages?.map((message: any) => 
           <ChatBubble key={message.id} message={message} me={me}/>
         )}

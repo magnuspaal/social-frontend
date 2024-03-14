@@ -3,16 +3,16 @@
 import useMessagingApiService from "@/services/client-messaging-service";
 import { User } from "@/types/user";
 import Image from "next/image"
+import { useRouter } from "next/navigation";
 
 export default function SendMessageButton({me, user, dict, className}: {me: User, user: User, dict: any, className: any}) {
+  const router = useRouter();
 
   const messagingApiService = useMessagingApiService()
 
   const handleClick = () => {
-    const formData = new FormData();
-    formData.append('userIds', me.id.toString());
-    formData.append('userIds', user.id.toString());
-    messagingApiService.createChat(formData);
+    messagingApiService.createChat(JSON.stringify({users: [{id: me.id, username: me.username}, {id: user.id, username: user.username}]}));
+    router.push('/chat') 
   }
 
   return (
