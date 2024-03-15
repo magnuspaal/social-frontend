@@ -10,11 +10,14 @@ export const messagingSlice = createSlice({
   },
   reducers: {
     addMessage: (state, action: {payload: ChatMessage, type: string}) => {
+      if (!state.messages[action.payload.chat.id]) {
+        state.messages[action.payload.chat.id] = []
+      }
       state.messages[action.payload.chat.id].unshift(action.payload)
     },
     addMessages: (state, action: {payload: ChatMessage[], type: string}) => {
       const chatId = action.payload[0].chat.id
-      if (!state.messages[ action.payload[0].chat.id]) {
+      if (!state.messages[action.payload[0].chat.id]) {
         state.messages[action.payload[0].chat.id] = []
       }
       const filteredMessages = action.payload.filter((payloadMessage) => !state.messages[chatId].find((message) => payloadMessage.id == message.id))

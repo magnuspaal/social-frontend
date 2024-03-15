@@ -41,7 +41,6 @@ export default function ChatWindow({me, chatId, dict}: {me: User, chatId: number
   useEffect(() => {
     if (client && !subscription) {
       const stompSubscription = client.subscribe('/user/topic/message', message => {
-        console.log(JSON.parse(message.body))
         dispatch(addMessage(JSON.parse(message.body)))
       })
       setSubscription(stompSubscription)

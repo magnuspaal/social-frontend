@@ -9,9 +9,10 @@ const getDateFromISOString = (string: string) => {
 export const getPostTimestamp = (string: string, nowString: string) => {
   dayjs.extend(utc)
   dayjs.extend(tz)
-  const date = getDateFromISOString(string)
-  let now = dayjs()
-  now = now.subtract(now.utcOffset(), 'minutes')
+  let date = getDateFromISOString(string)
+  const now = dayjs()
+
+  date = date.add(now.utcOffset(), 'minutes')
 
   const diffInMinutes = now.diff(date, 'minutes')
 
@@ -34,9 +35,10 @@ export const getProfileAge = (
 ) => {
   dayjs.extend(utc)
   dayjs.extend(tz)
-  const date = getDateFromISOString(string)
-  let now = dayjs()
-  now = now.subtract(now.utcOffset(), 'minutes')
+  let date = getDateFromISOString(string)
+  const now = dayjs()
+  
+  date = date.add(now.utcOffset(), 'minutes')
 
   const diffInMonths = now.diff(date, 'months')
   const diffInDays = now.diff(date, 'days')
@@ -54,9 +56,10 @@ export const getProfileAge = (
 export const getMessageTimestamp = (string: string) => {
   dayjs.extend(utc)
   dayjs.extend(tz)
-  const date = getDateFromISOString(string)
-  let now = dayjs()
-  now = now.subtract(now.utcOffset(), 'minutes')
+  let date = getDateFromISOString(string)
+  const now = dayjs()
+  
+  date = date.add(now.utcOffset(), 'minutes')
 
   const diffInMinutes = now.diff(date, 'minutes')
 
