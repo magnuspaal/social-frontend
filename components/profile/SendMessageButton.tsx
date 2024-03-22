@@ -1,17 +1,21 @@
 'use client'
 
 import useMessagingApiService from "@/services/client/client-messaging-service";
+import { MeContext } from "@/services/me-provider";
 import { User } from "@/types/user";
 import Image from "next/image"
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
 
-export default function SendMessageButton({me, user, className}: {me: User, user: User, className: any}) {
+export default function SendMessageButton({user, className}: {user: User, className: any}) {
   const router = useRouter();
 
   const messagingApiService = useMessagingApiService()
 
+  const { me } = useContext(MeContext)
+
   const handleClick = () => {
-    messagingApiService.createChat(JSON.stringify({users: [{id: me.id, username: me.username}, {id: user.id, username: user.username}]}));
+    messagingApiService.createChat(JSON.stringify({users: [{id: me?.id, username: me?.username}, {id: user.id, username: user.username}]}));
     router.push('/chat') 
   }
 

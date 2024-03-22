@@ -6,9 +6,8 @@ import Image from 'next/image'
 import ReplyToPost from '../input/ReplyToPost'
 import SinglePost from '../post/SinglePost'
 import useDisableScroll from '@/hooks/use-disable-scroll'
-import { User } from '@/types/user'
 
-export default function SubmitPostModal({me}: {me: User}) {
+export default function SubmitPostModal() {
 
   const modalOpen = useAppSelector<boolean>((state) => state.navigation.submitPostOverlay.open)
   const replyParent = useAppSelector((state) => state.navigation.submitPostOverlay.replyParent)
@@ -41,7 +40,7 @@ export default function SubmitPostModal({me}: {me: User}) {
           </button>
         </SinglePost>
         <div className='sm:hidden border border-black/30' />
-        <ReplyToPost postId={replyParent!.id} me={me} className='rounded px-3' onPost={closeOverlay}/>
+        <ReplyToPost postId={replyParent!.id} className='rounded px-3' onPost={closeOverlay}/>
       </div>
     )
   }

@@ -1,21 +1,24 @@
 "use client"
 
 import useAutosizeTextArea from "@/hooks/use-auto-size-textarea";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import useClientApiService from "@/services/client/client-api-service";
 import { useAppDispatch } from "@/store/hooks";
 import { addPost, updatePost } from "@/store/post-slice";
 import { AlertType, addAlert } from "@/store/alert-slice";
-import { User, UserSettingsKey, UserSettingsValue } from "@/types/user";
+import { UserSettingsKey, UserSettingsValue } from "@/types/user";
 import useTranslation from "@/lang/use-translation";
+import { MeContext } from "@/services/me-provider";
 
-export default function ReplyToPost({ postId, me, onPost, className }: { postId: number, me: User, onPost?: any, className?: string }) {
+export default function ReplyToPost({ postId, onPost, className }: { postId: number, onPost?: any, className?: string }) {
 
   const { t } = useTranslation()
   const router = useRouter()
   const dispatch = useAppDispatch()
   const clientApiService = useClientApiService()
+
+  const { me } = useContext(MeContext)
 
   const [value, setValue] = useState("");
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -58,7 +61,7 @@ export default function ReplyToPost({ postId, me, onPost, className }: { postId:
   }
 
   const postingDisallowed = () => {
-    return me.settings.some((setting) => setting.key === UserSettingsKey.POSTING_DISALLOWED && setting.value === UserSettingsValue.ENABLED)
+    return me?.settings.some((setting) => setting.key === UserSettingsKey.POSTING_DISALLOWED && setting.value === UserSettingsValue.ENABLED)
   }
 
   return (

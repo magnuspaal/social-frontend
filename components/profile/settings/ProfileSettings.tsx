@@ -1,12 +1,10 @@
 'use client'
-import { User } from "@/types/user";
 import ProfileImageUpload from "./ProfileImageUpload";
 
-export default function ProfileSettings({ user }: {user: User }) {
-
+export default function ProfileSettings() {
   return (
     <div>
-      <ProfileImageUpload user={user}></ProfileImageUpload>
+      <ProfileImageUpload></ProfileImageUpload>
     </div>
   )
 }

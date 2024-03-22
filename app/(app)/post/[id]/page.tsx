@@ -1,4 +1,3 @@
-
 import ReplyToPost from "@/components/input/ReplyToPost";
 import SinglePost from "@/components/post/SinglePost";
 import serverApiService from "@/services/server/server-api-service";
@@ -15,7 +14,7 @@ export default async function Post({ params }: any) {
   return (
     <div className="p-2 grid divide-y divide-black/40 border border-black/40 rounded w-full">
       <SinglePost key={"post-" + post.id} isMe={isMe()} post={post} clickable={false}/>
-      <ReplyToPost postId={post.id} me={me}/>
+      <ReplyToPost postId={post.id}/>
       { postReplies.length != 0 &&
         <div>
           <h2 className="pl-2 py-4 text-xl font-bold">Replies</h2>

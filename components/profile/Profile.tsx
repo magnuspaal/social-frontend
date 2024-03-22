@@ -1,4 +1,4 @@
-import apiService from "@/services/server/server-api-service";
+import serverApiService from "@/services/server/server-api-service";
 import FollowButton from "@/components/common/FollowButton";
 import ProfileActions from "./ProfileActions";
 import Image from "next/image";
@@ -9,9 +9,9 @@ import { getProfileAge } from "@/utils/date-utils";
 
 export default async function Profile({ userId }: {userId: number}) {
 
-  const user = await apiService.getUser(userId)
+  const user = await serverApiService.getUser(userId)
   
-  const me = await apiService.getMe()
+  const me = await serverApiService.getMe()
   const isMe = () => me.id == user.id
 
   return (
@@ -34,7 +34,7 @@ export default async function Profile({ userId }: {userId: number}) {
           </div>
           <div className="flex justify-center grow mx-6 mb-2 mt-4">
             {!isMe() && <FollowButton user={user} className='text-lg max-w-[150px] min-w-[120px]' />}
-            {!isMe() && <SendMessageButton me={me} user={user} className='ml-2'/>}
+            {!isMe() && <SendMessageButton user={user} className='ml-2'/>}
           </div>
 
         </div>

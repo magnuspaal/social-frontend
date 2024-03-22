@@ -2,25 +2,27 @@
 
 import useKeydownListener from '@/hooks/use-keydown-listener';
 import useTranslation from '@/lang/use-translation';
-import { User } from '@/types/user';
+import { MeContext } from '@/services/me-provider';
 import { Client } from '@stomp/stompjs';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useContext, useRef, useState } from 'react';
 
-export default function ChatInput({me, chatId, client}: {me: User, chatId: number, client: Client}) {
+export default function ChatInput({chatId, client}: {chatId: number, client: Client}) {
 
   const [value, setValue] = useState("");
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const { t } = useTranslation()
 
+  const { me } = useContext(MeContext)
+
   const submitPost = useCallback(async () => {
     client.publish({ destination: '/app/message', body: JSON.stringify({
       content: value,
-      from: me.id.toString(),
+      from: me?.id.toString(),
       to: chatId })
     });
     setValue("")
-  }, [chatId, client, me.id, value])
+  }, [chatId, client, me?.id, value])
 
   useKeydownListener(submitPost,'Enter')
 

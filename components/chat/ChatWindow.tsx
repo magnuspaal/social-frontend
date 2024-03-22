@@ -6,7 +6,7 @@ import { addMessage, addMessages } from "@/store/messaging-slice";
 
 import {StompSubscription} from "@stomp/stompjs";
 
-import { User } from '@/types/user';
+
 import { useAppDispatch } from '@/store/hooks';
 import ChatInput from './ChatInput';
 import useClientMessagingService from '@/services/client/client-messaging-service';
@@ -15,7 +15,7 @@ import useMessagingClient from '@/hooks/use-messaging-client';
 import ChatBubble from './ChatBubble';
 import useDisableScroll from '@/hooks/use-disable-scroll';
 
-export default function ChatWindow({me, chatId, dict}: {me: User, chatId: number, dict: any}) {
+export default function ChatWindow({chatId}: {chatId: number}) {
   
   const dispatch = useAppDispatch()
   const [subscription, setSubscription] = useState<StompSubscription>()
@@ -53,10 +53,10 @@ export default function ChatWindow({me, chatId, dict}: {me: User, chatId: number
       <div>{}</div>
       <div className="overflow-y-auto flex flex-col-reverse h-full" ref={chatWindowRef}>        
         {messages?.map((message: any) => 
-          <ChatBubble key={message.id} message={message} me={me}/>
+          <ChatBubble key={message.id} message={message} />
         )}
       </div>
-      {client && <ChatInput me={me} chatId={chatId} client={client}/>}
+      {client && <ChatInput chatId={chatId} client={client}/>}
     </div>
   )
 }

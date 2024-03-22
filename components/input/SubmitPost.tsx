@@ -1,7 +1,7 @@
 "use client"
 
 import useAutosizeTextArea from "@/hooks/use-auto-size-textarea";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useAppDispatch } from "@/store/hooks";
 import { addPost } from "@/store/post-slice";
 import useClientApiService from "@/services/client/client-api-service";
@@ -9,13 +9,16 @@ import Image from 'next/image'
 import { AlertType, addAlert } from "@/store/alert-slice";
 import { User, UserSettingsKey, UserSettingsValue } from "@/types/user";
 import useTranslation from "@/lang/use-translation";
+import { MeContext } from "@/services/me-provider";
 
-export default function SubmitPost({me}: {me: User}) {
+export default function SubmitPost() {
 
   const { t } = useTranslation()
   const dispatch = useAppDispatch();
 
   const clientApiService = useClientApiService()
+
+  const { me } = useContext(MeContext)
 
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
@@ -47,7 +50,7 @@ export default function SubmitPost({me}: {me: User}) {
   }
 
   const postingDisallowed = () => {
-    return me.settings.some((setting) => 
+    return me?.settings.some((setting) => 
       setting.key === UserSettingsKey.POSTING_DISALLOWED 
       && setting.value === UserSettingsValue.ENABLED
     )

@@ -1,13 +1,11 @@
-import { User } from '@/types/user';
 import ChatUserPreview from './ChatPreview';
 import messagingApiService from '@/services/server/server-messaging-service';
 import t from '@/lang/server-translation';
+import serverApiService from '@/services/server/server-api-service';
 
-interface ChatRoomsProps {
-  me: User
-}
+export default async function ChatRooms() {
 
-export default async function ChatRooms({me}: ChatRoomsProps) {
+  const me = await serverApiService.getMe()
 
   const chats = await messagingApiService.getUserChats(me.id);
 

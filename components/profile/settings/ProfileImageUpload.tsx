@@ -1,22 +1,24 @@
 'use client'
 
 import useClientApiService from "@/services/client/client-api-service";
-import { User } from "@/types/user";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import NextImage from "next/image";
 import { useAppDispatch } from "@/store/hooks";
 import { AlertType, addAlert } from "@/store/alert-slice";
 import { ImageSize, getImageAddress } from "@/utils/image-utils";
 import useTranslation from "@/lang/use-translation";
+import { MeContext } from "@/services/me-provider";
 
 
-export default function ProfileImageUpload({ user }: {user: User}) {
+export default function ProfileImageUpload() {
 
   const { t } = useTranslation()
   const clientApiService = useClientApiService()
   const dispatch = useAppDispatch();
   const router = useRouter()
+
+  const { me } = useContext(MeContext);  
 
   const inputFile = useRef<HTMLInputElement | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -52,10 +54,10 @@ export default function ProfileImageUpload({ user }: {user: User}) {
     }
 
     const uploadImage = async () => {
-      if (selectedFile) {
+      if (selectedFile && me) {
         let formData = new FormData();
         formData.append('image', selectedFile as Blob);
-        return await clientApiService.uploadProfileImage(user.id, formData).then((res: any) => {
+        return await clientApiService.uploadProfileImage(me?.id, formData).then((res: any) => {
           if (!res) {
             setCurrentImage(null)
           }
@@ -81,7 +83,7 @@ export default function ProfileImageUpload({ user }: {user: User}) {
       <button onClick={onButtonClick} className="flex flex-col items-center">
         <div className="rounded border-2 border-black p-1 w-fit rounded-full fit-content">
           <NextImage 
-            src={currentImage ?? `${user.imageName ? getImageAddress(user.imageName, ImageSize.SM) : `/blank-profile-picture.svg`}`} 
+            src={currentImage ?? `${me?.imageName ? getImageAddress(me.imageName, ImageSize.SM) : `/blank-profile-picture.svg`}`} 
             alt="Profile picture"
             height={100}
             width={100}

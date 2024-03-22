@@ -7,13 +7,17 @@ import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import useTranslation from '@/lang/use-translation'
+import { useContext } from 'react'
+import { MeContext } from '@/services/me-provider'
 
-export default function Navigation({me}: {me: User}) {
+export default function Navigation() {
 
   const { t } = useTranslation()
 
   const router = useRouter()
   const pathname = usePathname()
+
+  const { me } = useContext(MeContext)
 
   const isHome = () => pathname == '' || pathname == '/'
   const isSearch = () => pathname.startsWith(`/search`)
@@ -37,9 +41,9 @@ export default function Navigation({me}: {me: User}) {
         <Image src="/search.svg" alt="home" width={25} height={25} />
         <div className='max-xl:hidden ml-2'>{t('navigation.search')}</div>
       </Link>
-      <Link href={`/profile/${me.id}`} className={`text-xl flex ${isMeProfile() ? 'font-bold' : 'font-medium'}`}>
+      <Link href={`/profile/${me?.id}`} className={`text-xl flex ${isMeProfile() ? 'font-bold' : 'font-medium'}`}>
         <Image src="/profile.svg" alt="profile" width={25} height={25} />
-        <div className='max-xl:hidden ml-2'>{`${me.username}`}</div>
+        <div className='max-xl:hidden ml-2'>{`${me?.username}`}</div>
       </Link>
       <Link href={`/chat`} className={`text-xl flex ${isChat() ? 'font-bold' : 'font-medium'}`}>
         <Image src="/chat.svg" alt="profile" width={25} height={25} />

@@ -1,16 +1,18 @@
 'use client'
 
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import { User } from "@/types/user";
 import SinglePost from "../post/SinglePost";
 import useInfiniteScroll from "@/hooks/use-infinite-scroll";
 import useClientApiService from "@/services/client/client-api-service";
 import { Post } from "@/types/post";
 import { addPosts, clearPosts } from "@/store/post-slice";
+import { useContext } from "react";
+import { MeContext } from "@/services/me-provider";
 
-export default function UserPostList({ userId, me }: { userId: number, me: User }) {
+export default function UserPostList({ userId }: { userId: number }) {
 
-  const isMe = () => me.id == userId
+  const { me } = useContext(MeContext)
+  const isMe = () => me?.id == userId
 
   const clientApiService = useClientApiService()
 
