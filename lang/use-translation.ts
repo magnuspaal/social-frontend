@@ -10,7 +10,7 @@ export default function useTranslation() {
     et
   }
   
-  const [locale] = useContext(LanguageContext)
+  const { locale } = useContext(LanguageContext)
 
   function t(key: string) {
 

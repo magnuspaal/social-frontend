@@ -2,12 +2,13 @@
 
 import { createContext, useState } from "react"
 import { defaultLocale } from "."
-export const LanguageContext = createContext([])
+export const LanguageContext = createContext<{locale: any}>({locale: undefined})
 
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocale] = useState<any>(navigator?.language.substring(0,2) ?? defaultLocale)
+export function LanguageProvider({ children, language }: { children: React.ReactNode, language: string | null }) {
+  const [locale] = useState<any>(language?.substring(0,2) ?? defaultLocale)
+
   return (
-    <LanguageContext.Provider value={[locale, setLocale]}>
+    <LanguageContext.Provider value={{locale}}>
       {children}
     </LanguageContext.Provider>
   )
