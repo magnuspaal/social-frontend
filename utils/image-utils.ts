@@ -1,5 +1,4 @@
 import { ConfigService } from '@/services/config-service'
-import getConfig from 'next/config'
 
 const imageApiUrl = ConfigService.getFileApiUrl()
 

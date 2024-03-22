@@ -4,7 +4,7 @@ import Link from "next/link"
 import Image from 'next/image'
 import { ImageSize, getImageAddress } from "@/utils/image-utils"
 
-export default function UserPreview({dict, user}: {dict: any, user: User}) {
+export default function UserPreview({user}: {user: User}) {
 
   return (
     <Link href={`/profile/${user.id}`} className="flex flex-row items-center flex-wrap justify-center">
@@ -25,7 +25,7 @@ export default function UserPreview({dict, user}: {dict: any, user: User}) {
         </div>
       </div>
       <div className="flex justify-end mt-4 mb-2">
-        <FollowButton dict={dict} user={user} />
+        <FollowButton user={user} />
       </div>
     </Link>
   )

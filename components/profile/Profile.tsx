@@ -1,12 +1,13 @@
-import apiService from "@/services/api-service";
-import { getProfileAge } from "@/utils/date-utils";
+import apiService from "@/services/server/server-api-service";
 import FollowButton from "@/components/common/FollowButton";
 import ProfileActions from "./ProfileActions";
 import Image from "next/image";
 import { ImageSize, getImageAddress } from "@/utils/image-utils";
 import SendMessageButton from "./SendMessageButton";
+import t from "@/lang/server-translation";
+import { getProfileAge } from "@/utils/date-utils";
 
-export default async function Profile({ dict, userId }: {dict: any, userId: number}) {
+export default async function Profile({ userId }: {userId: number}) {
 
   const user = await apiService.getUser(userId)
   
@@ -27,15 +28,17 @@ export default async function Profile({ dict, userId }: {dict: any, userId: numb
           />
           <div className="mb-4">
             <div className="text-3xl font-bold mb-1">{user.username}</div>
-            <div>{dict.profile.member_for} {getProfileAge(user.createdAt, dict.profile.time)}</div>
+            <div>
+              {t('profile.member_for')} {getProfileAge(user.createdAt, t('profile.time'))}
+            </div>
           </div>
           <div className="flex justify-center grow mx-6 mb-2 mt-4">
-            {!isMe() && <FollowButton dict={dict} user={user} className='text-lg max-w-[150px] min-w-[120px]' />}
-            {!isMe() && <SendMessageButton dict={dict} me={me} user={user} className='ml-2'/>}
+            {!isMe() && <FollowButton user={user} className='text-lg max-w-[150px] min-w-[120px]' />}
+            {!isMe() && <SendMessageButton me={me} user={user} className='ml-2'/>}
           </div>
 
         </div>
-        <ProfileActions dict={dict} user={user} />
+        <ProfileActions user={user} />
       </div>
     </div>
   )

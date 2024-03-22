@@ -1,6 +1,6 @@
 'use client'
 
-import useClientApiService from "@/services/client-api-service";
+import useClientApiService from "@/services/client/client-api-service";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { addPost, removePost, updatePost } from "@/store/post-slice";
 import { Post } from "@/types/post";

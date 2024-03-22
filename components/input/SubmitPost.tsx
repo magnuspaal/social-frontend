@@ -4,13 +4,15 @@ import useAutosizeTextArea from "@/hooks/use-auto-size-textarea";
 import { useEffect, useRef, useState } from "react";
 import { useAppDispatch } from "@/store/hooks";
 import { addPost } from "@/store/post-slice";
-import useClientApiService from "@/services/client-api-service";
+import useClientApiService from "@/services/client/client-api-service";
 import Image from 'next/image'
 import { AlertType, addAlert } from "@/store/alert-slice";
 import { User, UserSettingsKey, UserSettingsValue } from "@/types/user";
+import useTranslation from "@/lang/use-translation";
 
-export default function SubmitPost({dict, me}: {dict: any, me: User}) {
+export default function SubmitPost({me}: {me: User}) {
 
+  const { t } = useTranslation()
   const dispatch = useAppDispatch();
 
   const clientApiService = useClientApiService()
@@ -35,10 +37,10 @@ export default function SubmitPost({dict, me}: {dict: any, me: User}) {
 
   const validatePost = () => {
     if (!selectedFile && value.length < 1) {
-      dispatch(addAlert({type: AlertType.ERROR, message: dict.post.messages.too_short}))
+      dispatch(addAlert({type: AlertType.ERROR, message: t('post.messages.too_short')}))
       return false
     } else if (value.length >= 1000) {
-      dispatch(addAlert({type: AlertType.ERROR, message: dict.post.messages.too_long}))
+      dispatch(addAlert({type: AlertType.ERROR, message: t('post.messages.too_long')}))
       return false
     }
     return true
@@ -67,7 +69,7 @@ export default function SubmitPost({dict, me}: {dict: any, me: User}) {
         })
         .catch((err) => {
           removeImage()
-          dispatch(addAlert({message: dict.post.messages.default, type: AlertType.ERROR}))
+          dispatch(addAlert({message: t('post.messages.default'), type: AlertType.ERROR}))
         })
         .finally(() => {
           setLoading(false)
@@ -88,7 +90,7 @@ export default function SubmitPost({dict, me}: {dict: any, me: User}) {
           const url = URL.createObjectURL(selectedFile)
           setCurrentImage(url)
         } else {
-          return Promise.reject(dict.post.messages.wrong_file_format)
+          return Promise.reject(t('post.messages.wrong_file_format'))
         }
       }
     }
@@ -131,7 +133,7 @@ export default function SubmitPost({dict, me}: {dict: any, me: User}) {
             <div className="flex flex-col justify-end">
               <textarea 
                 onChange={handleChange} 
-                placeholder={dict.post.placeholder}
+                placeholder={t('post.placeholder')}
                 className="h-[28px] overflow-auto pl-10 pr-10 mt-10 mb-4 text-xl resize-none overflow-hidden bg-background focus:outline-0 w-full disabled:hover:cursor-not-allowed" 
                 id="multiliner" 
                 name="multiliner"
@@ -152,7 +154,7 @@ export default function SubmitPost({dict, me}: {dict: any, me: User}) {
                     disabled:hover:bg-primary disabled:hover:text-white disabled:hover:cursor-not-allowed" 
                   disabled={postingDisallowed()} 
                   onClick={submitPost}>
-                    {dict.post.post}
+                    {t('post.post')}
                 </button>
               </div>
             </div>

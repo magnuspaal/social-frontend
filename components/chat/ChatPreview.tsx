@@ -1,7 +1,11 @@
 import Link from "next/link"
 import { Chat } from "@/types/chat"
 
-export default function ChatPreview({dict, chat}: {dict: any, chat: Chat}) {
+interface ChatPreviewProps {
+  chat: Chat
+}
+
+export default function ChatPreview({chat}: ChatPreviewProps) {
 
   return (
     <Link href={`/chat/${chat.id}`} className="flex flex-row items-center flex-wrap justify-center p-4">

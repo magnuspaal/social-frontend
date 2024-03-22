@@ -7,9 +7,9 @@ import { addMessage, addMessages } from "@/store/messaging-slice";
 import {StompSubscription} from "@stomp/stompjs";
 
 import { User } from '@/types/user';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useAppDispatch } from '@/store/hooks';
 import ChatInput from './ChatInput';
-import useClientMessagingApiService from '@/services/client-messaging-service';
+import useClientMessagingService from '@/services/client/client-messaging-service';
 import useInfiniteScroll from '@/hooks/use-infinite-scroll';
 import useMessagingClient from '@/hooks/use-messaging-client';
 import ChatBubble from './ChatBubble';
@@ -22,13 +22,13 @@ export default function ChatWindow({me, chatId, dict}: {me: User, chatId: number
 
   useDisableScroll(true)
 
-  const clientMessagingApiService = useClientMessagingApiService()
+  const clientMessagingService = useClientMessagingService()
   const client = useMessagingClient()
 
   const chatWindowRef = useRef<HTMLDivElement>(null);
 
   const [messages] = useInfiniteScroll(
-    clientMessagingApiService.getChatMessages,
+    clientMessagingService.getChatMessages,
     (state: any) => {
       return state.messaging.messages[chatId]
     },
@@ -56,7 +56,7 @@ export default function ChatWindow({me, chatId, dict}: {me: User, chatId: number
           <ChatBubble key={message.id} message={message} me={me}/>
         )}
       </div>
-      {client && <ChatInput me={me} chatId={chatId} client={client} dict={dict}/>}
+      {client && <ChatInput me={me} chatId={chatId} client={client}/>}
     </div>
   )
 }

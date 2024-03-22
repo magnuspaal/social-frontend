@@ -1,6 +1,6 @@
 'use client'
 
-import useClientApiService from "@/services/client-api-service";
+import useClientApiService from "@/services/client/client-api-service";
 import { User } from "@/types/user";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -8,10 +8,12 @@ import NextImage from "next/image";
 import { useAppDispatch } from "@/store/hooks";
 import { AlertType, addAlert } from "@/store/alert-slice";
 import { ImageSize, getImageAddress } from "@/utils/image-utils";
+import useTranslation from "@/lang/use-translation";
 
 
-export default function ProfileImageUpload({ dict, user }: {dict: any, user: User}) {
+export default function ProfileImageUpload({ user }: {user: User}) {
 
+  const { t } = useTranslation()
   const clientApiService = useClientApiService()
   const dispatch = useAppDispatch();
   const router = useRouter()
@@ -44,7 +46,7 @@ export default function ProfileImageUpload({ dict, user }: {dict: any, user: Use
             }
           })
         } else {
-          return Promise.reject(dict.settings.messages.wrong_file_format)
+          return Promise.reject(t('settings.messages.wrong_file_format'))
         }
       }
     }
@@ -65,7 +67,7 @@ export default function ProfileImageUpload({ dict, user }: {dict: any, user: Use
     selectedFileChanged().then(async () => {
       const res = await uploadImage()
       if (res) {
-        dispatch(addAlert({message: dict.settings.uploaded, type: AlertType.SUCCESS}))
+        dispatch(addAlert({message: t('settings.uploaded'), type: AlertType.SUCCESS}))
         router.refresh()
       } 
     }).catch((err) => {
@@ -87,7 +89,7 @@ export default function ProfileImageUpload({ dict, user }: {dict: any, user: Use
             className="rounded-full"
           />
         </div>
-        <div className="text-sm mt-4">{dict.settings.change_profile_picture}</div>
+        <div className="text-sm mt-4">{t('settings.change_profile_picture')}</div>
       </button>
 
       <input type='file' id='file' ref={inputFile} style={{display: 'none'}} onChange={(e) => setSelectedFile(e?.target?.files ? e.target.files[0] : null)}/>

@@ -1,37 +1,21 @@
 import { NextResponse } from 'next/server'
 import { NextRequest } from 'next/server'
-import authService from './services/auth-service';
-import Negotiator from 'negotiator';
-import { match } from '@formatjs/intl-localematcher';
+import clientAuthService from './services/client/client-auth-service';
 import { ConfigService } from './services/config-service';
-
-const locales = ['en', 'et']
  
 export async function middleware(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname
-  const search = request.nextUrl.search
-  const locale = getLocale(request)
-
-  // ** Direct to locale page **
-  const pathnameIsMissingLocale = locales.every(
-    (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
-  )
-  if (pathnameIsMissingLocale) {
-    return NextResponse.redirect(
-      new URL(`/${locale}${pathname}${search}`, request.url)
-    )
-  }
 
   let response = NextResponse.next();
 
-  const { authenticated, authCookies } = await authService.authenticated(request)
+  const { authenticated, authCookies } = await clientAuthService.authenticated(request)
 
-  if (authenticated && pathname.startsWith(`/${locale}/login`)) {
-    response = NextResponse.redirect(new URL(`/${locale}/`, request.url))
+  if (authenticated && pathname.startsWith(`/login`)) {
+    response = NextResponse.redirect(new URL(`/`, request.url))
   } 
-  else if (!authenticated && !pathname.startsWith(`/${locale}/login`) && !pathname.startsWith(`/${locale}/register`)) {
-    response = NextResponse.redirect(new URL(`/${locale}/login`, request.url))
+  else if (!authenticated && !pathname.startsWith(`/login`) && !pathname.startsWith(`/register`)) {
+    response = NextResponse.redirect(new URL(`/login`, request.url))
   }
   if (authCookies) {
     response = NextResponse.redirect(new URL(pathname, request.url))
@@ -49,14 +33,3 @@ export const config = {
     '/((?!api|_next/static|_next/image|favicon.ico|.*\.svg).*)'
   ],
 };
-
-function getLocale(request: NextRequest) {
-
-  const negotiatorHeaders: Record<string, string> = {}
-  request.headers.forEach((value, key) => (negotiatorHeaders[key] = value))
-  
-  const languages = new Negotiator({headers: negotiatorHeaders}).languages()
-  const defaultLocale = 'en'
-  
-  return match(languages, locales, defaultLocale)
-}

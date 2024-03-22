@@ -8,12 +8,11 @@ import { useAppDispatch } from "@/store/hooks";
 import { setOverlayImage } from "@/store/navigation-slice";
 
 export default function DefaultPost({
-    dict,
     post, 
     clickablePicture = true,
     clickableHeader = true,
     className = ''
-  }: {dict: any, post: Post, clickablePicture?: boolean, clickableHeader?: boolean, className?: string}) {
+  }: {post: Post, clickablePicture?: boolean, clickableHeader?: boolean, className?: string}) {
 
   const dispatch = useAppDispatch()
 
@@ -45,7 +44,7 @@ export default function DefaultPost({
 
   return (
     <div className={`flex flex-col h-full`}>
-      <PostHeader dict={dict} post={post} clickable={clickableHeader}>
+      <PostHeader post={post} clickable={clickableHeader}>
         <div className="whitespace-break-spaces">{post.content}</div>
       </PostHeader>
       { renderImage(post.imageName) }

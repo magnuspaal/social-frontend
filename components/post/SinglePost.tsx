@@ -8,7 +8,6 @@ import DefaultPost from "./DefaultPost";
 
 export default function SinglePost({
   post, 
-  dict,
   clickable = true,
   clickablePicture = true,
   clickableHeader = true,
@@ -22,9 +21,9 @@ export default function SinglePost({
   children
 }: SinglePostProps) {
 
-  const repostProps = {dict, appendRepost, includePostActions, includeRepostHeader, isMe, clickableHeader, clickablePicture, className}
-  const replyProps = {dict, includeReplyHeader, clickableReplyHeader, clickableHeader, clickablePicture, className}
-  const defaultPostProps = {dict, clickableHeader, clickablePicture, className}
+  const repostProps = {appendRepost, includePostActions, includeRepostHeader, isMe, clickableHeader, clickablePicture, className}
+  const replyProps = {includeReplyHeader, clickableReplyHeader, clickableHeader, clickablePicture, className}
+  const defaultPostProps = {clickableHeader, clickablePicture, className}
 
   const renderPost = (post: Post) => {
     if (post.repostParent) {

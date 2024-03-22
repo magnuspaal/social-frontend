@@ -3,14 +3,16 @@
 import useAutosizeTextArea from "@/hooks/use-auto-size-textarea";
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import useClientApiService from "@/services/client-api-service";
+import useClientApiService from "@/services/client/client-api-service";
 import { useAppDispatch } from "@/store/hooks";
 import { addPost, updatePost } from "@/store/post-slice";
 import { AlertType, addAlert } from "@/store/alert-slice";
 import { User, UserSettingsKey, UserSettingsValue } from "@/types/user";
+import useTranslation from "@/lang/use-translation";
 
-export default function ReplyToPost({ dict, postId, me, onPost, className }: { dict: any, postId: number, me: User, onPost?: any, className?: string }) {
+export default function ReplyToPost({ postId, me, onPost, className }: { postId: number, me: User, onPost?: any, className?: string }) {
 
+  const { t } = useTranslation()
   const router = useRouter()
   const dispatch = useAppDispatch()
   const clientApiService = useClientApiService()
@@ -36,7 +38,7 @@ export default function ReplyToPost({ dict, postId, me, onPost, className }: { d
             dispatch(addPost(response.reply))
           }
           router.refresh()
-          dispatch(addAlert({type: AlertType.SUCCESS, message: dict.post.messages.reply_posted}))
+          dispatch(addAlert({type: AlertType.SUCCESS, message: t('post.messages.reply_posted')}))
           if (onPost) {
             onPost()
           }
@@ -46,10 +48,10 @@ export default function ReplyToPost({ dict, postId, me, onPost, className }: { d
 
   const validatePost = () => {
     if (value.length < 1) {
-      dispatch(addAlert({type: AlertType.ERROR, message: dict.post.messages.too_short}))
+      dispatch(addAlert({type: AlertType.ERROR, message: t('post.messages.too_short')}))
       return false
     } else if (value.length >= 1000) {
-      dispatch(addAlert({type: AlertType.ERROR, message: dict.post.messages.too_long}))
+      dispatch(addAlert({type: AlertType.ERROR, message: t('post.messages.too_long')}))
       return false
     }
     return true
@@ -63,7 +65,7 @@ export default function ReplyToPost({ dict, postId, me, onPost, className }: { d
     <div className={`flex pb-3 pt-3 items-end max-w-4 bg-background ${className}`}>
       <textarea 
         onChange={handleChange} 
-        placeholder={dict.post.reply}
+        placeholder={t('post.reply')}
         className="h-[52px] textarea w-full overflow-auto m-h-10 p-3 text-xl resize-none h-14 overflow-hidden bg-background focus:outline-0"
         id="multiliner" 
         name="multiliner"
@@ -72,7 +74,7 @@ export default function ReplyToPost({ dict, postId, me, onPost, className }: { d
         disabled={postingDisallowed()}
       ></textarea>
       <button className="rounded bg-primary p-3 font-bold hover:bg-secondary max-h-12 text-white uppercase disabled:hover:bg-primary disabled:hover:text-white" 
-        disabled={postingDisallowed()} onClick={submitPost}>{dict.post.post}
+        disabled={postingDisallowed()} onClick={submitPost}>{t('post.post')}
       </button>
     </div>
   )

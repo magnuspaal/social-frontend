@@ -5,9 +5,11 @@ import { Post } from "@/types/post";
 import Image from "next/image";
 import { ImageSize, getImageAddress } from "@/utils/image-utils";
 import { useRouter } from "next/navigation";
+import useTranslation from "@/lang/use-translation";
 
-export default function PostHeader({dict, post, children, clickable = true}: {dict: any, post: Post, children?: React.ReactNode, clickable?: boolean}) {
+export default function PostHeader({post, children, clickable = true}: {post: Post, children?: React.ReactNode, clickable?: boolean}) {
 
+  const { t } = useTranslation()
   const router = useRouter()
 
   const handleClick = (event: any) => {
@@ -30,7 +32,7 @@ export default function PostHeader({dict, post, children, clickable = true}: {di
       <div>
         <div className="flex">
           <div onClick={handleClick} className={`font-bold text-lg mr-2 ${clickable && 'hover:underline hover:cursor-pointer'}`}>{post.user.username}</div>
-          <div className="italic text-sm font-normal py-[4px]">{getPostTimestamp(post.createdAt, dict.post.now)}</div>
+          <div className="italic text-sm font-normal py-[4px]">{getPostTimestamp(post.createdAt, t('post.now'))}</div>
         </div>
         {children}
       </div>

@@ -3,10 +3,10 @@
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import SinglePost from "../post/SinglePost";
 import useInfiniteScroll from "@/hooks/use-infinite-scroll";
-import useClientApiService from "@/services/client-api-service";
+import useClientApiService from "@/services/client/client-api-service";
 import { addPosts, clearPosts } from "@/store/post-slice";
 
-export default function Feed({dict}: any) {
+export default function Feed() {
 
   const clientApiService = useClientApiService()
 
@@ -25,7 +25,7 @@ export default function Feed({dict}: any) {
           key={post.id}
           timeout={2000}
           classNames='post'>
-            <SinglePost dict={dict} key={post.id} post={post} includeRepostHeader={false} />
+            <SinglePost key={post.id} post={post} includeRepostHeader={false} />
           </CSSTransition>
         )}
       </TransitionGroup>

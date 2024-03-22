@@ -1,11 +1,11 @@
 'use client'
 
-import useMessagingApiService from "@/services/client-messaging-service";
+import useMessagingApiService from "@/services/client/client-messaging-service";
 import { User } from "@/types/user";
 import Image from "next/image"
 import { useRouter } from "next/navigation";
 
-export default function SendMessageButton({me, user, dict, className}: {me: User, user: User, dict: any, className: any}) {
+export default function SendMessageButton({me, user, className}: {me: User, user: User, className: any}) {
   const router = useRouter();
 
   const messagingApiService = useMessagingApiService()

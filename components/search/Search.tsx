@@ -1,13 +1,15 @@
 'use client'
 
-import useClientApiService from "@/services/client-api-service"
+import useClientApiService from "@/services/client/client-api-service"
 import { User } from "@/types/user"
 import Image from "next/image"
 import { useState } from "react"
 import UserPreview from "@/components/common/UserPreview"
+import useTranslation from "@/lang/use-translation"
 
-export default function Search({ dict }: {dict: any}) {
+export default function Search() {
 
+  const { t } = useTranslation()
   const clientApiService = useClientApiService()
 
   const [result, setResult] = useState<User[]>([])
@@ -37,7 +39,7 @@ export default function Search({ dict }: {dict: any}) {
         <Image src="/search.svg" alt="home" width={25} height={25} />
         <input 
           onChange={search} 
-          placeholder={dict.search.search}
+          placeholder={t('search.search')}
           className="overflow-auto mx-7 text-xl bg-background focus:outline-0" 
         />
       </div>
@@ -45,11 +47,11 @@ export default function Search({ dict }: {dict: any}) {
       {
         searchFailed ?
         <div className="font-bold">
-          {dict.search.messages.default}
+          {t('search.messages.default')}
         </div>
         :
         <div className="w-full space-y-4">
-          {result.map((user) => <UserPreview dict={dict} user={user} key={user.id}/>)}
+          {result.map((user) => <UserPreview user={user} key={user.id}/>)}
         </div>
       }
       </div>

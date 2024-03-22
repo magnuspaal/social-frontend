@@ -4,11 +4,11 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { User } from "@/types/user";
 import SinglePost from "../post/SinglePost";
 import useInfiniteScroll from "@/hooks/use-infinite-scroll";
-import useClientApiService from "@/services/client-api-service";
+import useClientApiService from "@/services/client/client-api-service";
 import { Post } from "@/types/post";
 import { addPosts, clearPosts } from "@/store/post-slice";
 
-export default function UserPostList({ dict, userId, me }: { dict: any, userId: number, me: User }) {
+export default function UserPostList({ userId, me }: { userId: number, me: User }) {
 
   const isMe = () => me.id == userId
 
@@ -31,7 +31,7 @@ export default function UserPostList({ dict, userId, me }: { dict: any, userId: 
             timeout={2000}
             classNames='post'
           >
-            <SinglePost dict={dict} appendRepost={isMe()} isMe={isMe()} key={post.id} post={post} includeRepostHeader={false}/>
+            <SinglePost appendRepost={isMe()} isMe={isMe()} key={post.id} post={post} includeRepostHeader={false}/>
           </CSSTransition>
         )}
       </TransitionGroup>

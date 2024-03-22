@@ -1,7 +1,6 @@
 import { Post, Reply, Repost } from "@/types/post"
 
 interface BasePost {
-  dict: any,
   className?: string
   children?: React.ReactNode
   clickablePicture?: boolean

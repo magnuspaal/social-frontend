@@ -2,11 +2,11 @@
 import { User } from "@/types/user";
 import ProfileImageUpload from "./ProfileImageUpload";
 
-export default function ProfileSettings({ user, dict }: {user: User, dict: any}) {
+export default function ProfileSettings({ user }: {user: User }) {
 
   return (
     <div>
-      <ProfileImageUpload dict={dict} user={user}></ProfileImageUpload>
+      <ProfileImageUpload user={user}></ProfileImageUpload>
     </div>
   )
 }

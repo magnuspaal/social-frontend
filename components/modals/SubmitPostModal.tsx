@@ -8,7 +8,7 @@ import SinglePost from '../post/SinglePost'
 import useDisableScroll from '@/hooks/use-disable-scroll'
 import { User } from '@/types/user'
 
-export default function SubmitPostModal({dict, me}: {dict: any, me: User}) {
+export default function SubmitPostModal({me}: {me: User}) {
 
   const modalOpen = useAppSelector<boolean>((state) => state.navigation.submitPostOverlay.open)
   const replyParent = useAppSelector((state) => state.navigation.submitPostOverlay.replyParent)
@@ -26,7 +26,6 @@ export default function SubmitPostModal({dict, me}: {dict: any, me: User}) {
       <div className='flex flex-col w-full max-w-[600px] h-full max-sm:bg-background justify-center'>
         <div className='sm:hidden border border-black/30' />
         <SinglePost 
-          dict={dict}
           post={replyParent!} 
           clickable={false} 
           clickableHeader={false} 
@@ -42,7 +41,7 @@ export default function SubmitPostModal({dict, me}: {dict: any, me: User}) {
           </button>
         </SinglePost>
         <div className='sm:hidden border border-black/30' />
-        <ReplyToPost dict={dict} postId={replyParent!.id} me={me} className='rounded px-3' onPost={closeOverlay}/>
+        <ReplyToPost postId={replyParent!.id} me={me} className='rounded px-3' onPost={closeOverlay}/>
       </div>
     )
   }
