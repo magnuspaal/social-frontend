@@ -5,11 +5,10 @@ import { ChatMessage } from '@/types/chat-message';
 import { getMessageTimestamp } from '@/utils/date-utils';
 import { useContext } from 'react';
 
-export default function ChatWindow({message}: {message: ChatMessage}) {
-
+export default function ChatBubble({message}: {message: ChatMessage}) {
   const { me } = useContext(MeContext)
 
-  const isMe = message.user.id == me?.id
+  const isMe = message.sender.id == me?.id
 
   return (
     <div className={`my-1 mx-2 ${isMe ? 'self-end' : 'self-start'}`}>

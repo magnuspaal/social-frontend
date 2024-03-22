@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import clientAuthService from '@/services/client/client-auth-service';
 import useTranslation from '@/lang/use-translation';
+import useClientMessagingService from '@/services/client/client-messaging-service';
 
 export default function LoginForm() {
 
@@ -16,6 +17,8 @@ export default function LoginForm() {
   const [loading, setLoading] = useState(false)
   const [registeredMessage, setRegisteredMessage] = useState<boolean>(!!searchParams.get("registered"))
 
+  const clientMessagingService = useClientMessagingService()
+  
   const { t } = useTranslation()
 
   const submit = async(event: any) => {
@@ -23,7 +26,11 @@ export default function LoginForm() {
     setLoading(true)
     setRegisteredMessage(false)
     await clientAuthService.postLogin(email, password)
-      .then(() => router.push('/'))
+      .then(() => {
+        clientMessagingService.getUserEncryption(password)
+          .then(() => router.push('/'))
+          .finally(() => setLoading(false))
+      })
       .catch((codes: string[]) => {
         if (codes) {
           setErrorCodes(codes)

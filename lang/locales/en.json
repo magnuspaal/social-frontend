@@ -3,7 +3,8 @@
     "home": "Home",
     "search": "Search",
     "profile": "Profile Settings",
-    "chat": "Chat"
+    "chat": "Chat",
+    "logout": "Logout"
   },
   "login": {
     "email": "Email",
@@ -96,6 +97,12 @@
   "chat": {
     "chat": "Chat",
     "send": "Send",
-    "write_message": "Write message"
+    "write_message": "Write message",
+    "reauthenticate": "Reauthenticate for chat",
+    "reauthenticate_sub": "To access your chats, please re-enter your password",
+    "messages": {
+      "default": "Something went wrong, please try again later",
+      "no_user_encryption": "The user is not using chat yet"
+    }
   }
 }

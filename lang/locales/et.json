@@ -3,7 +3,8 @@
     "home": "Kodu",
     "search": "Otsing",
     "profile": "Profiili seaded",
-    "chat": "Vestlus"
+    "chat": "Vestlus",
+    "logout": "Logi välja"
   },
   "login": {
     "email": "Email",
@@ -24,7 +25,7 @@
     "password": "Parool",
     "signup": "Registreeri",
     "messages": {
-      "default": "Something went wrong, please try again later",
+      "default": "Midagi läks valesti, proovi hiljem uuesti",
       "email_already_taken": "This email address is already taken",
       "invalid_email": "The email address is not correct",
       "email_null": "Email is required",
@@ -96,6 +97,12 @@
   "chat": {
     "chat": "Vestlused",
     "send": "Saada",
-    "write_message": "Trüki sõnum"
+    "write_message": "Trüki sõnum",
+    "reauthenticate": "Tuvasta uuesti vestlemiseks",
+    "reauthenticate_sub": "Palun sisesta oma parool uuesti, et näha vestluseid",
+    "messages": {
+      "default": "Midagi läks valesti, proovi hiljem uuesti",
+      "no_user_encryption": "See kasutaja ei kasuta vestluseid"
+    }
   }
 }

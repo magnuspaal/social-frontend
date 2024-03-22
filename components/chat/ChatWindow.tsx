@@ -1,24 +1,20 @@
 "use client"
 
-import { useEffect, useRef, useState } from 'react';
-
-import { addMessage, addMessages } from "@/store/messaging-slice";
-
+import { useRef, useState } from 'react';
+import { addMessages } from "@/store/messaging-slice";
 import {StompSubscription} from "@stomp/stompjs";
-
-
-import { useAppDispatch } from '@/store/hooks';
 import ChatInput from './ChatInput';
 import useClientMessagingService from '@/services/client/client-messaging-service';
 import useInfiniteScroll from '@/hooks/use-infinite-scroll';
 import useMessagingClient from '@/hooks/use-messaging-client';
 import ChatBubble from './ChatBubble';
 import useDisableScroll from '@/hooks/use-disable-scroll';
+import { useRouter } from 'next/navigation';
+import useMessagingHandler from '@/hooks/use-messaging-handler';
 
 export default function ChatWindow({chatId}: {chatId: number}) {
   
-  const dispatch = useAppDispatch()
-  const [subscription, setSubscription] = useState<StompSubscription>()
+  const router = useRouter()
 
   useDisableScroll(true)
 
@@ -26,6 +22,10 @@ export default function ChatWindow({chatId}: {chatId: number}) {
   const client = useMessagingClient()
 
   const chatWindowRef = useRef<HTMLDivElement>(null);
+
+  const [subscription, setSubscription] = useState<StompSubscription>()
+  const [loading, setLoading] = useState<boolean>(true)
+  const [privateKey, setPrivateKey] = useState<string | null>()
 
   const [messages] = useInfiniteScroll(
     clientMessagingService.getChatMessages,
@@ -38,18 +38,25 @@ export default function ChatWindow({chatId}: {chatId: number}) {
     {id: chatId, limit: 20}
   )
 
-  useEffect(() => {
-    if (client && !subscription) {
-      const stompSubscription = client.subscribe('/user/topic/message', message => {
-        dispatch(addMessage(JSON.parse(message.body)))
-      })
-      setSubscription(stompSubscription)
-    }
+  useMessagingHandler(
+    client,
+    subscription,
+    setSubscription,
+    setPrivateKey,
+    setLoading
+  )
 
-  }, [client, dispatch, subscription])
-
-  return (
-    <div className="h-[70svh] flex flex-col">
+  if (loading) {
+    return (
+      <div className="flex justify-center p-6"> 
+        <span className="loader"></span>
+      </div>
+    ) 
+  } else if (!privateKey) {
+    router.push(`/chat/${chatId}/auth`)
+  } else {
+    return (
+      <div className="h-[70svh] flex flex-col">
       <div>{}</div>
       <div className="overflow-y-auto flex flex-col-reverse h-full" ref={chatWindowRef}>        
         {messages?.map((message: any) => 
@@ -58,5 +65,6 @@ export default function ChatWindow({chatId}: {chatId: number}) {
       </div>
       {client && <ChatInput chatId={chatId} client={client}/>}
     </div>
-  )
+    )
+  }
 }

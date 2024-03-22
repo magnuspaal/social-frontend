@@ -17,16 +17,19 @@ export default function Navigation() {
   const router = useRouter()
   const pathname = usePathname()
 
-  const { me } = useContext(MeContext)
+  const { me, setMe } = useContext(MeContext)
 
   const isHome = () => pathname == '' || pathname == '/'
   const isSearch = () => pathname.startsWith(`/search`)
-  const isMeProfile = () => pathname.startsWith(`/profile/${me.id}`)
+  const isMeProfile = () => pathname.startsWith(`/profile/${me?.id}`)
   const isChat = () => pathname.startsWith(`/chat`)
   const isProfileSettings = () => pathname.startsWith(`/profile/settings`)
 
   const logout = () => {
     clientAuthService.logout()
+    if (setMe) {
+      setMe(undefined);
+    }
     router.push('/login') 
     router.refresh()
   }

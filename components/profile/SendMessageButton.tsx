@@ -14,9 +14,9 @@ export default function SendMessageButton({user, className}: {user: User, classN
 
   const { me } = useContext(MeContext)
 
-  const handleClick = () => {
-    messagingApiService.createChat(JSON.stringify({users: [{id: me?.id, username: me?.username}, {id: user.id, username: user.username}]}));
-    router.push('/chat') 
+  const handleClick = async () => {
+    await messagingApiService.createChat(JSON.stringify({users: [{id: me?.id, username: me?.username}, {id: user.id, username: user.username}]}));
+    router.push(`/chat`) 
   }
 
   return (
