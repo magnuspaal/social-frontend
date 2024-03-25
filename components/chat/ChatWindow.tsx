@@ -56,7 +56,7 @@ export default function ChatWindow({chatId}: {chatId: number}) {
     router.push(`/chat/${chatId}/auth`)
   } else {
     return (
-      <div className="h-[70svh] flex flex-col">
+    <div className="sm:h-[70svh] h-full flex flex-col">
       <div>{}</div>
       <div className="overflow-y-auto flex flex-col-reverse h-full w-full" ref={chatWindowRef}>        
         {messages?.map((message: any) => 

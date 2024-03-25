@@ -35,14 +35,14 @@ export default function ChatInput({chatId, client}: {chatId: number, client: Cli
       <textarea 
         onChange={handleChange} 
         placeholder={t('chat.write_message')}
-        className="h-[52px] textarea w-full overflow-auto m-h-10 p-3 text-lg resize-none h-14 overflow-hidden bg-background focus:outline-0"
+        className="h-[36px] textarea w-full overflow-auto m-h-10 p-3 text-sm resize-none h-14 overflow-hidden bg-background focus:outline-0"
         id="multiliner" 
         name="multiliner"
         ref={textAreaRef}
         value={value}
       ></textarea>
       <button 
-        className="rounded bg-primary p-3 font-bold hover:bg-secondary hover:text-black max-h-12 text-white uppercase 
+        className="rounded bg-primary p-2 text-sm font-bold hover:bg-secondary hover:text-black max-h-12 text-white uppercase 
           disabled:hover:bg-primary disabled:hover:text-white disabled:hover:cursor-not-allowed"
         onClick={submitPost}>
           {t('chat.send')}
