@@ -58,9 +58,9 @@ export default function ChatWindow({chatId}: {chatId: number}) {
     return (
       <div className="h-[70svh] flex flex-col">
       <div>{}</div>
-      <div className="overflow-y-auto flex flex-col-reverse h-full" ref={chatWindowRef}>        
+      <div className="overflow-y-auto flex flex-col-reverse h-full w-full" ref={chatWindowRef}>        
         {messages?.map((message: any) => 
-          <ChatBubble key={message.id} message={message} />
+          <ChatBubble key={message.id} message={message} chatId={chatId} />
         )}
       </div>
       {client && <ChatInput chatId={chatId} client={client}/>}

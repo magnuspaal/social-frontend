@@ -74,3 +74,14 @@ export const getMessageTimestamp = (string: string) => {
     return date.format("MMM DD HH:mm")
   }
 }
+
+export const compareMessageTimeStamps = (prevMessage: string, currentMessage: string) => {
+  dayjs.extend(utc)
+  dayjs.extend(tz)
+  let prevDate = getDateFromISOString(prevMessage)
+  let currentDate = getDateFromISOString(currentMessage)
+
+  const diffInSeconds = currentDate.diff(prevDate, 'seconds')
+
+  return diffInSeconds;
+}

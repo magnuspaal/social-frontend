@@ -57,7 +57,6 @@ class ClientMessagingService extends AbstractApiService {
     })
 
   handleResponseError = async (res: Response): Promise<boolean | null> => {
-    console.log(res)
     if (res.status == 404) {
       return Promise.resolve(null)
     } else if (![200, 201].includes(res.status)) {
