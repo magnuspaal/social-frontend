@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { NextRequest } from 'next/server'
-import clientAuthService from './services/client/client-auth-service';
+import serverAuthService from './services/server/server-auth-service';
 import { ConfigService } from './services/config-service';
  
 export async function middleware(request: NextRequest) {
@@ -9,7 +9,7 @@ export async function middleware(request: NextRequest) {
 
   let response = NextResponse.next();
 
-  const { authenticated, authCookies } = await clientAuthService.authenticated(request)
+  const { authenticated, authCookies } = await serverAuthService.authenticated(request)
 
   if (authenticated && pathname.startsWith(`/login`)) {
     response = NextResponse.redirect(new URL(`/`, request.url))

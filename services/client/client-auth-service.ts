@@ -1,7 +1,6 @@
 'use client'
 
 import cookies from "js-cookie";
-import { NextRequest } from "next/server";
 import { AbstractApiService } from "../abstract-api-service";
 import { ConfigService } from "../config-service";
 
@@ -32,48 +31,9 @@ class ClientAuthService extends AbstractApiService {
     this.removeLocalData()
   }
   
-  authenticated = async (request: NextRequest): Promise<{authenticated: boolean, authCookies?: AuthCookies}> => {
-    const authToken = request.cookies.get("authToken")
-    const expiresAt = request.cookies.get("expiresAt")
-    const refreshToken = request.cookies.get("refreshToken")
-  
-    if (authToken?.value && expiresAt?.value) {
-      const expiresDate = new Date(expiresAt.value).getTime() / 1000
-      const currentDate = new Date(new Date().toUTCString()).getTime() / 1000
-      if (expiresDate < currentDate && refreshToken) {
-        return await this.handleRefreshToken(request)
-      } else if (!refreshToken) {
-        return { authenticated: false }
-      } else {
-        return { authenticated: true }
-      }
-    } else if (refreshToken?.value) {
-      return await this.handleRefreshToken(request)
-    }
-    return {authenticated: false}
-  }
-  
   postRefreshToken = async (refreshToken: String) => {
     return this.post(`/refresh`, JSON.stringify({refreshToken})) 
   };
-  
-  handleRefreshToken = async (request: NextRequest): Promise<{authenticated: boolean, authCookies?: AuthCookies}> => {
-    const cookiesRefreshToken = request.cookies.get("refreshToken")
-    if (cookiesRefreshToken) {
-      return this.postRefreshToken(cookiesRefreshToken.value).then((body) => {
-        return {
-          authenticated: true,
-          authCookies: {
-            authToken: body.token, refreshToken: body.refreshToken, expiresAt: body.expiresAt
-          }
-        }
-      }).catch(() => {
-        return {authenticated: false}
-      })
-    } else {
-      return {authenticated: false}
-    }
-  }
 
   handleClientRefreshToken = async () => {
     const cookiesRefreshToken = cookies.get("refreshToken")

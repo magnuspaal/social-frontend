@@ -5,9 +5,7 @@ import serverApiService from '@/services/server/server-api-service';
 
 export default async function ChatRooms() {
 
-  const me = await serverApiService.getMe()
-
-  const chats = await messagingApiService.getUserChats(me.id);
+  const chats = await messagingApiService.getUserChats();
 
   return (
     <div className='flex flex-col divide-y divide-black/40'>

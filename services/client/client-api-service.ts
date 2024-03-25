@@ -48,11 +48,12 @@ class ClientApiService extends AbstractApiService {
   search = (keyword: string): Promise<Search> => this.get(`/search/${keyword}`)
 
   handleResponseError = async (res: Response): Promise<boolean> => {
-    if ([401, 403].includes(res.status)) {
-      return clientAuthService.handleClientRefreshToken()
-    }
     return Promise.resolve(false)
   }
+
+  handleTokenRefresh = (): Promise<boolean> => {
+    return clientAuthService.handleClientRefreshToken()
+  };
 }
 
 const useClientApiService = () => {

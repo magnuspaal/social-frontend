@@ -13,11 +13,14 @@ export abstract class AbstractApiService {
       return fetch(this.apiUrl + url, {headers, credentials: 'include', ...options})
         .then(async (res: Response) => {
           if (!res.ok) {
-            const authenticated = await this.handleResponseError(res)
-            if (retryRequest && authenticated) {
-              throw new Error("retry_request")
-            } 
-            throw new Error(res.statusText)
+            if ([403, 401].includes(res.status)) {
+              const authenticated = await this.handleTokenRefresh()
+              if (retryRequest && authenticated) {
+                throw new Error("retry_request")
+              }
+            } else {
+              return this.handleResponseError(res);
+            }
           }
           return res.json()
         })
@@ -50,7 +53,11 @@ export abstract class AbstractApiService {
     })
   }
 
-  handleResponseError = async (res: Response): Promise<boolean> => {
+  handleResponseError = async (res: Response): Promise<any> => {
+    return Promise.resolve(false)
+  }
+
+  handleTokenRefresh = async (): Promise<boolean> => {
     return Promise.resolve(false)
   }
 

@@ -18,17 +18,17 @@ class ServerMessagingService extends AbstractApiService {
     }
   }
 
-  getUserChats = (userId: number): Promise<Chat[]> => this.get(`/user/${userId}/chats`, {
+  getUserChats = (): Promise<Chat[]> => this.get(`/user/chats`, {
     cache: "no-store"
   })
 
   handleResponseError = async (res: Response): Promise<boolean> => {
-    console.log(res.status)
-    if ([401, 403].includes(res.status)) {
-      redirect(`/login`)
-    }
     return Promise.resolve(false)
   }
+
+  handleTokenRefresh = (): Promise<boolean> => {
+    redirect(`/login`)
+  };
 }
 
 const serverMessagingService = new ServerMessagingService()

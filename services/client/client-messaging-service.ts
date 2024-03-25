@@ -8,6 +8,7 @@ import { ChatMessage } from "@/types/chat-message"
 import { UserEncryption } from "@/types/user-encryption"
 import { decryptPrivateKey, decryptText } from "@/utils/encryption-utils"
 import { AppError, AppErrorType } from "@/error/app-error"
+import { Chat } from "@/types/chat"
 
 class ClientMessagingService extends AbstractApiService {
 
@@ -30,6 +31,8 @@ class ClientMessagingService extends AbstractApiService {
 
   createChat = (body: string) => this.post(`/chat`, body)
 
+  getPrivateChat = (userId: number): Promise<Chat | null> => this.get(`/user/${userId}/chat`)
+
   getChatMessages = (offset: number, limit: number, id: number): Promise<ChatMessage[]> =>
     this.get(`/chat/${id}/messages?offset=${offset}&limit=${limit}`, {
       cache: "no-store"
@@ -37,7 +40,6 @@ class ClientMessagingService extends AbstractApiService {
       const key = localStorage.getItem("privateKey")
       if (key) {
         for (const message of messages) {
-          console.log(message)
           try {
             message.content = await decryptText(message.content, key)
           } catch (e: AppError | any) {
@@ -54,11 +56,21 @@ class ClientMessagingService extends AbstractApiService {
       return []
     })
 
-  handleResponseError = async (res: Response): Promise<boolean> => {
-    if (res.status == 401) {
-      return clientAuthService.handleClientRefreshToken()
+  handleResponseError = async (res: Response): Promise<boolean | null> => {
+    console.log(res)
+    if (res.status == 404) {
+      return Promise.resolve(null)
+    } else if (![200, 201].includes(res.status)) {
+      const body = await res.json().catch(() => console.error("No body on request"))
+      if (body?.codes) {
+        return Promise.reject(body.codes)
+      }
     }
     return Promise.resolve(false)
+  }
+
+  handleTokenRefresh = async () => {
+    return clientAuthService.handleClientRefreshToken()
   }
 
   private setEncryptionData = (encryptedPrivateKey: string, password: string, salt: string, iv: string) => {

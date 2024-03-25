@@ -36,11 +36,12 @@ class ServerApiService extends AbstractApiService {
   getUserFollowing = (id: number): Promise<User[]> => this.get(`/user/${id}/following`)
 
   handleResponseError = async (res: Response): Promise<boolean> => {
-    if ([401, 403].includes(res.status)) {
-      redirect(`/login`)
-    }
     return Promise.resolve(false)
   }
+
+  handleTokenRefresh = (): Promise<boolean> => {
+    redirect(`/login`)
+  };
 }
 
 const serverApiService = new ServerApiService()
