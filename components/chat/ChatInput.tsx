@@ -35,7 +35,7 @@ export default function ChatInput({chatId, client}: {chatId: number, client: Cli
       <textarea 
         onChange={handleChange} 
         placeholder={t('chat.write_message')}
-        className="h-[36px] textarea w-full overflow-auto m-h-10 p-3 text-sm resize-none h-14 overflow-hidden bg-background focus:outline-0"
+        className="h-[36px] textarea w-full overflow-auto m-h-10 text-base p-2 resize-none h-14 overflow-hidden bg-background focus:outline-0"
         id="multiliner" 
         name="multiliner"
         ref={textAreaRef}
