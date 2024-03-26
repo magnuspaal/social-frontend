@@ -15,7 +15,7 @@ const useInfiniteScroll = (
 
   const elements = useAppSelector(stateFunction);
   const loadingMoreElements = useRef(false)
-  const endOfElements = useRef(false)
+  const [endOfElements, setEndOfElements] = useState<boolean>(false)
 
   const timeout = useRef<NodeJS.Timeout>();
 
@@ -43,14 +43,14 @@ const useInfiniteScroll = (
   },  [])
 
   const getMoreElements = useCallback(async() => {
-    if (!endOfElements.current && !loadingMoreElements.current) {
+    if (!endOfElements && !loadingMoreElements.current) {
       loadingMoreElements.current = true
-      const newPosts = await getFunction(elements.length, 10, options?.id)
+      const newPosts = await getFunction(elements.length, options?.limit ?? 10, options?.id)
         .catch((error: any) => setError(() => {throw error}))
       if (newPosts?.length) {
         dispatch(addFunction(newPosts))
       } else {
-        endOfElements.current = true
+        setEndOfElements(true)
       }
       loadingMoreElements.current = false
     }

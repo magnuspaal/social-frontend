@@ -27,7 +27,7 @@ class ServerApiService extends AbstractApiService {
 
   getUsers = (): Promise<User[]> => this.get(`/user`)
 
-  getMe = (): Promise<User> => this.get(`/user/me`, { next: { revalidate: 0, tags: ['me'] } } )
+  getMe = (): Promise<User> => this.get(`/user/me`, { next: { revalidate: 0 } } )
 
   getUser = (id: number): Promise<User> => this.get(`/user/${id}`, { next: { revalidate: 0 } })
 

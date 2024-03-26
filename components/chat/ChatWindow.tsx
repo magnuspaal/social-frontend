@@ -11,15 +11,16 @@ import ChatBubble from './ChatBubble';
 import useDisableScroll from '@/hooks/use-disable-scroll';
 import { useRouter } from 'next/navigation';
 import useMessagingHandler from '@/hooks/use-messaging-handler';
+import ChatHeader from './ChatHeader';
+import { Chat } from '@/types/chat';
 
-export default function ChatWindow({chatId}: {chatId: number}) {
+export default function ChatWindow({chat}: {chat: Chat}) {
   
   const router = useRouter()
 
   useDisableScroll(true)
 
   const clientMessagingService = useClientMessagingService()
-  const client = useMessagingClient()
 
   const chatWindowRef = useRef<HTMLDivElement>(null);
 
@@ -27,23 +28,26 @@ export default function ChatWindow({chatId}: {chatId: number}) {
   const [loading, setLoading] = useState<boolean>(true)
   const [privateKey, setPrivateKey] = useState<string | null>()
 
-  const [messages] = useInfiniteScroll(
+  const [messages,  endOfMessages] = useInfiniteScroll(
     clientMessagingService.getChatMessages,
     (state: any) => {
-      return state.messaging.messages[chatId]
+      return state.messaging.messages[chat.id]
     },
     addMessages,
     undefined,
     chatWindowRef,
-    {id: chatId, limit: 20}
+    {id: chat.id, limit: 20}
   )
+
+  const client = useMessagingClient()
 
   useMessagingHandler(
     client,
     subscription,
     setSubscription,
     setPrivateKey,
-    setLoading
+    setLoading,
+    chatWindowRef
   )
 
   if (loading) {
@@ -53,17 +57,24 @@ export default function ChatWindow({chatId}: {chatId: number}) {
       </div>
     ) 
   } else if (!privateKey) {
-    router.push(`/chat/${chatId}/auth`)
+    router.push(`/chat/${chat.id}/auth`)
   } else {
     return (
     <div className="sm:h-[70svh] h-full flex flex-col">
-      <div>{}</div>
+      <ChatHeader chat={chat}/>
       <div className="overflow-y-auto flex flex-col-reverse h-full w-full" ref={chatWindowRef}>        
         {messages?.map((message: any) => 
-          <ChatBubble key={message.id} message={message} chatId={chatId} />
+          <ChatBubble key={message.id} message={message} chatId={chat.id} />
         )}
+        {!endOfMessages &&
+          <div className="flex justify-center p-6"><span className="loader h-[30px] w-[30px]"></span></div>
+        }
+
       </div>
-      {client && <ChatInput chatId={chatId} client={client}/>}
+      {client ? 
+        <ChatInput chatId={chat.id} client={client}/> : 
+        <div className="flex justify-center p-6"><span className="loader"></span></div>
+      }
     </div>
     )
   }

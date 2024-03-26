@@ -1,7 +1,6 @@
 'use client'
 
 import clientAuthService from '@/services/client/client-auth-service'
-import { User } from '@/types/user'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/navigation'
@@ -9,6 +8,8 @@ import Image from 'next/image'
 import useTranslation from '@/lang/use-translation'
 import { useContext } from 'react'
 import { MeContext } from '@/services/me-provider'
+import { useDispatch } from 'react-redux'
+import { clearAllMessages } from '@/store/messaging-slice'
 
 export default function Navigation() {
 
@@ -16,6 +17,7 @@ export default function Navigation() {
 
   const router = useRouter()
   const pathname = usePathname()
+  const dispatch = useDispatch()
 
   const { me, setMe } = useContext(MeContext)
 
@@ -27,10 +29,11 @@ export default function Navigation() {
 
   const logout = () => {
     clientAuthService.logout()
+    router.push('/login')
+    dispatch(clearAllMessages())
     if (setMe) {
-      setMe(undefined);
+      setMe(null);
     }
-    router.push('/login') 
     router.refresh()
   }
 

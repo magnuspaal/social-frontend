@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: 'Social Application'
 }
 
-export default function RootLayout({
+export default function Root({
   children,
 }: {
   children: React.ReactNode

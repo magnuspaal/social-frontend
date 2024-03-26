@@ -23,16 +23,16 @@ class ServerAuthService extends AbstractApiService {
       const expiresDate = new Date(expiresAt.value).getTime() / 1000
       const currentDate = new Date(new Date().toUTCString()).getTime() / 1000
       if (expiresDate < currentDate && refreshToken) {
-        return await this.handleServerRefreshToken(request)
+        return this.handleServerRefreshToken(request)
       } else if (!refreshToken) {
         return { authenticated: false }
       } else {
         return { authenticated: true }
       }
     } else if (refreshToken?.value) {
-      return await this.handleServerRefreshToken(request)
+      return this.handleServerRefreshToken(request)
     }
-    return {authenticated: false}
+    return { authenticated: false }
   }
   
   postRefreshToken = async (refreshToken: String) => {

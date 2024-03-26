@@ -22,10 +22,13 @@ export const messagingSlice = createSlice({
       }
       const filteredMessages = action.payload.filter((payloadMessage) => !state.messages[chatId].find((message) => payloadMessage.id == message.id))
       state.messages[chatId].push(...filteredMessages)
+    },
+    clearAllMessages: (state) => {
+      state.messages = {}
     }
   }
 })
 
-export const { addMessage, addMessages } = messagingSlice.actions
+export const { addMessage, addMessages, clearAllMessages } = messagingSlice.actions
 
 export default messagingSlice.reducer

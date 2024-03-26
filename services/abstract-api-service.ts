@@ -12,6 +12,7 @@ export abstract class AbstractApiService {
     const request = async (retryRequest: boolean, headers: Record<any, any>) => {
       return fetch(this.apiUrl + url, {headers, credentials: 'include', ...options})
         .then(async (res: Response) => {
+          process.env.NODE_ENV == 'development' && console.debug("Called:", this.apiUrl + url, res.status)
           if (!res.ok) {
             if ([403, 401].includes(res.status)) {
               const authenticated = await this.handleTokenRefresh()

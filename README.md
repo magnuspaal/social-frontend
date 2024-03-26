@@ -9,7 +9,7 @@ NEXT_PUBLIC_AUTH_API_URL=http://localhost:8080/api/v1/auth
 NEXT_PUBLIC_API_URL=http://localhost:8081/api/v1
 NEXT_PUBLIC_FILE_API_URL=http://localhost:8082/media
 NEXT_PUBLIC_MESSAGING_API_URL=http://localhost:8083/api/v1
-NEXT_PUBLIC_WEBSOCKET_URL=http://localhost:8083/chat
+NEXT_PUBLIC_WEBSOCKET_URL=http://localhost:8083/api/v1/messaging
 NEXT_PUBLIC_WEBSOCKET_DOMAIN=localhost
 
 FILE_API_PROTOCOL=http
