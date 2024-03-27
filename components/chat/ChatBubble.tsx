@@ -1,7 +1,7 @@
 "use client"
 
 import useChatBubbleStyle from '@/hooks/use-chat-bubble-style';
-import { MeContext } from '@/services/me-provider';
+import { MeContext } from '@/providers/me-provider';
 import { useAppSelector } from '@/store/hooks';
 import { ChatMessage } from '@/types/chat-message';
 import { getMessageTimestamp } from '@/utils/date-utils';

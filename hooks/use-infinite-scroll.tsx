@@ -35,6 +35,9 @@ const useInfiniteScroll = (
           .catch((error: any) => setError(() => {throw error}))
         if (newElements?.length) {
           dispatch(addFunction(newElements))
+          if (newElements.length < (options?.limit ?? 10)) {
+            setEndOfElements(true)
+          }
         }
         loadingMoreElements.current = false
       }

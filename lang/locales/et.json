@@ -1,4 +1,7 @@
 {
+  "common": {
+    "you": "Sina"
+  },
   "navigation": {
     "home": "Kodu",
     "search": "Otsing",

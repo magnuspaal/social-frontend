@@ -9,7 +9,7 @@ import Image from 'next/image'
 import { AlertType, addAlert } from "@/store/alert-slice";
 import { User, UserSettingsKey, UserSettingsValue } from "@/types/user";
 import useTranslation from "@/lang/use-translation";
-import { MeContext } from "@/services/me-provider";
+import { MeContext } from "@/providers/me-provider";
 
 export default function SubmitPost() {
 

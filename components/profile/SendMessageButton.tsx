@@ -2,17 +2,17 @@
 
 import useTranslation from "@/lang/use-translation";
 import useClientMessagingApiService from "@/services/client/client-messaging-service";
-import { MeContext } from "@/services/me-provider";
+import { MeContext } from "@/providers/me-provider";
 import { AlertType, addAlert } from "@/store/alert-slice";
+import { useAppDispatch } from "@/store/hooks";
 import { User } from "@/types/user";
 import Image from "next/image"
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
-import { useDispatch } from "react-redux";
 
 export default function SendMessageButton({user, className}: {user: User, className: any}) {
   const router = useRouter();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch()
   const { t } = useTranslation();
 
   const clientMessagingApiService = useClientMessagingApiService()

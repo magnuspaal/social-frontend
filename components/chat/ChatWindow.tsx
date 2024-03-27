@@ -1,32 +1,23 @@
 "use client"
 
-import { useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { addMessages } from "@/store/messaging-slice";
-import {StompSubscription} from "@stomp/stompjs";
 import ChatInput from './ChatInput';
 import useClientMessagingService from '@/services/client/client-messaging-service';
 import useInfiniteScroll from '@/hooks/use-infinite-scroll';
-import useMessagingClient from '@/hooks/use-messaging-client';
 import ChatBubble from './ChatBubble';
 import useDisableScroll from '@/hooks/use-disable-scroll';
-import { useRouter } from 'next/navigation';
-import useMessagingHandler from '@/hooks/use-messaging-handler';
 import ChatHeader from './ChatHeader';
 import { Chat } from '@/types/chat';
+import { MessagingClientContext } from '@/providers/messaging-client-provider';
 
 export default function ChatWindow({chat}: {chat: Chat}) {
-  
-  const router = useRouter()
 
   useDisableScroll(true)
 
   const clientMessagingService = useClientMessagingService()
 
   const chatWindowRef = useRef<HTMLDivElement>(null);
-
-  const [subscription, setSubscription] = useState<StompSubscription>()
-  const [loading, setLoading] = useState<boolean>(true)
-  const [privateKey, setPrivateKey] = useState<string | null>()
 
   const [messages,  endOfMessages] = useInfiniteScroll(
     clientMessagingService.getChatMessages,
@@ -39,27 +30,17 @@ export default function ChatWindow({chat}: {chat: Chat}) {
     {id: chat.id, limit: 20}
   )
 
-  const client = useMessagingClient()
+  const { client } = useContext(MessagingClientContext)
 
-  useMessagingHandler(
-    client,
-    subscription,
-    setSubscription,
-    setPrivateKey,
-    setLoading,
-    chatWindowRef
-  )
+  useEffect(() => {
+    if (messages) {
+      if (chatWindowRef.current && -chatWindowRef.current.scrollTop < 100) {
+        chatWindowRef.current.scrollTo({top: 0});
+      }
+    }
+  }, [messages])
 
-  if (loading) {
-    return (
-      <div className="flex justify-center p-6"> 
-        <span className="loader"></span>
-      </div>
-    ) 
-  } else if (!privateKey) {
-    router.push(`/chat/${chat.id}/auth`)
-  } else {
-    return (
+  return (
     <div className="sm:h-[70svh] h-full flex flex-col">
       <ChatHeader chat={chat}/>
       <div className="overflow-y-auto flex flex-col-reverse h-full w-full" ref={chatWindowRef}>        
@@ -76,6 +57,5 @@ export default function ChatWindow({chat}: {chat: Chat}) {
         <div className="flex justify-center p-6"><span className="loader"></span></div>
       }
     </div>
-    )
-  }
+  )
 }

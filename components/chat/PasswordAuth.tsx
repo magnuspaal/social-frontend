@@ -3,7 +3,7 @@
 import useTranslation from '@/lang/use-translation';
 import authService from '@/services/client/client-auth-service';
 import useClientMessagingApiService from '@/services/client/client-messaging-service';
-import { MeContext } from '@/services/me-provider';
+import { MeContext } from '@/providers/me-provider';
 import { useRouter } from 'next/navigation';
 import { useContext, useState } from 'react';
 

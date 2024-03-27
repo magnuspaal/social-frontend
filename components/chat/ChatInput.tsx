@@ -2,7 +2,7 @@
 
 import useKeydownListener from '@/hooks/use-keydown-listener';
 import useTranslation from '@/lang/use-translation';
-import { MeContext } from '@/services/me-provider';
+import { MeContext } from '@/providers/me-provider';
 import { Client } from '@stomp/stompjs';
 import { useCallback, useContext, useRef, useState } from 'react';
 

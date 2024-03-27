@@ -6,19 +6,19 @@ export const messagingSlice = createSlice({
   initialState: {
     messages: {},
   } as {
-    messages: {[id: string]: ChatMessage[]},
+    messages: {[id: string]: ChatMessage[]}
   },
   reducers: {
     addMessage: (state, action: {payload: ChatMessage, type: string}) => {
-      if (!state.messages[action.payload.chat.id]) {
-        state.messages[action.payload.chat.id] = []
+      if (!state.messages[action.payload.chatId]) {
+        state.messages[action.payload.chatId] = []
       }
-      state.messages[action.payload.chat.id].unshift(action.payload)
+      state.messages[action.payload.chatId].unshift(action.payload)
     },
     addMessages: (state, action: {payload: ChatMessage[], type: string}) => {
-      const chatId = action.payload[0].chat.id
-      if (!state.messages[action.payload[0].chat.id]) {
-        state.messages[action.payload[0].chat.id] = []
+      const chatId = action.payload[0].chatId
+      if (!state.messages[action.payload[0].chatId]) {
+        state.messages[action.payload[0].chatId] = []
       }
       const filteredMessages = action.payload.filter((payloadMessage) => !state.messages[chatId].find((message) => payloadMessage.id == message.id))
       state.messages[chatId].push(...filteredMessages)

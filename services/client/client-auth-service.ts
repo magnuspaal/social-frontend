@@ -27,7 +27,7 @@ class ClientAuthService extends AbstractApiService {
     })
   }
 
-  logout = async () => {
+  logout = () => {
     this.removeLocalData()
   }
   

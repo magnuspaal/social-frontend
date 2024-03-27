@@ -7,9 +7,7 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import useTranslation from '@/lang/use-translation'
 import { useContext } from 'react'
-import { MeContext } from '@/services/me-provider'
-import { useDispatch } from 'react-redux'
-import { clearAllMessages } from '@/store/messaging-slice'
+import { MeContext } from '@/providers/me-provider'
 
 export default function Navigation() {
 
@@ -17,9 +15,8 @@ export default function Navigation() {
 
   const router = useRouter()
   const pathname = usePathname()
-  const dispatch = useDispatch()
 
-  const { me, setMe } = useContext(MeContext)
+  const { me } = useContext(MeContext)
 
   const isHome = () => pathname == '' || pathname == '/'
   const isSearch = () => pathname.startsWith(`/search`)
@@ -30,10 +27,6 @@ export default function Navigation() {
   const logout = () => {
     clientAuthService.logout()
     router.push('/login')
-    dispatch(clearAllMessages())
-    if (setMe) {
-      setMe(null);
-    }
     router.refresh()
   }
 

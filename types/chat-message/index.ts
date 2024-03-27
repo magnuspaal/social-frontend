@@ -10,5 +10,5 @@ export interface ChatMessage {
   type: string
   sender: User
   owner: User
-  chat: Chat
+  chatId: number
 }

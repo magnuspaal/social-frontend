@@ -1,4 +1,7 @@
 {
+  "common": {
+    "you": "You"
+  },
   "navigation": {
     "home": "Home",
     "search": "Search",

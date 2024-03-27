@@ -8,7 +8,7 @@ import { useAppDispatch } from "@/store/hooks";
 import { AlertType, addAlert } from "@/store/alert-slice";
 import { ImageSize, getImageAddress } from "@/utils/image-utils";
 import useTranslation from "@/lang/use-translation";
-import { MeContext } from "@/services/me-provider";
+import { MeContext } from "@/providers/me-provider";
 
 
 export default function ProfileImageUpload() {
