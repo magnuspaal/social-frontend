@@ -45,7 +45,7 @@ export default function ChatWindow({chat}: {chat: Chat}) {
       <ChatHeader chat={chat}/>
       <div className="overflow-y-auto flex flex-col-reverse h-full w-full" ref={chatWindowRef}>        
         {messages?.map((message: any) => 
-          <ChatBubble key={message.id} message={message} chatId={chat.id} />
+          <ChatBubble key={message.id} message={message} />
         )}
         {!endOfMessages &&
           <div className="flex justify-center p-6"><span className="loader h-[30px] w-[30px]"></span></div>

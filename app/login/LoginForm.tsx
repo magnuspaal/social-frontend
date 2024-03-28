@@ -26,10 +26,9 @@ export default function LoginForm() {
     setLoading(true)
     setRegisteredMessage(false)
     await clientAuthService.postLogin(email, password)
-      .then(() => {
-        clientMessagingService.getUserEncryption(password)
+      .then(async () => {
+        await clientMessagingService.getUserEncryption(password)
           .then(() => router.push('/'))
-          .finally(() => setLoading(false))
       })
       .catch((codes: string[]) => {
         if (codes) {
@@ -38,6 +37,7 @@ export default function LoginForm() {
           setErrorCodes(["login.messages.default"])
         }
       })
+      .finally(() => setLoading(false))
   }
 
   const handleSignup = async () => {

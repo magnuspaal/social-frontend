@@ -8,10 +8,13 @@ import Image from 'next/image'
 import useTranslation from '@/lang/use-translation'
 import { useContext } from 'react'
 import { MeContext } from '@/providers/me-provider'
+import { useAppDispatch } from '@/store/hooks'
+import { clearAllMessages } from '@/store/messaging-slice'
 
 export default function Navigation() {
 
   const { t } = useTranslation()
+  const dispatch = useAppDispatch()
 
   const router = useRouter()
   const pathname = usePathname()
@@ -26,6 +29,7 @@ export default function Navigation() {
 
   const logout = () => {
     clientAuthService.logout()
+    dispatch(clearAllMessages())
     router.push('/login')
     router.refresh()
   }

@@ -1,25 +1,21 @@
 'use client'
 
-import { AbstractApiService } from "../abstract-api-service"
-import Cookies from "js-cookie"
 import { ConfigService } from "../config-service"
-import clientAuthService from "./client-auth-service"
 import { ChatMessage } from "@/types/chat-message"
 import { UserEncryption } from "@/types/user-encryption"
 import { decryptPrivateKey, decryptText } from "@/utils/encryption-utils"
 import { AppError, AppErrorType } from "@/error/app-error"
 import { Chat } from "@/types/chat"
+import { AbstractClientApiService } from "./abstract-client-api-service"
 
-class ClientMessagingService extends AbstractApiService {
+class ClientMessagingService extends AbstractClientApiService {
 
   constructor() {
     super(ConfigService.getMessagingApiUrl())
   }
 
   getApiHeaders = () => {
-    const authToken = Cookies.get("authToken")
     return {
-      "Authorization": "Bearer " + authToken,
       "Content-Type": "application/json"
     }
   }
@@ -55,22 +51,6 @@ class ClientMessagingService extends AbstractApiService {
       }
       return []
     })
-
-  handleResponseError = async (res: Response): Promise<boolean | null> => {
-    if (res.status == 404) {
-      return Promise.resolve(null)
-    } else if (![200, 201].includes(res.status)) {
-      const body = await res.json().catch(() => console.error("No body on request"))
-      if (body?.codes) {
-        return Promise.reject(body.codes)
-      }
-    }
-    return Promise.resolve(false)
-  }
-
-  handleTokenRefresh = async () => {
-    return clientAuthService.handleClientRefreshToken()
-  }
 
   private setEncryptionData = (encryptedPrivateKey: string, password: string, salt: string, iv: string) => {
     const privateKey = decryptPrivateKey(encryptedPrivateKey, password, salt, iv)

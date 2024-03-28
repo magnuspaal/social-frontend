@@ -5,6 +5,7 @@ import { AlertType, addAlert } from "@/store/alert-slice";
 import { useAppDispatch } from "@/store/hooks";
 import { addMessage } from "@/store/messaging-slice";
 import { ChatMessage } from "@/types/chat-message/";
+import { logInfo } from "@/utils/development-utils";
 import { decryptText } from "@/utils/encryption-utils";
 import { useCallback} from "react";
 
@@ -16,7 +17,7 @@ const useMessagingHandlerMethods = () => {
   const handleRegularMessage = useCallback(async (message: ChatMessage, privateKey: string) => {
     const decryptedMessage = await decryptText(message.content, privateKey)
     message.content = decryptedMessage ?? "Message could not be decrypted"
-    process.env.NODE_ENV == 'development' && console.log(message)
+    logInfo(message)
     dispatch(addMessage(message))
   }, [dispatch])
 

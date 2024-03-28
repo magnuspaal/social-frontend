@@ -1,24 +1,15 @@
 'use client'
 
-import { AbstractApiService } from "../abstract-api-service"
-import Cookies from "js-cookie"
 import { Post } from "@/types/post"
 import { Follow } from "@/types/follow"
-import clientAuthService from "./client-auth-service"
 import { ConfigService } from "../config-service"
 import { Search } from "@/types/search"
+import { AbstractClientApiService } from "./abstract-client-api-service"
 
-class ClientApiService extends AbstractApiService {
+class ClientApiService extends AbstractClientApiService {
 
   constructor() {
     super(ConfigService.getApiUrl())
-  }
-
-  getApiHeaders = () => {
-    const authToken = Cookies.get("authToken")
-    return {
-      "Authorization": "Bearer " + authToken,
-    }
   }
 
   getFeed = (offset: number, limit: number): Promise<Post[]> =>
@@ -46,14 +37,6 @@ class ClientApiService extends AbstractApiService {
   uploadProfileImage = (userId: number, body: FormData) => this.post(`/user/${userId}/upload-image`, body)
 
   search = (keyword: string): Promise<Search> => this.get(`/search/${keyword}`)
-
-  handleResponseError = async (res: Response): Promise<boolean> => {
-    return Promise.resolve(false)
-  }
-
-  handleTokenRefresh = (): Promise<boolean> => {
-    return clientAuthService.handleClientRefreshToken()
-  };
 }
 
 const useClientApiService = () => {

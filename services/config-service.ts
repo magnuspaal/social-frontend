@@ -6,6 +6,7 @@ export class ConfigService {
   private static messagingApiUrl: string
   private static websocketUrl: string
   private static websocketDomain: string
+  private static jwtSecret: string
 
   static {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL
@@ -26,12 +27,16 @@ export class ConfigService {
     const websocketDomain = process.env.NEXT_PUBLIC_WEBSOCKET_DOMAIN
     if (!websocketDomain) throw new Error("WEBSOCKET_DOMAIN not defined")
 
+    const jwtSecret = process.env.NEXT_PUBLIC_JWT_SECRET
+    if (!jwtSecret) throw new Error("JWT_SECRET not defined")
+
     this.apiUrl = apiUrl
     this.authApiUrl = authApiUrl
     this.fileApiUrl = fileApiUrl
     this.messagingApiUrl = messagingApiUrl
     this.websocketUrl = websocketUrl
     this.websocketDomain = websocketDomain
+    this.jwtSecret = jwtSecret
   }
 
   static getApiUrl = () => {
@@ -56,5 +61,9 @@ export class ConfigService {
 
   static getWebsocketDomain = () => {
     return this.websocketDomain
+  }
+
+  static getJwtSecret = () => {
+    return this.jwtSecret
   }
 }

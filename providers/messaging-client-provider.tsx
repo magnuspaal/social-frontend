@@ -6,6 +6,7 @@ import { Client } from "@stomp/stompjs"
 import { ConfigService } from "@/services/config-service"
 import SockJS from "sockjs-client"
 import useMessagingHandler from "@/hooks/use-messaging-handler"
+import { logInfo } from "@/utils/development-utils"
 
 export const MessagingClientContext = createContext<{
   client: Client | undefined, 
@@ -26,7 +27,7 @@ export function MessagingClientProvider({children}: {children: React.ReactNode})
     const stompClient = new Client({
       webSocketFactory: () => new SockJS(websocketUrl),
       onConnect: () => {
-        process.env.NODE_ENV == 'development' && console.log("Stomp Client Connected")
+        logInfo("Stomp Client Connected")
         setClient(stompClient)
       }
     });
@@ -34,7 +35,7 @@ export function MessagingClientProvider({children}: {children: React.ReactNode})
     stompClient.activate()
 
     return () => {
-      process.env.NODE_ENV == 'development' && console.log("Stomp Client Disconnected")
+      logInfo("Stomp Client Disconnected")
       stompClient.deactivate()
     }
   }, [])

@@ -2,12 +2,11 @@
 
 import useChatBubbleStyle from '@/hooks/use-chat-bubble-style';
 import { MeContext } from '@/providers/me-provider';
-import { useAppSelector } from '@/store/hooks';
 import { ChatMessage } from '@/types/chat-message';
 import { getMessageTimestamp } from '@/utils/date-utils';
 import { useContext, useRef } from 'react';
 
-export default function ChatBubble({message, chatId}: {message: ChatMessage, chatId: number}) {
+export default function ChatBubble({message}: {message: ChatMessage}) {
   const { me } = useContext(MeContext)
 
   const container = useRef<HTMLDivElement>(null)
@@ -15,14 +14,7 @@ export default function ChatBubble({message, chatId}: {message: ChatMessage, cha
 
   const isMe = message.sender.id == me?.id
 
-  const prevMessage: ChatMessage = useAppSelector((state: any) => {
-    return state.messaging.messages[chatId].find((foundMessage: ChatMessage) => {
-      return foundMessage.chatMessageId + 1 == message.chatMessageId
-    })
-  });
-
   const [displayTimestamp, displayGap, displayUserName] = useChatBubbleStyle(
-    prevMessage,
     message,
     span,
     container

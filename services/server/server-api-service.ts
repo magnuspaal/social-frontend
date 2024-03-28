@@ -1,11 +1,10 @@
 import { cookies } from "next/headers"
-import { AbstractApiService } from "../abstract-api-service"
 import { User } from "@/types/user"
 import { Post } from "@/types/post"
-import { redirect } from "next/navigation"
 import { ConfigService } from "../config-service"
+import { AbstractServerApiService } from "./abstract-server-api-service"
 
-class ServerApiService extends AbstractApiService {
+class ServerApiService extends AbstractServerApiService {
 
   constructor() {
     super(ConfigService.getApiUrl())
@@ -25,7 +24,7 @@ class ServerApiService extends AbstractApiService {
 
   getPostReplies = (id: number, offset: number, limit: number): Promise<Post[]> => this.get(`/post/${id}/replies?offset=${offset}&limit=${limit}`)
 
-  getUsers = (): Promise<User[]> => this.get(`/user`)
+  getUsers = (): Promise<User[]> => this.get(`/user`, { next: { revalidate: 0 } })
 
   getMe = (): Promise<User> => this.get(`/user/me`, { next: { revalidate: 0 } } )
 
@@ -34,14 +33,6 @@ class ServerApiService extends AbstractApiService {
   getUserFollowers = (id: number): Promise<User[]> => this.get(`/user/${id}/followers`)
 
   getUserFollowing = (id: number): Promise<User[]> => this.get(`/user/${id}/following`)
-
-  handleResponseError = async (res: Response): Promise<boolean> => {
-    return Promise.resolve(false)
-  }
-
-  handleTokenRefresh = (): Promise<boolean> => {
-    redirect(`/login`)
-  };
 }
 
 const serverApiService = new ServerApiService()

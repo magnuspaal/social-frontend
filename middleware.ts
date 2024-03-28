@@ -2,10 +2,12 @@ import { NextResponse } from 'next/server'
 import { NextRequest } from 'next/server'
 import serverAuthService from './services/server/server-auth-service';
 import { ConfigService } from './services/config-service';
+import { isProduction, logVerbose } from './utils/development-utils';
  
 export async function middleware(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname
+  logVerbose("Middleware path:", pathname)
 
   let response = NextResponse.next();
 
@@ -19,7 +21,7 @@ export async function middleware(request: NextRequest) {
   }
   if (authCookies) {
     response = NextResponse.redirect(new URL(pathname, request.url))
-    const secure = process.env.NODE_ENV == 'production'
+    const secure = isProduction()
     const domain = ConfigService.getWebsocketDomain()
     response.cookies.set("authToken", authCookies.authToken, { maxAge: 60 * 10, secure, domain })
     response.cookies.set("refreshToken", authCookies.refreshToken, { maxAge: 60 * 60 * 24 * 30 * 6, secure, sameSite: "strict" })
