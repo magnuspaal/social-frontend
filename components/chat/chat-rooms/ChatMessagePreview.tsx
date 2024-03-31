@@ -17,7 +17,9 @@ export default function ChatMessagePreview({chatId}: {chatId: number}) {
   const { t } = useTranslation()
   
   const lastCacheMessage = useAppSelector((state) => {
-    const messages = state.messaging.messages[chatId]
+    const messages = state.messaging.messages.filter((message) => {
+      return message.chatId == chatId
+    })
     if(messages) {
       return messages[0]
     }

@@ -13,8 +13,8 @@ const useChatBubbleStyle = (
   const range = document.createRange()
 
   const prevMessage: ChatMessage = useAppSelector((state: any) => {
-    return state.messaging.messages[message.chatId].find((foundMessage: ChatMessage) => {
-      return foundMessage.chatMessageId + 1 == message.chatMessageId
+    return state.messaging.messages.find((foundMessage: ChatMessage) => {
+      return foundMessage.chatMessageId + 1 == message.chatMessageId && foundMessage.chatId == message.chatId
     })
   });
 

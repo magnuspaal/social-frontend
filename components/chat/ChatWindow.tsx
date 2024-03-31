@@ -10,6 +10,8 @@ import useDisableScroll from '@/hooks/use-disable-scroll';
 import ChatHeader from './ChatHeader';
 import { Chat } from '@/types/chat';
 import { MessagingClientContext } from '@/providers/messaging-client-provider';
+import { ChatMessage } from '@/types/chat-message';
+import { createSelector } from '@reduxjs/toolkit';
 
 export default function ChatWindow({chat}: {chat: Chat}) {
 
@@ -19,13 +21,14 @@ export default function ChatWindow({chat}: {chat: Chat}) {
 
   const chatWindowRef = useRef<HTMLDivElement>(null);
 
+  const messageSelector = createSelector([(state) => state.messaging.messages], (messages) => {
+    return messages.filter((message: ChatMessage) => message.chatId === chat.id)
+  })
+
   const [messages,  endOfMessages] = useInfiniteScroll(
     clientMessagingService.getChatMessages,
-    (state: any) => {
-      return state.messaging.messages[chat.id]
-    },
+    messageSelector,
     addMessages,
-    undefined,
     chatWindowRef,
     {id: chat.id, limit: 20}
   )
