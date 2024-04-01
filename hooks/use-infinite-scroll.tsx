@@ -33,7 +33,7 @@ const useInfiniteScroll = (
         loadingMoreElements.current = true
         const newElements = await getFunction(0, options?.limit ?? 10, options?.id)
           .catch((error: any) => setError(() => {throw error}))
-        if (newElements?.length) {
+        if (newElements) {
           dispatch(addFunction(newElements))
           if (newElements.length < (options?.limit ?? 10)) {
             setEndOfElements(true)
