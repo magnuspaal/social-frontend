@@ -18,7 +18,7 @@ export default function AlertModal() {
   }, [alerts])
 
   return (
-    <div className="sticky left-0 right-0 top-0 ml-auto mr-auto h-20 flex justify-center items-center z-50 pointer-events-none">
+    <div className="sticky max-sm:fixed left-0 right-0 top-0 ml-auto mr-auto h-20 flex justify-center items-center z-50 pointer-events-none">
       <TransitionGroup className="flex flex-col items-center justify-end">   
       {
         Object.values(alerts).map((alert) => (
