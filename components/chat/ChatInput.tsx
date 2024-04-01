@@ -3,30 +3,45 @@
 import useKeydownListener from '@/hooks/use-keydown-listener';
 import useTranslation from '@/lang/use-translation';
 import { MeContext } from '@/providers/me-provider';
+import { ChatMessageType } from '@/types/chat-message/chat-message-type';
 import { Client } from '@stomp/stompjs';
 import { useCallback, useContext, useRef, useState } from 'react';
 
 export default function ChatInput({chatId, client}: {chatId: number, client: Client}) {
-
-  const [value, setValue] = useState("");
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-
   const { t } = useTranslation()
-
   const { me } = useContext(MeContext)
 
-  const submitPost = useCallback(async () => {
+  const [value, setValue] = useState("");
+  const [to, setTO] = useState<NodeJS.Timeout>()
+
+  const clientPublish = useCallback((type: ChatMessageType) => {
     client.publish({ destination: '/app/message', body: JSON.stringify({
-      content: value,
+      type,
+      content: type == ChatMessageType.TEXT ? value : undefined,
       from: me?.id.toString(),
       to: chatId })
     });
-    setValue("")
   }, [chatId, client, me?.id, value])
+
+  const submitPost = useCallback(async () => {
+    clientPublish(ChatMessageType.TEXT)
+    setValue("")
+  }, [clientPublish])
+
+  const submitWriting = useCallback(async () => {
+    clientPublish(ChatMessageType.WRITING)
+    if (to) clearTimeout(to)
+    const timeout = setTimeout(() => {
+      clientPublish(ChatMessageType.WRITING_END)
+    }, 5000)
+    setTO(timeout)
+  }, [clientPublish, to])
 
   useKeydownListener(submitPost,'Enter')
 
   const handleChange = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
+    submitWriting()
     setValue(evt.target?.value);
   };
 

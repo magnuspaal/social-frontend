@@ -3,7 +3,7 @@
 import useTranslation from "@/lang/use-translation";
 import { AlertType, addAlert } from "@/store/alert-slice";
 import { useAppDispatch } from "@/store/hooks";
-import { addMessage } from "@/store/messaging-slice";
+import { addMessage, clearWritingMessage, setWritingMessage } from "@/store/messaging-slice";
 import { ChatMessage } from "@/types/chat-message/";
 import { logInfo } from "@/utils/development-utils";
 import { decryptText } from "@/utils/encryption-utils";
@@ -18,6 +18,7 @@ const useMessagingHandlerMethods = () => {
     const decryptedMessage = await decryptText(message.content, privateKey)
     message.content = decryptedMessage ?? "Message could not be decrypted"
     logInfo(message)
+    dispatch(clearWritingMessage({chatId: message.chatId, sender: message.sender}))
     dispatch(addMessage(message))
   }, [dispatch])
 
@@ -27,7 +28,15 @@ const useMessagingHandlerMethods = () => {
     dispatch(addAlert({type: AlertType.ERROR, message: messageContent}))
   }, [dispatch, t])
 
-  return {handleRegularMessage, handleExceptionMessage};
+  const handleWritingMessage = useCallback((message: ChatMessage) => {
+    dispatch(setWritingMessage({chatId: message.chatId, sender: message.sender}))
+  }, [dispatch])
+
+  const handleWritingEndMessage = useCallback((message: ChatMessage) => {
+    dispatch(clearWritingMessage({chatId: message.chatId, sender: message.sender}))
+  }, [dispatch])
+
+  return {handleRegularMessage, handleExceptionMessage, handleWritingMessage, handleWritingEndMessage};
 } 
 
 export default useMessagingHandlerMethods;

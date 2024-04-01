@@ -22,16 +22,21 @@ const useMessagingHandler = (
   const [subscription, setSubscription] = useState<StompSubscription>()
   const [loading, setLoading] = useState<boolean>()
 
-  const { handleRegularMessage, handleExceptionMessage } = useMessagingHandlerMethods()
+  const { handleRegularMessage, handleExceptionMessage, handleWritingMessage, handleWritingEndMessage } = useMessagingHandlerMethods()
 
   useEffect(() => {
-
     const handleMessage = async (message: IMessage, privateKey: string) => {
       const chatMessage: ChatMessage = JSON.parse(message.body)
 
       switch (chatMessage.type) {
         case ChatMessageType.EXCEPTION:
           handleExceptionMessage(chatMessage)
+          break
+        case ChatMessageType.WRITING:
+          handleWritingMessage(chatMessage)
+          break
+        case ChatMessageType.WRITING_END:
+          handleWritingEndMessage(chatMessage)
           break
         default:
           handleRegularMessage(chatMessage, privateKey)
@@ -52,7 +57,7 @@ const useMessagingHandler = (
     }
 
     setLoading(false)
-  }, [client, dispatch, handleExceptionMessage, handleRegularMessage, router, setLoading, setSubscription, subscription, t])
+  }, [client, dispatch, handleExceptionMessage, handleRegularMessage, handleWritingEndMessage, handleWritingMessage, router, setLoading, setSubscription, subscription, t])
 
   return loading;
 } 

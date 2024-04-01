@@ -1,14 +1,13 @@
-"use client"
-
 import { Chat } from '@/types/chat';
 
 export default function ChatHeader({chat}: {chat: Chat | null}) {
+
+  const usersString = chat?.users.map((user) => user.username).join(', ')
+
   if (chat) {
     return (
       <div className='flex p-2 border-b-2'>
-        {chat.users.map((user) => {
-          return <div key={user.id} className="mx-2 max-sm:truncate font-bold">{user.username}</div>
-        })}
+        <div className="mx-2 truncate font-bold">{usersString}</div>
       </div>
     )
   } else {

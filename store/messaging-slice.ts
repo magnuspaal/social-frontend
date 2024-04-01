@@ -1,12 +1,15 @@
 import { ChatMessage } from "@/types/chat-message";
+import { User } from "@/types/user";
 import { createSlice } from "@reduxjs/toolkit";
 
 export const messagingSlice = createSlice({
   name: 'messaging',
   initialState: {
-    messages: []
+    messages: [],
+    writingMessage: {}
   } as {
-    messages: ChatMessage[]
+    messages: ChatMessage[],
+    writingMessage: {[chatId: number] : User[] | undefined}
   },
   reducers: {
     addMessage: (state, action: {payload: ChatMessage, type: string}) => {
@@ -18,10 +21,24 @@ export const messagingSlice = createSlice({
     },
     clearAllMessages: (state) => {
       state.messages = []
+    },
+    setWritingMessage: (state, action: {payload: {chatId: number, sender: User}, type: string}) => {
+      if (!state.writingMessage[action.payload.chatId]) {
+        state.writingMessage[action.payload.chatId] = []
+      }
+      if (!state.writingMessage[action.payload.chatId]?.find((user) => user.id == action.payload.sender.id)) {
+        state.writingMessage[action.payload.chatId]!.push(action.payload.sender)
+      }
+    },
+    clearWritingMessage: (state, action: {payload: {chatId: number, sender: User}, type: string}) => {
+      const array = state.writingMessage[action.payload.chatId]
+      if (array) {
+        state.writingMessage[action.payload.chatId] = array?.filter((user) => user.id !== action.payload.sender.id)
+      }
     }
   }
 })
 
-export const { addMessage, addMessages, clearAllMessages } = messagingSlice.actions
+export const { addMessage, addMessages, clearAllMessages, setWritingMessage, clearWritingMessage } = messagingSlice.actions
 
 export default messagingSlice.reducer

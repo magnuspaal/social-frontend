@@ -5,13 +5,14 @@ import { addMessages } from "@/store/messaging-slice";
 import ChatInput from './ChatInput';
 import useClientMessagingService from '@/services/client/client-messaging-service';
 import useInfiniteScroll from '@/hooks/use-infinite-scroll';
-import ChatBubble from './ChatBubble';
+import ChatBubble from './chat-bubble/ChatBubble';
 import useDisableScroll from '@/hooks/use-disable-scroll';
 import ChatHeader from './ChatHeader';
 import { Chat } from '@/types/chat';
 import { MessagingClientContext } from '@/providers/messaging-client-provider';
 import { ChatMessage } from '@/types/chat-message';
 import { createSelector } from '@reduxjs/toolkit';
+import ChatWriting from './chat-bubble/ChatWriting';
 
 export default function ChatWindow({chat}: {chat: Chat}) {
 
@@ -47,14 +48,14 @@ export default function ChatWindow({chat}: {chat: Chat}) {
   return (
     <div className="sm:h-[70svh] h-full flex flex-col">
       <ChatHeader chat={chat}/>
-      <div className="overflow-y-auto flex flex-col-reverse h-full w-full" ref={chatWindowRef}>        
+      <div className="overflow-y-auto flex flex-col-reverse h-full w-full" ref={chatWindowRef}>    
+        <ChatWriting chat={chat}/>
         {messages?.map((message: any) => 
           <ChatBubble key={message.id} message={message} />
         )}
         {!endOfMessages &&
           <div className="flex justify-center p-6"><span className="loader h-[30px] w-[30px]"></span></div>
         }
-
       </div>
       {client ? 
         <ChatInput chatId={chat.id} client={client}/> : 

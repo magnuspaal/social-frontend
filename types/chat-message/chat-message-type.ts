@@ -1,3 +1,6 @@
 export enum ChatMessageType {
-  EXCEPTION = 'exception'
+  TEXT = 'text',
+  EXCEPTION = 'exception',
+  WRITING = 'writing',
+  WRITING_END = 'writing_end'
 }
