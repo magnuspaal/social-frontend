@@ -29,6 +29,7 @@ export default function ChatWindow({chat}: {chat: Chat}) {
     clientMessagingService.getChatMessages,
     messageSelector,
     addMessages,
+    undefined,
     chatWindowRef,
     {id: chat.id, limit: 20}
   )
