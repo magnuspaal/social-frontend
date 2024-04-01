@@ -25,11 +25,11 @@ export default function ChatWriting({chat}: {chat: Chat}) {
     {
       senders.map((sender: User) => {
         return (
-          <div key={sender.id} className={`flex mt-2 flex-col`}>
-            <div className={`text-[10px] font-normal mx-3`}>{sender.username}</div>
+          <div key={sender.id} className='flex mt-4 flex-col'>
+            <div className={`text-[10px] font-normal mx-3 appear-slide`}>{sender.username}</div>
             <span
               style={{wordBreak: 'break-word', overflowWrap: "break-word"}} 
-              className={`flex py-2 px-4 mx-2 min-w-0 rounded bg-shade place-self-start`}
+              className='flex py-2 px-4 mx-2 min-w-0 rounded bg-shade place-self-start appear-size'
             >
               <span className='animate-bounce tracking-widest text-sm font-bold'>...</span>
             </span>

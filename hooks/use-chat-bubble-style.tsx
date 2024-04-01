@@ -1,16 +1,12 @@
 import { ChatMessage } from "@/types/chat-message";
 import { compareMessageTimeStamps } from "@/utils/date-utils";
-import { RefObject, useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppSelector } from '@/store/hooks';
 
 // Updates the height of a <textarea> when the value changes.
 const useChatBubbleStyle = (
-  message: ChatMessage,
-  span: RefObject<HTMLDivElement>,
-  container: RefObject<HTMLDivElement>
+  message: ChatMessage
 ) => {
-
-  const range = document.createRange()
 
   const prevMessage: ChatMessage = useAppSelector((state: any) => {
     return state.messaging.messages.find((foundMessage: ChatMessage) => {
@@ -21,18 +17,6 @@ const useChatBubbleStyle = (
   const [displayTimestamp, setDisplayTimestamp] = useState<boolean>(false)
   const [displayGap, setDisplayGap] = useState<boolean>(false);
   const [displayUsername, setDisplayUsername] = useState<boolean>(false);
-
-  const findWidth = useCallback(() => {
-    const text = span.current?.childNodes[0];
-
-    if (text && container.current && container.current?.offsetWidth - span.current?.offsetWidth <= 16 ) {
-      range.setStartBefore(text);
-      range.setEndAfter(text);
-  
-      const clientRect = range.getBoundingClientRect();
-      span.current.style.width = `${clientRect.width}px`;
-    }
-  }, [range])
 
   useEffect(() => {
     if (prevMessage) {
@@ -48,17 +32,7 @@ const useChatBubbleStyle = (
       setDisplayTimestamp(true)
       setDisplayUsername(true)
     }
-    findWidth()
-  }, [findWidth, message.chatMessageId, message.createdAt, message.sender.id, prevMessage])
-
-  useEffect(() => {
-    if (container.current) {
-      const observer = new ResizeObserver(entries => {
-        findWidth()
-      })
-      observer.observe(container.current)
-    }
-  }, [container, findWidth, range])
+  }, [message.chatMessageId, message.createdAt, message.sender.id, prevMessage])
 
   return [displayTimestamp, displayGap, displayUsername]
 };

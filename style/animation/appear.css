@@ -1,0 +1,27 @@
+@keyframes appear-size {
+  from {transform: scale(0, 0);}
+  to {transform: scale(1, 1);}
+}
+
+@keyframes appear-slide {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}
+
+.appear-size {
+  animation-name: appear-size;
+  animation-duration: 0.4s;
+  animation-timing-function: ease-out;
+}
+
+.appear-slide {
+  animation-name: appear-slide;
+  animation-duration: 0.3s;
+  animation-timing-function: ease-out;
+}

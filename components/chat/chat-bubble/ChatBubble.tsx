@@ -14,20 +14,16 @@ export default function ChatBubble({message}: {message: ChatMessage}) {
 
   const isMe = message.sender.id == me?.id
 
-  const [displayTimestamp, displayGap, displayUserName] = useChatBubbleStyle(
-    message,
-    span,
-    container
-  )
+  const [displayTimestamp, displayGap, displayUserName] = useChatBubbleStyle(message)
 
   return (
-    <div ref={container} className={`flex my-[2px] flex-col`}>
-      {displayTimestamp && <div className={`text-xs my-2 text-center w-full`}>{getMessageTimestamp(message.createdAt.toString())}</div>}
-      {!displayTimestamp && displayGap && <div className={`my-2`}></div>}
-      {displayUserName && <div className={`text-[10px] font-normal mx-3 ${isMe ? 'place-self-end' : 'place-self-start'}`}>{message.sender.username}</div>}
+    <div ref={container} className='flex my-[2px] flex-col'>
+      {displayTimestamp && <div className='text-xs my-2 text-center w-full appear-slide'>{getMessageTimestamp(message.createdAt.toString())}</div>}
+      {!displayTimestamp && displayGap && <div className='my-2 appear-size'></div>}
+      {displayUserName && <div className={`text-[10px] font-normal mx-3 appear-slide ${isMe ? 'place-self-end' : 'place-self-start'}`}>{message.sender.username}</div>}
       <span
-        style={{wordBreak: 'break-word', overflowWrap: "break-word"}} 
-        className={`flex py-2 px-4 mx-2 min-w-0 text-sm rounded ${isMe ? 'bg-secondary place-self-end' : 'bg-shade place-self-start'}`}
+        style={{overflowWrap: 'anywhere'}} 
+        className={`flex py-2 px-4 mx-2 max-w-[60%] text-sm rounded appear-size ${isMe ? 'bg-secondary place-self-end' : 'bg-shade place-self-start'}`}
         ref={span}
       >
         {message.content}
