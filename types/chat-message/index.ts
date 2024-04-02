@@ -1,4 +1,3 @@
-import { Chat } from "../chat"
 import { User } from "../user"
 
 export interface ChatMessage {

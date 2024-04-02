@@ -4,6 +4,9 @@ import { useAppSelector } from '@/store/hooks';
 import { Chat } from '@/types/chat';
 import { User } from '@/types/user';
 import { useEffect, useState } from 'react';
+import ChatWritingBubble from './ChatWritingBubble';
+import { TransitionGroup } from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group';
 
 export default function ChatWriting({chat}: {chat: Chat}) {
 
@@ -21,22 +24,21 @@ export default function ChatWriting({chat}: {chat: Chat}) {
   }, [writing])
 
   return (
-    <div>
+    <TransitionGroup>
     {
       senders.map((sender: User) => {
         return (
-          <div key={sender.id} className='flex mt-4 flex-col'>
-            <div className={`text-[10px] font-normal mx-3 appear-slide`}>{sender.username}</div>
-            <span
-              style={{wordBreak: 'break-word', overflowWrap: "break-word"}} 
-              className='flex py-2 px-4 mx-2 min-w-0 rounded bg-shade place-self-start appear-size'
-            >
-              <span className='animate-bounce tracking-widest text-sm font-bold'>...</span>
-            </span>
-          </div>
+          <CSSTransition
+            in={true}
+            appear={true}
+            key={sender.id}
+            timeout={2000}
+            classNames="message">
+            <ChatWritingBubble key={chat.id + "-" + sender.id} sender={sender}/>
+          </CSSTransition>
         )
       })
     }
-    </div>
+    </TransitionGroup>
   )
 }

@@ -5,7 +5,7 @@ import { Dispatch, SetStateAction, createContext, useEffect, useState } from "re
 import { Client } from "@stomp/stompjs"
 import { ConfigService } from "@/services/config-service"
 import SockJS from "sockjs-client"
-import useMessagingHandler from "@/hooks/use-messaging-handler"
+import useMessagingHandler from "@/hooks/chat/use-messaging-handler"
 import { logInfo } from "@/utils/development-utils"
 
 export const MessagingClientContext = createContext<{

@@ -1,0 +1,68 @@
+.message-enter {
+	transform: scale(0, 0);
+	max-height: 0;
+	opacity: 0;
+	box-sizing: border-box;
+	display: block;
+}
+
+.message-enter-active {
+	transform: scale(1, 1);
+	max-height: 1000px;
+	opacity: 1;
+	box-sizing: border-box;
+	display: block;
+
+	transition: transform 0.4s ease-in, opacity 0.5s ease-in,
+		max-height 2s ease-in;
+}
+
+.message-enter-active.left {
+	transform-origin: bottom left;
+}
+
+.message-enter-active.right {
+	transform-origin: bottom right;
+}
+
+.message-exit {
+	transform: scale(1, 1);
+	max-height: 200px;
+	opacity: 1;
+	box-sizing: border-box;
+	display: block;
+	transform-origin: bottom left;
+}
+
+.message-exit-active {
+	transform: scale(0, 0);
+	max-height: 0;
+	opacity: 0;
+	box-sizing: border-box;
+	display: block;
+	transition: transform 0.4s ease-in, opacity 0.5s ease-in,
+		max-height 0.8s ease-out;
+}
+
+.message-exit-active.left {
+	transform-origin: bottom left;
+}
+
+.message-exit-active.right {
+	transform-origin: bottom right;
+}
+
+.message-slide-enter {
+	transform: translateY(20px);
+	max-height: 0;
+	opacity: 0;
+	display: block;
+}
+
+.message-slide-enter-active {
+	transform: translateY(0);
+	max-height: 32px;
+	opacity: 1;
+	transition: all 0.4s ease-out;
+  transform-origin: bottom;
+}
