@@ -6,6 +6,7 @@ import { MeContext } from '@/providers/me-provider';
 import { ChatMessageType } from '@/types/chat-message/chat-message-type';
 import { Client } from '@stomp/stompjs';
 import { useCallback, useContext, useRef, useState } from 'react';
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 export default function ChatInput({chatId, client}: {chatId: number, client: Client}) {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -25,9 +26,11 @@ export default function ChatInput({chatId, client}: {chatId: number, client: Cli
   }, [chatId, client, me?.id, value])
 
   const submitPost = useCallback(async () => {
-    clientPublish(ChatMessageType.TEXT)
-    setValue("")
-  }, [clientPublish])
+    if (value) {
+      clientPublish(ChatMessageType.TEXT)
+      setValue("")
+    }
+  }, [clientPublish, value])
 
   const submitWriting = useCallback(async () => {
     clientPublish(ChatMessageType.WRITING)
@@ -56,12 +59,18 @@ export default function ChatInput({chatId, client}: {chatId: number, client: Cli
         ref={textAreaRef}
         value={value}
       ></textarea>
-      <button 
-        className="rounded bg-primary p-2 text-sm font-bold active:bg-secondary active:text-black max-h-12 text-white uppercase 
-          disabled:hover:bg-primary disabled:hover:text-white"
-        onClick={submitPost}>
-          {t('chat.send')}
-      </button>
+      <TransitionGroup component={null}>
+      { value && 
+        <CSSTransition timeout={200} classNames="slide-from">
+          <button 
+            className="rounded bg-primary p-2 text-sm font-bold active:bg-secondary active:text-black max-h-12 text-white uppercase 
+              disabled:hover:bg-primary disabled:hover:text-white"
+            onClick={submitPost}>
+              {t('chat.send')}
+          </button>
+        </CSSTransition>
+      }
+      </TransitionGroup>
     </div>
   )
 }
