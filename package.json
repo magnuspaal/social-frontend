@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "version": "node cicd/deploy/version $npm_package_version",
-    "postversion": "git add . && git commit -m \"docs: bump to $npm_package_version\" && git tag -a $npm_package_version -m \"\""
+    "postversion": "git add . && git commit -m \"docs: bump to $npm_package_version\" && git tag -a $npm_package_version -m \"\"",
+    "prepare": "husky"
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.4.0",
@@ -45,6 +46,7 @@
     "@types/react-dom": "18.2.7",
     "@types/react-transition-group": "^4.4.6",
     "@types/sockjs-client": "^1.5.4",
-    "@types/stompjs": "^2.3.9"
+    "@types/stompjs": "^2.3.9",
+    "husky": "^9.0.11"
   }
 }
