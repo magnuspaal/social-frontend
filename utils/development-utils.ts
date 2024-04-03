@@ -1,3 +1,4 @@
+import { getPrettyTimeString } from "./date-utils"
 
 export const isProduction = () => {
   return process.env.NODE_ENV === 'production'
@@ -8,9 +9,9 @@ export const isDevelopment = () => {
 }
 
 export const logInfo = (...log: any) => {
-  isDevelopment() && console.log(...log)
+  isDevelopment() && console.log(getPrettyTimeString(new Date()) + ":", ...log)
 }
 
 export const logVerbose = (...log: any) => {
-  isDevelopment() && console.debug(...log)
+  isDevelopment() && console.debug(getPrettyTimeString(new Date()) + ":", ...log)
 }

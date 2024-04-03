@@ -44,6 +44,7 @@ export default function PasswordAuth({chatId}: {chatId: number}) {
         <input
           className="p-2 rounded border border-solid"
           type="password"
+          autoComplete='current-password'
           placeholder={t('login.password')}
           value={password}
           onChange={(e) => setPassword(e.target.value)}

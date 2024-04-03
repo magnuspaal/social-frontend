@@ -19,7 +19,7 @@ export abstract class AbstractApiService {
         return this.handleResponseError(res);
       } else {
         const json = await res.json()
-        logVerbose("Fetch Body:", json)
+        logVerbose("Fetch body:", json)
         return json;
       }
     }).catch(async (error) => {
@@ -47,17 +47,11 @@ export abstract class AbstractApiService {
   }
 
   async get(url: string, options?: Record<any, any>) {
-    return this.handleRequest(
-      url, 
-      { method: "GET", ...options }
-    )
+    return this.handleRequest(url, { method: "GET", ...options })
   }
 
   async post(url: string, body?: string | FormData, options?: Record<any, any>) {
-    return this.handleRequest(
-      url, 
-      { method: "POST", body, ...options }
-    )
+    return this.handleRequest(url, { method: "POST", body, ...options })
   }
 
   handleResponseError = async (res: Response): Promise<any> => {

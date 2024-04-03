@@ -10,14 +10,6 @@ class ServerApiService extends AbstractServerApiService {
     super(ConfigService.getApiUrl())
   }
 
-  getApiHeaders = () => {
-    const authToken = cookies().get("authToken")
-    return {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer " + authToken?.value,
-    }
-  }
-
   getFeed = (offset: number, limit: number): Promise<Post[]> => this.get(`/post/feed?offset=${offset}&limit=${limit}`)
 
   getPost = (id: number): Promise<Post> => this.get(`/post/${id}`)

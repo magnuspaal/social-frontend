@@ -11,7 +11,7 @@ export default function ChatBubble({message}: {message: ChatMessage}) {
 
   return (
     <div className={`flex flex-col my-[2px] ${isMe ? 'right' : 'left'}`}>
-      <div className={`flex max-w-[60%] text-sm rounded px-4 py-2 mx-2 ${isMe ? 'bg-secondary place-self-end' : 'bg-shade place-self-start'}`}>
+      <div style={{wordBreak: "break-word"}} className={`flex max-w-[60%] text-sm rounded px-4 py-2 mx-2 ${isMe ? 'bg-secondary place-self-end' : 'bg-shade place-self-start'}`}>
         {message.content}
       </div>
     </div>

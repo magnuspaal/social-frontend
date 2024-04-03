@@ -34,10 +34,10 @@ class ServerAuthService extends AbstractServerApiService {
     const isValidAuthToken = await isValidJWT(authToken?.value)
     const isValidRefreshToken = await isValidJWT(refreshToken?.value)
   
-    if (isValidAuthToken && expiresAt?.value) {
+    if (isValidAuthToken && isValidRefreshToken && expiresAt?.value) {
       const expiresDate = new Date(expiresAt.value).getTime() / 1000
       const currentDate = new Date(new Date().toUTCString()).getTime() / 1000
-      if (expiresDate - 5 < currentDate && isValidRefreshToken) {
+      if (expiresDate - 5 < currentDate) {
         logInfo("Server token refresh")
         return this.handleServerRefreshToken(refreshToken!.value)
       } else if (!refreshToken) {

@@ -85,3 +85,11 @@ export const compareMessageTimeStamps = (prevMessage: string, currentMessage: st
 
   return diffInSeconds;
 }
+
+export const getPrettyTimeString = (jsDate: Date) => {
+  dayjs.extend(utc)
+  dayjs.extend(tz)
+  let date = dayjs(jsDate)
+
+  return date.format("HH:mm:ss.SSS")
+}

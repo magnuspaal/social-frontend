@@ -1,10 +1,9 @@
 'use client'
 
-import Cookies from "js-cookie";
 import { AbstractApiService } from "../abstract-api-service";
 import cookies from "js-cookie";
 import { ConfigService } from "../config-service";
-import { isProduction, logInfo } from "@/utils/development-utils";
+import { isProduction, logInfo, logVerbose } from "@/utils/development-utils";
 
 export abstract class AbstractClientApiService extends AbstractApiService {
 
@@ -34,7 +33,9 @@ export abstract class AbstractClientApiService extends AbstractApiService {
       .then(async (res: Response) => {
         logInfo("Called:", ConfigService.getAuthApiUrl() + "/refresh", res.status)
         if (res.ok) {
-          return res.json()
+          const body = await res.json()
+          logVerbose("Fetch body:", body)
+          return body
         }
       }).catch(async (error) => {
         console.log(error)
@@ -61,7 +62,7 @@ export abstract class AbstractClientApiService extends AbstractApiService {
     const domain = ConfigService.getWebsocketDomain()
     cookies.set("authToken", token, { expires: 60 * 10 / 86400, secure, domain})
     cookies.set("refreshToken", refreshToken, { expires: 60 * 60 * 24 * 30 * 6 / 86400, secure, sameSite: "strict" })
-    cookies.set("expiresAt", expiresAt, { expires: 60 * 10 / 86400, secure, sameSite: "strict"})
+    cookies.set("expiresAt", expiresAt, { expires: 60 * 60 * 24 * 30 * 6 / 86400, secure, sameSite: "strict"})
   }
 
   removeLocalData = () => {
@@ -72,7 +73,7 @@ export abstract class AbstractClientApiService extends AbstractApiService {
   }
 
   isTokenExpired = (): Promise<boolean> => {
-    const expiresAt = Cookies.get("expiresAt")
+    const expiresAt = cookies.get("expiresAt")
     if (expiresAt) {
       const expiresDate = new Date(expiresAt).getTime() / 1000
       const currentDate = new Date(new Date().toUTCString()).getTime() / 1000

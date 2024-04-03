@@ -82,13 +82,13 @@ export default function RegisterForm() {
 
       <div className='flex flex-col'>
         <label htmlFor="password" className='font-semibold text-md'>{t('register.password')}</label>
-        <input className={`p-2 rounded border border-black  border-solid ${getErrorsFor('password').length && 'border-2 border-rose-500'}`} type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} autoCapitalize='none' disabled={loading}/>
+        <input className={`p-2 rounded border border-black  border-solid ${getErrorsFor('password').length && 'border-2 border-rose-500'}`} autoComplete='new-password' type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} autoCapitalize='none' disabled={loading}/>
         {renderErrorMessageFor('password')}
       </div>
 
       <div className='flex flex-col'>
         <label htmlFor="first-name" className='font-semibold text-md'>{t('register.firstname')}</label>
-        <input className={`p-2 rounded border border-black border-solid ${getErrorsFor('firstname').length  && 'border-2 border-rose-500'}`} type="text" id='first-name' value={firstName} onChange={(e) => setFirstName(e.target.value)} disabled={loading}/>
+        <input className={`p-2 rounded border border-black border-solid ${getErrorsFor('firstname').length  && 'border-2 border-rose-500'}`} autoComplete='new-password' type="text" id='first-name' value={firstName} onChange={(e) => setFirstName(e.target.value)} disabled={loading}/>
         {renderErrorMessageFor('firstname')}
       </div>
 

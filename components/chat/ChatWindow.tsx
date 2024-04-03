@@ -51,32 +51,23 @@ export default function ChatWindow({chat}: {chat: Chat}) {
     <div className="sm:h-[70svh] h-full flex flex-col">
       <ChatHeader chat={chat}/>
       <div className="overflow-y-auto flex flex-col-reverse h-full w-full" ref={chatWindowRef}>
-        <TransitionGroup  component={null}>    
+        <TransitionGroup component={null}>    
           <ChatWriting chat={chat}/>
           {messages?.map((message: any) => 
             <div key={message.id}>
-              <CSSTransition
-              in={true}
-              appear={true}
-              timeout={2000}
-              classNames="message-slide">
+              <CSSTransition in={true} appear={true} timeout={2000} classNames="message-slide">
                 <ChatBubbleInfo message={message}/>
               </CSSTransition>
-              <CSSTransition
-                in={true}
-                appear={true}
-                timeout={2000}
-                classNames="message">
+              <CSSTransition in={true} appear={true} timeout={2000} classNames="message">
                 <ChatBubble message={message} />
               </CSSTransition>
             </div>
           )}
-          {!endOfMessages &&
+        </TransitionGroup>
+        {!endOfMessages &&
             <div className="flex justify-center p-6"><span className="loader h-[30px] w-[30px]"></span></div>
           }
-        </TransitionGroup>
       </div>
-      
       {client ? 
         <ChatInput chatId={chat.id} client={client}/> : 
         <div className="flex justify-center p-6"><span className="loader"></span></div>

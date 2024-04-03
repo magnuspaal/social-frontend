@@ -8,10 +8,10 @@ export abstract class AbstractServerApiService extends AbstractApiService {
   }
 
   getApiHeaders = () => {
-    const authToken = cookies().get("authToken")
+    const nextCookies = cookies();
     return {
       "Content-Type": "application/json",
-      "Authorization": "Bearer " + authToken?.value,
+      "Cookie": nextCookies.has("authToken") ? `authToken=${nextCookies.get("authToken")!.value}` : undefined
     }
   }
 

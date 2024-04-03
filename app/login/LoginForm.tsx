@@ -58,6 +58,7 @@ export default function LoginForm() {
         onChange={(e) => setEmail(e.target.value)}
         autoCapitalize='none'
         disabled={loading}
+        autoComplete='email'
       />
       <input
         className="p-2 rounded border border-solid"
@@ -67,6 +68,7 @@ export default function LoginForm() {
         onChange={(e) => setPassword(e.target.value)}
         autoCapitalize='none'
         disabled={loading}
+        autoComplete='current-password'
       />
       <div>{
         errorCodes.map((code, index) => <p className='m-y-1.5 text-red-600 italic text-center' key={code + index}>{t(`login.messages.${code}`) ?? t(`login.messages.default`)}</p>)
