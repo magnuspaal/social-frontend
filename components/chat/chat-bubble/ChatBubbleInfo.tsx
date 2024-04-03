@@ -16,7 +16,7 @@ export default function ChatBubbleInfo({message}: {message: ChatMessage}) {
   return (
     <div className="flex flex-col">
       {displayTimestamp && <div className={`text-xs text-center w-full my-2`}>{getMessageTimestamp(message.createdAt.toString())}</div>}
-      {!displayTimestamp && displayGap && <div className={`message-gap`}></div>}
+      {!displayTimestamp && displayGap && <div className='my-2'></div>}
       {displayUserName && <div className={`text-[10px] font-normal mx-3  ${isMe ? 'place-self-end' : 'place-self-start'}`}>{message.sender.username}</div>}
     </div>
   )
