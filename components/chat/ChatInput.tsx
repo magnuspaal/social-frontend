@@ -57,8 +57,8 @@ export default function ChatInput({chatId, client}: {chatId: number, client: Cli
         value={value}
       ></textarea>
       <button 
-        className="rounded bg-primary p-2 text-sm font-bold hover:bg-secondary hover:text-black max-h-12 text-white uppercase 
-          disabled:hover:bg-primary disabled:hover:text-white disabled:hover:cursor-not-allowed"
+        className="rounded bg-primary p-2 text-sm font-bold active:bg-secondary active:text-black max-h-12 text-white uppercase 
+          disabled:hover:bg-primary disabled:hover:text-white"
         onClick={submitPost}>
           {t('chat.send')}
       </button>
