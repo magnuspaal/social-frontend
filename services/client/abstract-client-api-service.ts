@@ -61,8 +61,8 @@ export abstract class AbstractClientApiService extends AbstractApiService {
     const secure = isProduction()
     const domain = ConfigService.getWebsocketDomain()
     cookies.set("authToken", token, { expires: 60 * 10 / 86400, secure, domain})
-    cookies.set("refreshToken", refreshToken, { expires: 60 * 60 * 24 * 30 * 6 / 86400, secure, sameSite: "strict" })
-    cookies.set("expiresAt", expiresAt, { expires: 60 * 60 * 24 * 30 * 6 / 86400, secure, sameSite: "strict"})
+    cookies.set("refreshToken", refreshToken, { expires: 60 * 60 * 24 * 30 * 6 / 86400, secure, sameSite: "lax" })
+    cookies.set("expiresAt", expiresAt, { expires: 60 * 60 * 24 * 30 * 6 / 86400, secure, sameSite: "lax"})
   }
 
   removeLocalData = () => {

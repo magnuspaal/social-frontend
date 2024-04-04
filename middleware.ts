@@ -26,8 +26,8 @@ export async function middleware(request: NextRequest) {
     const secure = isProduction()
     const domain = ConfigService.getWebsocketDomain()
     response.cookies.set("authToken", authCookies.authToken, { maxAge: 60 * 10, secure, domain })
-    response.cookies.set("refreshToken", authCookies.refreshToken, { maxAge: 60 * 60 * 24 * 30 * 6, secure, sameSite: "strict" })
-    response.cookies.set("expiresAt", authCookies.expiresAt, { maxAge: 60 * 60 * 24 * 30 * 6, secure, sameSite: "strict" })
+    response.cookies.set("refreshToken", authCookies.refreshToken, { maxAge: 60 * 60 * 24 * 30 * 6, secure, sameSite: "lax" })
+    response.cookies.set("expiresAt", authCookies.expiresAt, { maxAge: 60 * 60 * 24 * 30 * 6, secure, sameSite: "lax" })
   }
   return response;
 }
