@@ -2,7 +2,7 @@ import { Chat } from '@/types/chat';
 
 export default function ChatHeader({chat}: {chat: Chat | null}) {
 
-  const usersString = chat?.users.map((user) => user.username).join(', ')
+  const usersString = chat?.chatUsers.map((chatUser) => chatUser.user.username).join(', ')
 
   if (chat) {
     return (

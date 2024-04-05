@@ -1,10 +1,10 @@
 import { ChatMessage } from "./chat-message"
-import { User } from "./user"
+import { ChatUser } from "./chat-user"
 
 export interface Chat {
   createdAt: number
   deletedAt: string
   id: number
-  users: User[]
+  chatUsers: ChatUser[],
   latestMessage?: ChatMessage
 }

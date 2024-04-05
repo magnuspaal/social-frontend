@@ -19,9 +19,7 @@ export function MessagingClientProvider({children}: {children: React.ReactNode})
 
   const [client, setClient] = useState<Client>()
 
-  useMessagingHandler(
-    client
-  )
+  useMessagingHandler(client)
 
   useEffect(() => {
     const stompClient = new Client({

@@ -4,7 +4,7 @@ import ChatMessagePreview from "./ChatMessagePreview"
 
 export default function ChatPreview({chat}: {chat: Chat}) {
 
-  const usersString = chat.users.map((user) => user.username).join(', ')
+  const usersString = chat.chatUsers.map((chatUser) => chatUser.user.username).join(', ')
 
   return (
     <Link href={`/chat/${chat.id}`} className="flex flex-row items-center flex-wrap justify-center p-4">
