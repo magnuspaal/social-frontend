@@ -34,7 +34,7 @@ export default function ChatWindow({chat}: {chat: Chat}) {
     addMessages,
     undefined,
     chatWindowRef,
-    {id: chat.id, limit: 20}
+    {id: chat.id, limit: 10}
   )
 
   const { client } = useContext(MessagingClientContext)
@@ -55,10 +55,10 @@ export default function ChatWindow({chat}: {chat: Chat}) {
           <ChatWriting chat={chat}/>
           {messages?.map((message: any) => 
             <div key={message.id}>
-              <CSSTransition in={true} appear={true} timeout={2000} classNames="message-slide">
+              <CSSTransition in={message?.options?.animate} appear={message?.options?.animate} timeout={2000} classNames="message-slide">
                 <ChatBubbleInfo message={message}/>
-              </CSSTransition>
-              <CSSTransition in={true} appear={true} timeout={2000} classNames="message">
+            </CSSTransition>
+              <CSSTransition in={message?.options?.animate} appear={message?.options?.animate} timeout={2000} classNames="message">
                 <ChatBubble message={message} />
               </CSSTransition>
             </div>

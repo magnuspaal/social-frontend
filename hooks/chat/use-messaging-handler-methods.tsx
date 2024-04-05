@@ -17,6 +17,7 @@ const useMessagingHandlerMethods = () => {
   const handleRegularMessage = useCallback(async (message: ChatMessage, privateKey: string) => {
     const decryptedMessage = await decryptText(message.content, privateKey)
     message.content = decryptedMessage ?? "Message could not be decrypted"
+    message.options = { animate: true }
     logInfo(message)
     dispatch(clearWritingMessage({chatId: message.chatId, sender: message.sender}))
     dispatch(addMessage(message))

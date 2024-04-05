@@ -10,4 +10,8 @@ export interface ChatMessage {
   sender: User
   owner: User
   chatId: number
+
+  options?: {
+    animate?: boolean
+  }
 }
