@@ -3,23 +3,23 @@
 import { ChatMessage } from '@/types/chat-message';
 import { useContext, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import useClientMessagingService from '@/services/client/client-messaging-service';
-import { addMessages } from '@/store/messaging-slice';
 import { getMessageTimestamp } from '@/utils/date-utils';
 import { MeContext } from '@/providers/me-provider';
 import useTranslation from '@/lang/use-translation';
 import ChatMessageLoading from './ChatMessageLoading';
+import { Chat } from '@/types/chat';
+import { decryptText } from '@/utils/encryption-utils';
+import { addMessage } from '@/store/messaging-slice';
 
-export default function ChatMessagePreview({chatId}: {chatId: number}) {
+export default function ChatMessagePreview({chat}: {chat: Chat}) {
 
   const dispatch = useAppDispatch()
-  const clientMessagingService = useClientMessagingService()
   const { me } = useContext(MeContext)
   const { t } = useTranslation()
   
   const lastCacheMessage = useAppSelector((state) => {
     const messages = state.messaging.messages.filter((message) => {
-      return message.chatId == chatId
+      return message.chatId == chat.id
     })
     if(messages) {
       return messages[0]
@@ -30,15 +30,20 @@ export default function ChatMessagePreview({chatId}: {chatId: number}) {
 
   useEffect(() => {
     const getLastMessage = async () => {
-      if (!lastCacheMessage) {
-        const messages = await clientMessagingService.getChatMessages(0, 1, chatId)
-        dispatch(addMessages(messages))
+      if (!lastCacheMessage && chat.latestMessage) {
+        const key = localStorage.getItem("privateKey")
+        if (key) {
+          const decrtypedText = await decryptText(chat.latestMessage.content, key)
+          Object.assign(chat, {...chat, latestMessage: {...chat.latestMessage, content: decrtypedText}});
+          dispatch(addMessage(chat.latestMessage))
+          setLastMessage(chat.latestMessage)
+        }
       } else {
         setLastMessage(lastCacheMessage)
       }
     }
     getLastMessage()
-  }, [chatId, clientMessagingService, dispatch, lastCacheMessage])
+  }, [chat, chat.latestMessage, dispatch, lastCacheMessage])
 
   if (lastMessage) {
     return (

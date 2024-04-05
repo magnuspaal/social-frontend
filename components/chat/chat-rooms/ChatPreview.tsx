@@ -10,7 +10,7 @@ export default function ChatPreview({chat}: {chat: Chat}) {
     <Link href={`/chat/${chat.id}`} className="flex flex-row items-center flex-wrap justify-center p-4">
       <div className="flex flex-col grow w-full">
         <div className="truncate font-bold">{usersString}</div>
-        <ChatMessagePreview chatId={chat.id}/>
+        <ChatMessagePreview chat={chat}/>
       </div>
     </Link>
   )
