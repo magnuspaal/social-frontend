@@ -2,7 +2,7 @@ import Link from "next/link"
 import { Chat } from "@/types/chat"
 import ChatMessagePreview from "./ChatMessagePreview"
 
-export default function ChatPreview({chat}: {chat: Chat}) {
+export default async function ChatPreview({chat}: {chat: Chat}) {
 
   const usersString = chat.chatUsers.map((chatUser) => chatUser.user.username).join(', ')
 

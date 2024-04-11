@@ -14,9 +14,12 @@ import { ChatMessage } from '@/types/chat-message';
 import { createSelector } from '@reduxjs/toolkit';
 import ChatWriting from './chat-bubble/ChatWriting';
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import ChatBubbleInfo from './chat-bubble/ChatBubbleInfo';
+import ChatBubbleHeader from './chat-bubble/ChatBubbleHeader';
+import ChatBubbleFooter from './chat-bubble/ChatBubbleFooter';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { updateChat } from '@/store/chat-slice';
 
-export default function ChatWindow({chat}: {chat: Chat}) {
+export default function ChatWindow({propsChat}: {propsChat: Chat}) {
 
   useDisableScroll(true)
 
@@ -24,8 +27,18 @@ export default function ChatWindow({chat}: {chat: Chat}) {
 
   const chatWindowRef = useRef<HTMLDivElement>(null);
 
+  const dispatch = useAppDispatch() 
+  
+  useEffect(() => {
+    dispatch(updateChat(propsChat))
+  }, [propsChat, dispatch])
+
   const messageSelector = createSelector([(state) => state.messaging.messages], (messages) => {
-    return messages.filter((message: ChatMessage) => message.chatId === chat.id)
+    return messages.filter((message: ChatMessage) => message.chatId === propsChat.id)
+  })
+
+  const chat = useAppSelector((state) => {
+    return state.chat.chats.find((chat) => chat.id == propsChat.id) ?? propsChat
   })
 
   const [messages,  endOfMessages] = useInfiniteScroll(
@@ -34,7 +47,7 @@ export default function ChatWindow({chat}: {chat: Chat}) {
     addMessages,
     undefined,
     chatWindowRef,
-    {id: chat.id, limit: 10}
+    {id: propsChat.id, limit: 10}
   )
 
   const { client } = useContext(MessagingClientContext)
@@ -53,14 +66,15 @@ export default function ChatWindow({chat}: {chat: Chat}) {
       <div className="overflow-y-auto flex flex-col-reverse h-full w-full" ref={chatWindowRef}>
         <TransitionGroup component={null}>    
           <ChatWriting chat={chat}/>
-          {messages?.map((message: any) => 
+          {messages?.map((message: ChatMessage) => 
             <div key={message.id}>
-              <CSSTransition in={message?.options?.animate} appear={message?.options?.animate} timeout={2000} classNames="message-slide">
-                <ChatBubbleInfo message={message}/>
-            </CSSTransition>
-              <CSSTransition in={message?.options?.animate} appear={message?.options?.animate} timeout={2000} classNames="message">
+              <CSSTransition in={message?.options?.animate} appear={message?.options?.animate} timeout={500} classNames="message-slide">
+                <ChatBubbleHeader message={message}/>
+              </CSSTransition>
+              <CSSTransition in={message?.options?.animate} appear={message?.options?.animate} timeout={500} classNames="message">
                 <ChatBubble message={message} />
               </CSSTransition>
+              <ChatBubbleFooter message={message} chatUsers={chat.chatUsers} />
             </div>
           )}
         </TransitionGroup>

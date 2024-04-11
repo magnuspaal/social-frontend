@@ -6,7 +6,7 @@ import { ChatMessage } from '@/types/chat-message';
 import { getMessageTimestamp } from '@/utils/date-utils';
 import { useContext } from 'react';
 
-export default function ChatBubbleInfo({message}: {message: ChatMessage}) {
+export default function ChatBubbleHeader({message}: {message: ChatMessage}) {
   const { me } = useContext(MeContext)
 
   const isMe = message.sender.id == me?.id

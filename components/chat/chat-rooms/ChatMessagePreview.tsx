@@ -10,6 +10,7 @@ import ChatMessageLoading from './ChatMessageLoading';
 import { Chat } from '@/types/chat';
 import { decryptText } from '@/utils/encryption-utils';
 import { addMessage } from '@/store/messaging-slice';
+import { updateChat } from '@/store/chat-slice';
 
 export default function ChatMessagePreview({chat}: {chat: Chat}) {
 
@@ -26,6 +27,10 @@ export default function ChatMessagePreview({chat}: {chat: Chat}) {
     }
   })
 
+  useEffect(() => {
+    dispatch(updateChat(chat))
+  }, [chat, dispatch])
+
   const [lastMessage, setLastMessage] = useState<ChatMessage>()
 
   useEffect(() => {
@@ -34,8 +39,9 @@ export default function ChatMessagePreview({chat}: {chat: Chat}) {
         const key = localStorage.getItem("privateKey")
         if (key) {
           const decrtypedText = await decryptText(chat.latestMessage.content, key)
-          Object.assign(chat, {...chat, latestMessage: {...chat.latestMessage, content: decrtypedText}});
-          dispatch(addMessage(chat.latestMessage))
+          const latestMessage = JSON.parse(JSON.stringify(chat.latestMessage))
+          latestMessage.content = decrtypedText
+          dispatch(addMessage(latestMessage))
           setLastMessage(chat.latestMessage)
         }
       } else {

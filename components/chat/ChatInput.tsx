@@ -1,5 +1,6 @@
 "use client"
 
+import useMessagingPublisherMethods from '@/hooks/chat/use-messaging-publisher';
 import useKeydownListener from '@/hooks/use-keydown-listener';
 import useTranslation from '@/lang/use-translation';
 import { MeContext } from '@/providers/me-provider';
@@ -14,37 +15,20 @@ export default function ChatInput({chatId, client}: {chatId: number, client: Cli
   const { me } = useContext(MeContext)
 
   const [value, setValue] = useState("");
-  const [to, setTO] = useState<NodeJS.Timeout>()
 
-  const clientPublish = useCallback((type: ChatMessageType) => {
-    client.publish({ destination: '/app/message', body: JSON.stringify({
-      type,
-      content: type == ChatMessageType.TEXT ? value : undefined,
-      from: me?.id.toString(),
-      to: chatId })
-    });
-  }, [chatId, client, me?.id, value])
-
-  const submitPost = useCallback(async () => {
-    if (value) {
-      clientPublish(ChatMessageType.TEXT)
+  const {clientPublish, submitWriting } = useMessagingPublisherMethods(client)
+  
+  const submitDefaultMessage = useCallback(async () => {
+    if (value && me) {
+      clientPublish(ChatMessageType.TEXT, me.id, chatId, value)
       setValue("")
     }
-  }, [clientPublish, value])
+  }, [chatId, clientPublish, me, value])
 
-  const submitWriting = useCallback(async () => {
-    clientPublish(ChatMessageType.WRITING)
-    if (to) clearTimeout(to)
-    const timeout = setTimeout(() => {
-      clientPublish(ChatMessageType.WRITING_END)
-    }, 5000)
-    setTO(timeout)
-  }, [clientPublish, to])
-
-  useKeydownListener(submitPost,'Enter')
+  useKeydownListener(submitDefaultMessage,'Enter')
 
   const handleChange = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
-    submitWriting()
+    if (me) submitWriting(me.id, chatId)
     setValue(evt.target?.value);
   };
 
@@ -65,7 +49,7 @@ export default function ChatInput({chatId, client}: {chatId: number, client: Cli
           <button 
             className="rounded bg-primary p-2 text-sm font-bold active:bg-secondary active:text-black max-h-12 text-white uppercase 
               disabled:hover:bg-primary disabled:hover:text-white"
-            onClick={submitPost}>
+            onClick={submitDefaultMessage}>
               {t('chat.send')}
           </button>
         </CSSTransition>

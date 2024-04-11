@@ -4,5 +4,6 @@ import { User } from "./user"
 export interface ChatUser {
   id: number,
   user: User,
-  seenMessagesRanges: SeenMessagesRanges[]
+  seenMessagesRanges: SeenMessagesRanges[],
+  latestSeenMessage: number
 }
