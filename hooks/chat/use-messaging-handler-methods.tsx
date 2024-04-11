@@ -7,16 +7,24 @@ import { addMessage, clearWritingMessage, setWritingMessage } from "@/store/mess
 import { ChatMessage } from "@/types/chat-message/";
 import { logInfo } from "@/utils/development-utils";
 import { decryptText } from "@/utils/encryption-utils";
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import useMessagingPublisherMethods from "./use-messaging-publisher";
 import { Client } from "@stomp/stompjs";
 import { updateSeenMessage } from "@/store/chat-slice";
+import { usePathname } from "next/navigation";
 
 const useMessagingHandlerMethods = (client: Client | undefined) => {
   const dispatch = useAppDispatch()
 
   const { t } = useTranslation();
   const {submitSeen} = useMessagingPublisherMethods(client)
+
+  const pathnameRef = useRef<string>("")
+  const pathname = usePathname()
+
+  useEffect(() => {
+    pathnameRef.current = pathname
+  }, [pathname])
 
   const handleRegularMessage = useCallback(async (message: ChatMessage, privateKey: string) => {
     const decryptedMessage = await decryptText(message.content, privateKey)
@@ -28,7 +36,9 @@ const useMessagingHandlerMethods = (client: Client | undefined) => {
     dispatch(clearWritingMessage({chatId: message.chatId, sender: message.sender}))
     dispatch(addMessage(message))
 
-    submitSeen(message.owner.id, message.chatId, message.chatMessageId);
+    if (pathnameRef.current == `/chat/${message.chatId}`) {
+      submitSeen(message.owner.id, message.chatId, message.chatMessageId);
+    }
   }, [dispatch, submitSeen])
 
   const handleExceptionMessage = useCallback((message: ChatMessage) => {
