@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   social-frontend:
-    image: registry.digitalocean.com/magnus-images/social:frontend-0.8.5
+    image: registry.digitalocean.com/magnus-images/social:frontend-0.9.0
     container_name: social-frontend
     networks:
       - social-app
