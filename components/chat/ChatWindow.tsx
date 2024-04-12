@@ -10,7 +10,7 @@ import useDisableScroll from '@/hooks/use-disable-scroll';
 import ChatHeader from './ChatHeader';
 import { Chat } from '@/types/chat';
 import { MessagingClientContext } from '@/providers/messaging-client-provider';
-import { ChatMessage } from '@/types/chat-message';
+import { ChatMessage } from '@/types/chat/chat-message';
 import { createSelector } from '@reduxjs/toolkit';
 import ChatWriting from './chat-bubble/ChatWriting';
 import { CSSTransition, TransitionGroup } from "react-transition-group";
@@ -56,7 +56,7 @@ export default function ChatWindow({chat}: {chat: Chat}) {
   return (
     <div className="sm:h-[70svh] h-full flex flex-col">
       <ChatHeader chat={chat}/>
-      <div className="overflow-y-auto flex flex-col-reverse h-full w-full" ref={chatWindowRef}>
+      <div className="overflow-y-scroll flex flex-col-reverse h-full w-full" ref={chatWindowRef}>
         <TransitionGroup component={null}>    
           <ChatWriting chat={chat}/>
           {messages?.map((message: ChatMessage) => 

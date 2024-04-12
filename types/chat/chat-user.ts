@@ -1,5 +1,5 @@
-import { SeenMessagesRanges } from "./seen-messages-ranges"
-import { User } from "./user"
+import { SeenMessagesRanges } from "../seen-messages-ranges"
+import { User } from "../user"
 
 export interface ChatUser {
   id: number,

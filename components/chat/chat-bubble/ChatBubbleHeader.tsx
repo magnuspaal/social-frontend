@@ -2,7 +2,7 @@
 
 import useChatBubbleStyle from '@/hooks/chat/use-chat-bubble-style';
 import { MeContext } from '@/providers/me-provider';
-import { ChatMessage } from '@/types/chat-message';
+import { ChatMessage } from '@/types/chat/chat-message';
 import { getMessageTimestamp } from '@/utils/date-utils';
 import { useContext } from 'react';
 

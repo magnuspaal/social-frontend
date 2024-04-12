@@ -4,7 +4,7 @@ import useTranslation from "@/lang/use-translation";
 import { AlertType, addAlert } from "@/store/alert-slice";
 import { useAppDispatch } from "@/store/hooks";
 import { addMessage, clearWritingMessage, setWritingMessage } from "@/store/messaging-slice";
-import { ChatMessage } from "@/types/chat-message/";
+import { ChatMessage } from "@/types/chat/chat-message/";
 import { logInfo } from "@/utils/development-utils";
 import { decryptText } from "@/utils/encryption-utils";
 import { useCallback, useEffect, useRef } from "react";

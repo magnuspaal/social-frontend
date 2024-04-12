@@ -2,7 +2,7 @@
 
 import { MeContext } from '@/providers/me-provider';
 import { Chat } from '@/types/chat';
-import { ChatMessage } from '@/types/chat-message';
+import { ChatMessage } from '@/types/chat/chat-message';
 import { useContext, useEffect, useState } from 'react';
 import { CSSTransition } from "react-transition-group";
 
@@ -27,7 +27,7 @@ export default function ChatBubbleFooter({message, chat}: {message: ChatMessage,
   }, [chat])
 
   return (
-    <CSSTransition in={display} appear={false} onExited={() => setLatestSeenMessageUsers("")} timeout={800} classNames="message-slide">
+    <CSSTransition in={display} onExited={() => setLatestSeenMessageUsers("")} timeout={800} classNames="message-slide">
       <div className="flex flex-col">
         <div className={`text-[10px] mx-4 text-right font-bold`}>{`${latestSeenMessageUsers}`}</div>
       </div>

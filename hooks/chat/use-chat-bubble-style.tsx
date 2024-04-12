@@ -1,4 +1,4 @@
-import { ChatMessage } from "@/types/chat-message";
+import { ChatMessage } from "@/types/chat/chat-message";
 import { compareMessageTimeStamps } from "@/utils/date-utils";
 import { useEffect, useState } from "react";
 import { useAppSelector } from '@/store/hooks';

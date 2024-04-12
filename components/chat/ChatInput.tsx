@@ -4,7 +4,7 @@ import useMessagingPublisherMethods from '@/hooks/chat/use-messaging-publisher';
 import useKeydownListener from '@/hooks/use-keydown-listener';
 import useTranslation from '@/lang/use-translation';
 import { MeContext } from '@/providers/me-provider';
-import { ChatMessageType } from '@/types/chat-message/chat-message-type';
+import { ChatMessageType } from '@/types/chat/chat-message/chat-message-type';
 import { Client } from '@stomp/stompjs';
 import { useCallback, useContext, useRef, useState } from 'react';
 import { CSSTransition, TransitionGroup } from "react-transition-group";

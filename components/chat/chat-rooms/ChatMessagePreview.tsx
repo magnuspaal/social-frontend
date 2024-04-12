@@ -1,6 +1,6 @@
 'use client'
 
-import { ChatMessage } from '@/types/chat-message';
+import { ChatMessage } from '@/types/chat/chat-message';
 import { useContext, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { getMessageTimestamp } from '@/utils/date-utils';

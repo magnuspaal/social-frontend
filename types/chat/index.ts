@@ -1,4 +1,5 @@
 import { ChatMessage } from "./chat-message"
+import { ChatSettings } from "./chat-settings"
 import { ChatUser } from "./chat-user"
 
 export interface Chat {
@@ -6,5 +7,6 @@ export interface Chat {
   deletedAt: string
   id: number
   chatUsers: ChatUser[],
-  latestMessage?: ChatMessage
+  latestMessage?: ChatMessage,
+  chatSettings: ChatSettings
 }

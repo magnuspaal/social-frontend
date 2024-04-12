@@ -1,4 +1,4 @@
-import { ChatMessage } from "@/types/chat-message";
+import { ChatMessage } from "@/types/chat/chat-message";
 import { User } from "@/types/user";
 import { createSlice } from "@reduxjs/toolkit";
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { ChatMessageType } from "@/types/chat-message/chat-message-type";
+import { ChatMessageType } from "@/types/chat/chat-message/chat-message-type";
 import { useCallback, useState } from "react";
 import { Client } from '@stomp/stompjs';
 

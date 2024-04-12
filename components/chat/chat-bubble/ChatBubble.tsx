@@ -1,7 +1,7 @@
 "use client"
 
 import { MeContext } from '@/providers/me-provider';
-import { ChatMessage } from '@/types/chat-message';
+import { ChatMessage } from '@/types/chat/chat-message';
 import { useContext } from 'react';
 
 export default function ChatBubble({message}: {message: ChatMessage}) {

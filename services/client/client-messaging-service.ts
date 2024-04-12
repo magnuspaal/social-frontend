@@ -1,7 +1,7 @@
 'use client'
 
 import { ConfigService } from "../config-service"
-import { ChatMessage } from "@/types/chat-message"
+import { ChatMessage } from "@/types/chat/chat-message"
 import { UserEncryption } from "@/types/user-encryption"
 import { decryptPrivateKey, decryptText } from "@/utils/encryption-utils"
 import { AppError, AppErrorType } from "@/error/app-error"

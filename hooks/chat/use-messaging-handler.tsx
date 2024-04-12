@@ -1,7 +1,7 @@
 'use client'
 
-import { ChatMessage } from "@/types/chat-message/";
-import { ChatMessageType } from "@/types/chat-message/chat-message-type";
+import { ChatMessage } from "@/types/chat/chat-message/";
+import { ChatMessageType } from "@/types/chat/chat-message/chat-message-type";
 import { Client, IMessage, StompSubscription } from "@stomp/stompjs";
 import { useCallback, useEffect, useState } from "react";
 import useMessagingHandlerMethods from "./use-messaging-handler-methods";
