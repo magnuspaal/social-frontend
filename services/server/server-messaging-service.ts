@@ -7,9 +7,9 @@ class ServerMessagingService extends AbstractServerApiService {
     super(ConfigService.getMessagingApiUrl())
   }
 
-  getChat = (id: number) => this.get(`/chat/${id}`, { cache: "no-store"})
+  getChat = (id: number) => this.get(`/chat/${id}`, { cache: "no-cache" })
 
-  getUserChats = (): Promise<Chat[]> => this.get(`/user/chats`, { cache: "no-store" })
+  getUserChats = (): Promise<Chat[]> => this.get(`/user/chats`, { cache: "no-cache", next: { tags: ["chats"] } })
 }
 
 const serverMessagingService = new ServerMessagingService()

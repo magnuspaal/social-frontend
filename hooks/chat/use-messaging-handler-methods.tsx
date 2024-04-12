@@ -10,8 +10,8 @@ import { decryptText } from "@/utils/encryption-utils";
 import { useCallback, useEffect, useRef } from "react";
 import useMessagingPublisherMethods from "./use-messaging-publisher";
 import { Client } from "@stomp/stompjs";
-import { updateSeenMessage } from "@/store/chat-slice";
 import { usePathname } from "next/navigation";
+import { serverRevalidateTag } from "@/server-action/revalidate";
 
 const useMessagingHandlerMethods = (client: Client | undefined) => {
   const dispatch = useAppDispatch()
@@ -31,7 +31,7 @@ const useMessagingHandlerMethods = (client: Client | undefined) => {
     message.content = decryptedMessage ?? "Message could not be decrypted"
     message.options = { animate: true }
 
-    logInfo(message)
+    logInfo("Regular message:", message.chatMessageId)
 
     dispatch(clearWritingMessage({chatId: message.chatId, sender: message.sender}))
     dispatch(addMessage(message))
@@ -56,8 +56,10 @@ const useMessagingHandlerMethods = (client: Client | undefined) => {
   }, [dispatch])
 
   const handleSeenMessage = useCallback((message: ChatMessage) => {
-    dispatch(updateSeenMessage({chatId: message.chatId, messageId: parseInt(Buffer.from(message.content, 'base64').toString()), userId: message.sender.id}))
-  }, [dispatch])
+    const messageId = parseInt(Buffer.from(message.content, 'base64').toString())
+    logInfo("Seen message (sender, seen message id):", message.sender.id, messageId)
+    serverRevalidateTag("chats")
+  }, [])
 
   return {
     handleRegularMessage, 

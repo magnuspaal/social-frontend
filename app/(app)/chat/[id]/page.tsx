@@ -6,5 +6,5 @@ export default async function ChatPage({ params }: any) {
   const chatId = params.id;
   const chat = await serverMessagingService.getChat(chatId);
 
-  return <ChatWindow propsChat={chat}/>
+  return <ChatWindow chat={chat}/>
 }

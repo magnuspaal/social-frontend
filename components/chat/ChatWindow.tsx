@@ -16,10 +16,9 @@ import ChatWriting from './chat-bubble/ChatWriting';
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import ChatBubbleHeader from './chat-bubble/ChatBubbleHeader';
 import ChatBubbleFooter from './chat-bubble/ChatBubbleFooter';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { updateChat } from '@/store/chat-slice';
+import { serverRevalidateTag } from '@/server-action/revalidate';
 
-export default function ChatWindow({propsChat}: {propsChat: Chat}) {
+export default function ChatWindow({chat}: {chat: Chat}) {
 
   useDisableScroll(true)
 
@@ -27,18 +26,8 @@ export default function ChatWindow({propsChat}: {propsChat: Chat}) {
 
   const chatWindowRef = useRef<HTMLDivElement>(null);
 
-  const dispatch = useAppDispatch() 
-  
-  useEffect(() => {
-    dispatch(updateChat(propsChat))
-  }, [propsChat, dispatch])
-
   const messageSelector = createSelector([(state) => state.messaging.messages], (messages) => {
-    return messages.filter((message: ChatMessage) => message.chatId === propsChat.id)
-  })
-
-  const chat = useAppSelector((state) => {
-    return state.chat.chats.find((chat) => chat.id == propsChat.id) ?? propsChat
+    return messages.filter((message: ChatMessage) => message.chatId === chat.id)
   })
 
   const [messages,  endOfMessages] = useInfiniteScroll(
@@ -47,10 +36,14 @@ export default function ChatWindow({propsChat}: {propsChat: Chat}) {
     addMessages,
     undefined,
     chatWindowRef,
-    {id: propsChat.id, limit: 10}
+    {id: chat.id, limit: 10}
   )
 
   const { client } = useContext(MessagingClientContext)
+
+  useEffect(() => {
+    serverRevalidateTag("chats")
+  }, [])
 
   useEffect(() => {
     if (messages) {
@@ -74,7 +67,7 @@ export default function ChatWindow({propsChat}: {propsChat: Chat}) {
               <CSSTransition in={message?.options?.animate} appear={message?.options?.animate} timeout={500} classNames="message">
                 <ChatBubble message={message} />
               </CSSTransition>
-              <ChatBubbleFooter message={message} chatUsers={chat.chatUsers} />
+              <ChatBubbleFooter message={message} chat={chat} />
             </div>
           )}
         </TransitionGroup>

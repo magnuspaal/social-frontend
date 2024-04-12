@@ -9,7 +9,7 @@ export default async function ChatPreview({chat}: {chat: Chat}) {
   return (
     <Link href={`/chat/${chat.id}`} className="flex flex-row items-center flex-wrap justify-center p-4">
       <div className="flex flex-col grow w-full">
-        <div className="truncate font-bold">{usersString}</div>
+        <div className="truncate font-semibold text-sm mb-1">{usersString}</div>
         <ChatMessagePreview chat={chat}/>
       </div>
     </Link>

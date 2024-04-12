@@ -1,12 +1,12 @@
 "use client"
 
 import { MeContext } from '@/providers/me-provider';
+import { Chat } from '@/types/chat';
 import { ChatMessage } from '@/types/chat-message';
-import { ChatUser } from '@/types/chat-user';
 import { useContext, useEffect, useState } from 'react';
 import { CSSTransition } from "react-transition-group";
 
-export default function ChatBubbleFooter({message, chatUsers}: {message: ChatMessage, chatUsers: ChatUser[]}) {
+export default function ChatBubbleFooter({message, chat}: {message: ChatMessage, chat: Chat}) {
 
   const { me } = useContext(MeContext)
 
@@ -14,17 +14,22 @@ export default function ChatBubbleFooter({message, chatUsers}: {message: ChatMes
   const [display, setDisplay] = useState<boolean>(false)
 
   useEffect(() => {
-    setLatestSeenMessageUsers(chatUsers
+    const latestSeenUsers = chat.chatUsers
       .filter((chatUser) => chatUser.latestSeenMessage == message.chatMessageId && chatUser.user.id != me?.id)
       .map((user) => user.user.username)
-      .join(", "))
-    setDisplay(!!latestSeenMessageUsers)
-  }, [chatUsers, latestSeenMessageUsers, me?.id, message.chatMessageId])
- 
+      .join(", ")
+     
+    setDisplay(latestSeenUsers.length != 0)
+
+    if (latestSeenUsers.length > 0) {
+      setLatestSeenMessageUsers(latestSeenUsers)
+    }
+  }, [chat])
+
   return (
-    <CSSTransition in={display} appear={true} timeout={2000} classNames="message-slide">
+    <CSSTransition in={display} appear={false} onExited={() => setLatestSeenMessageUsers("")} timeout={800} classNames="message-slide">
       <div className="flex flex-col">
-        {latestSeenMessageUsers.length > 0 && <div className={`text-[10px] my-[2px] mx-4 text-right font-bold`}>{`${latestSeenMessageUsers}`}</div>}
+        <div className={`text-[10px] mx-4 text-right font-bold`}>{`${latestSeenMessageUsers}`}</div>
       </div>
     </CSSTransition>
   )
