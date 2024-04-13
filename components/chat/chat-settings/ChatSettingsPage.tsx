@@ -92,18 +92,23 @@ export default function ChatSettingsPage({chat}: {chat: Chat}) {
   return (
     <div style={{background: backgroundColor}} className="sm:h-[70svh] h-full flex flex-col">
       <ChatHeaderElement color={textColor} iconColor={elementColor} chat={chat} isChatSettings={true} />
-      <div className='mx-5 flex flex-col items-center gap-2'>
-        <ChatSettingsDemo 
-          myChatBubbleColor={myChatBubbleColor} 
-          myChatTextColor={myChatTextColor} 
-          theirChatBubbleColor={theirChatBubbleColor} 
-          theirChatTextColor={theirChatTextColor} 
-          textColor={textColor}
-        />
+      <div className='flex flex-col items-center gap-2 overflow-y-auto'>
+        <div className='flex w-full px-1 py-3'>
+          <ChatSettingsDemo 
+            myChatBubbleColor={myChatBubbleColor} 
+            myChatTextColor={myChatTextColor} 
+            theirChatBubbleColor={theirChatBubbleColor} 
+            theirChatTextColor={theirChatTextColor} 
+            textColor={textColor}
+          />
+        </div>
         <div className='flex flex-col bg-white divide-y rounded-md max-w-[400px] w-full px-1'>
           <ChatSettingsColor description={t('chat.settings.colors.your_bubble_color')} color={myChatBubbleColor} setColor={setMyChatBubbleColor} />
           <ChatSettingsColor description={t('chat.settings.colors.your_text_color')} color={myChatTextColor} setColor={setMyChatTextColor} message={`${!myContrast ? t("chat.settings.text_readability") : ''}`}/>
-          <ChatSettingsColor description={t('chat.settings.colors.their_bubble_color')} color={theirChatBubbleColor} setColor={setTheirChatBubbleColor} />
+          <ChatSettingsColor 
+            description={t('chat.settings.colors.their_bubble_color')} 
+            color={theirChatBubbleColor} setColor={setTheirChatBubbleColor} 
+            openUp={true} />
           <ChatSettingsColor 
             description={t('chat.settings.colors.their_text_color')} 
             color={theirChatTextColor} setColor={settheirChatTextColor} 
@@ -125,7 +130,7 @@ export default function ChatSettingsPage({chat}: {chat: Chat}) {
         <button 
           onClick={updateChatSettings} 
           style={{backgroundColor: elementColor, color: elementTextColor}} 
-          className='rounded font-bold black p-1 max-w-[150px] w-full bg-primary border border-transparent text-white uppercase'>
+          className='rounded font-bold black p-1 max-w-[150px] w-full bg-primary border border-transparent text-white uppercase mb-20'>
           {t('common.save')}
         </button>
       </div>

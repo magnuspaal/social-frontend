@@ -70,11 +70,6 @@ export default function ChatSettingsDemo({
     chatMessageId: 3
   } as ChatMessage
 
-  const message4 = {
-    content: "Thanks for asking!",
-    sender: sender1
-  } as ChatMessage
-
   return (
     <div className='flex flex-col w-full rounded-md'>
       <ChatBubbleHeaderElement message={message1} chat={chat} displayTimestamp={true} displayUsername={true}/>
@@ -84,7 +79,6 @@ export default function ChatSettingsDemo({
       <ChatBubbleHeaderElement message={message3} chat={chat} displayTimestamp={true} displayUsername={true}/>
       <ChatBubble message={message3} chat={chat}/>
       <ChatBubbleFooter message={message3} chat={chat} initialUser={sender2.username}/>
-      <ChatBubble message={message4} chat={chat}/>
     </div>
   )
 }
