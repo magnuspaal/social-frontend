@@ -112,7 +112,7 @@
       "colors": {
         "your_bubble_color": "Sinu mulli värv",
         "your_text_color": "Sinu teksti värv", 
-        "their_bubble_color": "Nende teksti värv",
+        "their_bubble_color": "Nende mulli värv",
         "their_text_color": "Nende teksti värv",
         "background_color": "Taustavärv",
         "element_color": "Nuppude värv",
