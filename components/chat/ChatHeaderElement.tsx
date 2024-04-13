@@ -10,7 +10,7 @@ interface ChatHeaderElementProps {
   chat: Chat, 
   color: string | undefined,
   isChatSettings: boolean,
-  iconColor?: string | undefined
+  iconColor: string
 }
 
 export default function ChatHeaderElement({chat, color, iconColor, isChatSettings}: ChatHeaderElementProps) {
@@ -22,8 +22,8 @@ export default function ChatHeaderElement({chat, color, iconColor, isChatSetting
       <Link href={`/chat/${chat.id}${isChatSettings ? "" : "/settings"}`}>
         {
           isChatSettings ? 
-            <ChatSvg color={iconColor ?? chat.chatSettings?.elementColor} />:
-            <SettingsSvg color={iconColor ?? chat.chatSettings?.elementColor} />
+            <ChatSvg color={iconColor} />:
+            <SettingsSvg color={iconColor} />
         }
       </Link>
     </div>

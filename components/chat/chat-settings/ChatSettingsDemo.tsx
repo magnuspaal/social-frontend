@@ -83,7 +83,7 @@ export default function ChatSettingsDemo({
       <ChatBubble message={message2} chat={chat}/>
       <ChatBubbleHeaderElement message={message3} chat={chat} displayTimestamp={true} displayUsername={true}/>
       <ChatBubble message={message3} chat={chat}/>
-      <ChatBubbleFooter message={message3} chat={chat}></ChatBubbleFooter>
+      <ChatBubbleFooter message={message3} chat={chat} initialUser={sender2.username}/>
       <ChatBubble message={message4} chat={chat}/>
     </div>
   )

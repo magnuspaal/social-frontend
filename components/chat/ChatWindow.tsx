@@ -55,7 +55,7 @@ export default function ChatWindow({chat}: {chat: Chat}) {
 
   return (
     <div style={{background: chat.chatSettings?.backgroundColor}} className="sm:h-[70svh] h-full flex flex-col">
-      <ChatHeader color={chat.chatSettings?.textColor} chat={chat}/>
+      <ChatHeader color={chat.chatSettings?.textColor} iconColor={chat.chatSettings?.elementColor ?? "#503EC4"} chat={chat}/>
       <div className="overflow-y-scroll flex flex-col-reverse h-full w-full" ref={chatWindowRef}>
         <TransitionGroup component={null}>    
           <ChatWriting chat={chat}/>

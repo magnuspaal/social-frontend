@@ -28,7 +28,7 @@ export default function ChatSettingsPage({chat}: {chat: Chat}) {
 
   const [backgroundColor, setBackgroundColor] = useState<string>(chat.chatSettings?.backgroundColor ?? "#FFFFFF")
 
-  const [elementColor, setElementColor] = useState<string>(chat.chatSettings?.elementColor ?? "#000000")
+  const [elementColor, setElementColor] = useState<string>(chat.chatSettings?.elementColor ?? "#503EC4")
   const [elementTextColor, setElementTextColor] = useState<string>(chat.chatSettings?.elementTextColor ?? "#FFFFFF")
   const [elementContrast, setElementContrast] = useState<boolean>(true)
   const [elementTextContrast, setElementTextContrast] = useState<boolean>(true)
