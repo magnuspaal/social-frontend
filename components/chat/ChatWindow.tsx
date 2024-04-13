@@ -54,18 +54,18 @@ export default function ChatWindow({chat}: {chat: Chat}) {
   }, [messages])
 
   return (
-    <div className="sm:h-[70svh] h-full flex flex-col">
-      <ChatHeader chat={chat}/>
+    <div style={{background: chat.chatSettings?.backgroundColor}} className="sm:h-[70svh] h-full flex flex-col">
+      <ChatHeader color={chat.chatSettings?.textColor} chat={chat}/>
       <div className="overflow-y-scroll flex flex-col-reverse h-full w-full" ref={chatWindowRef}>
         <TransitionGroup component={null}>    
           <ChatWriting chat={chat}/>
           {messages?.map((message: ChatMessage) => 
             <div key={message.id}>
               <CSSTransition in={message?.options?.animate} appear={message?.options?.animate} timeout={500} classNames="message-slide">
-                <ChatBubbleHeader message={message}/>
+                <ChatBubbleHeader message={message} chat={chat}/>
               </CSSTransition>
               <CSSTransition in={message?.options?.animate} appear={message?.options?.animate} timeout={500} classNames="message">
-                <ChatBubble message={message} />
+                <ChatBubble message={message} chat={chat} />
               </CSSTransition>
               <ChatBubbleFooter message={message} chat={chat} />
             </div>
@@ -76,7 +76,7 @@ export default function ChatWindow({chat}: {chat: Chat}) {
           }
       </div>
       {client ? 
-        <ChatInput chatId={chat.id} client={client}/> : 
+        <ChatInput chat={chat} client={client}/> : 
         <div className="flex justify-center p-6"><span className="loader"></span></div>
       }
     </div>

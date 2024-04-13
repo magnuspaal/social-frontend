@@ -1,14 +1,16 @@
 import { Chat } from '@/types/chat';
+import { usePathname } from 'next/navigation';
+import ChatHeaderElement from './ChatHeaderElement';
 
-export default function ChatHeader({chat}: {chat: Chat | null}) {
+export default function ChatHeader({chat, color}: {chat: Chat, color: string | undefined}) {
 
-  const usersString = chat?.chatUsers.map((chatUser) => chatUser.user.username).join(', ')
+  const pathname = usePathname()
+
+  const isChatSettings = () => pathname.startsWith(`/chat/${chat.id}/settings`)
 
   if (chat) {
     return (
-      <div className='flex p-2 border-b-2'>
-        <div className="mx-2 truncate font-bold">{usersString}</div>
-      </div>
+      <ChatHeaderElement chat={chat} color={color} isChatSettings={isChatSettings()}/>
     )
   } else {
     return <div className="flex justify-center p-3"><span className="loader h-[30px] w-[30px]"></span></div>

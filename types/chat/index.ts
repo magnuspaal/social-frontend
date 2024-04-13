@@ -8,5 +8,5 @@ export interface Chat {
   id: number
   chatUsers: ChatUser[],
   latestMessage?: ChatMessage,
-  chatSettings: ChatSettings
+  chatSettings?: ChatSettings
 }

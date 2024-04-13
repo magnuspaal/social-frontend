@@ -34,7 +34,7 @@ export default function ChatWriting({chat}: {chat: Chat}) {
             key={sender.id}
             timeout={2000}
             classNames="message">
-            <ChatWritingBubble key={chat.id + "-" + sender.id} sender={sender}/>
+            <ChatWritingBubble key={chat.id + "-" + sender.id} sender={sender} chat={chat}/>
           </CSSTransition>
         )
       })

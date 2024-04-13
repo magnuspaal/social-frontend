@@ -2,7 +2,7 @@
 
 import { ChatMessage } from '@/types/chat/chat-message';
 import { useContext, useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useAppSelector } from '@/store/hooks';
 import { getMessageTimestamp } from '@/utils/date-utils';
 import { MeContext } from '@/providers/me-provider';
 import useTranslation from '@/lang/use-translation';
@@ -26,10 +26,6 @@ export default function ChatMessagePreview({chat}: {chat: Chat}) {
   })
 
   const [lastMessage, setLastMessage] = useState<ChatMessage>()
-
-  useEffect(() => {
-
-  }, [])
 
   // Set initial message on page load
   useEffect(() => {

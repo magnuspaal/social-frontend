@@ -54,6 +54,10 @@ export abstract class AbstractApiService {
     return this.handleRequest(url, { method: "POST", body, ...options })
   }
 
+  async patch(url: string, body?: string | FormData, options?: Record<any, any>) {
+    return this.handleRequest(url, { method: "PATCH", body, ...options })
+  }
+
   handleResponseError = async (res: Response): Promise<any> => {
     return Promise.resolve(false)
   }

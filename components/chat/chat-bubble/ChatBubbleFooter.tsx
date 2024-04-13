@@ -28,7 +28,7 @@ export default function ChatBubbleFooter({message, chat}: {message: ChatMessage,
 
   return (
     <CSSTransition in={display} onExited={() => setLatestSeenMessageUsers("")} timeout={800} classNames="message-slide">
-      <div className="flex flex-col">
+      <div style={{color: chat.chatSettings?.textColor}} className="flex flex-col">
         <div className={`text-[10px] mx-4 text-right font-bold`}>{`${latestSeenMessageUsers}`}</div>
       </div>
     </CSSTransition>

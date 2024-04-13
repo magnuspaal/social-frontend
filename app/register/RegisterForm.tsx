@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import clientAuthService from '@/services/client/client-auth-service';
 import useTranslation from '@/lang/use-translation';

@@ -1,6 +1,7 @@
 {
   "common": {
-    "you": "Sina"
+    "you": "Sina",
+    "save": "Salvesta"
   },
   "navigation": {
     "home": "Kodu",
@@ -106,6 +107,20 @@
     "messages": {
       "default": "Midagi läks valesti, proovi hiljem uuesti",
       "no_user_encryption": "See kasutaja ei kasuta vestluseid"
+    },
+    "settings": {
+      "colors": {
+        "your_bubble_color": "Sinu mulli värv",
+        "your_text_color": "Sinu teksti värv", 
+        "their_bubble_color": "Nende teksti värv",
+        "their_text_color": "Nende teksti värv",
+        "background_color": "Taustavärv",
+        "element_color": "Nuppude värv",
+        "text_readability": "Hoiatus! Teksti loetavus on liiga kehv.",
+        "element_readability": "Hoiatus! Nuppude nähtavus on liiga kehv.",
+        "element_text_readability": "'Hoiatus! Nuppude teksti loetavus on liiga kehv.'",
+        "updated": "Vestluse värvid uuendatud!"
+      }
     }
   }
 }

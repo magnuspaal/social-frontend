@@ -27,6 +27,8 @@ class ClientMessagingService extends AbstractClientApiService {
 
   createChat = (body: string) => this.post(`/chat`, body)
 
+  updateChatSettings = (id: number, body: string) => this.patch(`/chat/${id}/settings`, body)
+
   getPrivateChat = (userId: number): Promise<Chat | null> => this.get(`/user/${userId}/chat`)
 
   getChatMessages = (offset: number, limit: number, id: number): Promise<ChatMessage[]> =>
