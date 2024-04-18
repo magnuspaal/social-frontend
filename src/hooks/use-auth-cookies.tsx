@@ -18,8 +18,8 @@ const useAuthCookies = () => {
       const secure = isProduction()
       const domain = import.meta.env.VITE_WEBSOCKET_DOMAIN
       if (newValue.authToken) cookies.set("authToken", newValue.authToken, { expires: 60 * 10 / 86400, secure, domain})
-      if (newValue.refreshToken) cookies.set("refreshToken", newValue.refreshToken, { expires: 60 * 60 * 24 * 30 * 6 / 86400, secure, sameSite: "lax" })
-      if (newValue.expiresAt) cookies.set("expiresAt", newValue.expiresAt, { expires: 60 * 60 * 24 * 30 * 6 / 86400, secure, sameSite: "lax"})
+      if (newValue.refreshToken) cookies.set("refreshToken", newValue.refreshToken, { expires: 60 * 60 * 24 * 30 * 6 / 86400, secure, domain, sameSite: "lax" })
+      if (newValue.expiresAt) cookies.set("expiresAt", newValue.expiresAt, { expires: 60 * 60 * 24 * 30 * 6 / 86400, secure, domain, sameSite: "lax"})
     } catch (err) {
       console.log(err);
     }
