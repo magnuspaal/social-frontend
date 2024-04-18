@@ -1,4 +1,4 @@
-fs = require('fs');
+import fs from 'fs'
 
 const compose = 'cicd/deploy/docker-compose.yml';
 const newVersion = process.argv[2]

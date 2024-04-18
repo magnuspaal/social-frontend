@@ -23,20 +23,16 @@ ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+RUN adduser --system --uid 1001 react
 
-COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/next.config.js ./
-COPY --from=builder /app/.env ./.env
-COPY --from=builder /app/app/favicon.ico ./public/
+RUN npm install -g serve
 
-USER nextjs
+COPY --from=builder /app/dist ./dist
+
+USER react
 
 EXPOSE 3000
 
 ENV PORT 3000
 
-CMD ["npm", "start"]
+CMD ["serve", "-s", "dist"]

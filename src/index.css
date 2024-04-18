@@ -1,0 +1,37 @@
+@import "./style/animation/bounce-in.css";
+@import "./style/animation/bounce-out.css";
+@import "./style/animation/loader.css";
+@import "./style/animation/post.css";
+@import "./style/animation/alert.css";
+@import "./style/animation/message.css";
+@import "./style/animation/common.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  height: 100%;
+}
+
+body {
+  overflow-y: scroll;
+  margin: 0;
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
+textarea {
+  outline: 0;
+}
+
+input {
+  outline: 0;
+}
+
+:disabled {
+  cursor: not-allowed;
+}

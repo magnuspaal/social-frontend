@@ -5,19 +5,15 @@
 Add environment in .env
 
 ```
-NEXT_PUBLIC_AUTH_API_URL=http://localhost:8080/api/v1/auth
-NEXT_PUBLIC_API_URL=http://localhost:8081/api/v1
-NEXT_PUBLIC_FILE_API_URL=http://localhost:8082/media
-NEXT_PUBLIC_MESSAGING_API_URL=http://localhost:8083/api/v1
-NEXT_PUBLIC_WEBSOCKET_URL=http://localhost:8083/api/v1/messaging
-NEXT_PUBLIC_WEBSOCKET_DOMAIN=localhost
+VITE_AUTH_API_URL=http://localhost:8080/api/v1/auth
+VITE_API_URL=http://localhost:8081/api/v1
+VITE_FILE_API_URL=http://localhost:8082/media
+VITE_MESSAGING_API_URL=http://localhost:8083/api/v1
+VITE_WEBSOCKET_URL=http://localhost:8083/api/v1/messaging
 
-NEXT_PUBLIC_JWT_SECRET=
+VITE_JWT_SECRET=ouvezmcEqYLpP6yJc4oGHaNxppJjXiITfc1dl8ZW9ZI1uqLsjjqj56CjGCPP96Qf
 
-FILE_API_PROTOCOL=http
-FILE_API_HOSTNAME=localhost
-FILE_API_PORT=8082
-FILE_API_PATHNAME=/media/**
+VITE_WEBSOCKET_DOMAIN=
 ```
 
 `npm run dev`
