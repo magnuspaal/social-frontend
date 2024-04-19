@@ -69,7 +69,8 @@ export abstract class AbstractApiService {
 
   isTokenExpired = async (): Promise<boolean> => {
     const expiresAt = cookies.get("expiresAt")
-    if (expiresAt) {
+    const authToken = cookies.get("authToken")
+    if (expiresAt && authToken) {
       const expiresDate = new Date(expiresAt).getTime() / 1000
       const currentDate = new Date(new Date().toUTCString()).getTime() / 1000
       if (expiresDate - 5 > currentDate) {

@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 import useAuthService from '@/services/auth-service';
 import useTranslation from '@/lang/use-translation';
 import useMessagingService from '@/services/messaging-service';
-import { redirect, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '@/providers/auth-provider';
 
 export default function LoginForm() {
@@ -29,6 +29,7 @@ export default function LoginForm() {
       .then(async (body) => {
         login({authToken: body.token, refreshToken: body.refreshToken, expiresAt: body.expiresAt}, true)
         await messagingService.getUserEncryption(password)
+        setLoading(false)
         navigate("/")
       })
       .catch((codes: string[]) => {
@@ -37,14 +38,12 @@ export default function LoginForm() {
         } else {
           setErrorCodes(["login.messages.default"])
         }
-      })
-      .finally(() => {
         setLoading(false)
       })
   }
 
   const handleSignup = async () => {
-    redirect('/register')
+    navigate('/register')
   }
 
   return (
@@ -64,6 +63,7 @@ export default function LoginForm() {
         autoCapitalize='none'
         disabled={loading}
         autoComplete='email'
+        name='email'
       />
       <input
         className="p-2 rounded border border-solid"
@@ -74,13 +74,13 @@ export default function LoginForm() {
         autoCapitalize='none'
         disabled={loading}
         autoComplete='current-password'
+        name='password'
       />
       <div>{
         errorCodes.map((code, index) => <p className='m-y-1.5 text-red-600 italic text-center' key={code + index}>
           {t(`login.messages.${code}`) ?? t(`login.messages.default`)}
         </p>)
       }</div>
-
       <button className='p-4 rounded bg-secondary font-sans font-bold' type='submit' disabled={loading}>
         {
           loading

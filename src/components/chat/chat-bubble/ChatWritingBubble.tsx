@@ -7,7 +7,7 @@ export default function ChatWritingBubble({sender, chat}: {sender: User, chat: C
 
   return (
     <div className='flex flex-col left'>
-      <div className={`text-[10px] font-normal mx-3 mt-2`}>{sender.username}</div>
+      <div style={{color: chat.chatSettings?.textColor}} className={`text-[10px] font-normal mx-3 mt-2`}>{sender.username}</div>
       <div
         style={{wordBreak: 'break-word', overflowWrap: "break-word", 
           color: chat.chatSettings?.theirChatTextColor, 
