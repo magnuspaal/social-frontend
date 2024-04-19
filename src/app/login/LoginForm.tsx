@@ -9,7 +9,7 @@ export default function LoginForm() {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [errorCodes, setErrorCodes] = useState<string[]>([])
+  // const [errorCodes, setErrorCodes] = useState<string[]>([])
   const [loading, setLoading] = useState(false)
   const [registeredMessage, setRegisteredMessage] = useState<boolean>(false)
 
@@ -32,12 +32,13 @@ export default function LoginForm() {
         setLoading(false)
         navigate("/")
       })
-      .catch((codes: string[]) => {
-        if (codes) {
-          setErrorCodes(codes)
-        } else {
-          setErrorCodes(["login.messages.default"])
-        }
+      .catch((codes: any) => {
+        console.error(codes)
+        // if (codes) {
+        //   setErrorCodes(codes)
+        // } else {
+        //   setErrorCodes(["login.messages.default"])
+        // }
         setLoading(false)
       })
   }
@@ -77,9 +78,9 @@ export default function LoginForm() {
         name='password'
       />
       <div>{
-        errorCodes.map((code, index) => <p className='m-y-1.5 text-red-600 italic text-center' key={code + index}>
-          {t(`login.messages.${code}`) ?? t(`login.messages.default`)}
-        </p>)
+        // errorCodes.map((code, index) => <p className='m-y-1.5 text-red-600 italic text-center' key={code + index}>
+        //   {t(`login.messages.${code}`) ?? t(`login.messages.default`)}
+        // </p>)
       }</div>
       <button className='p-4 rounded bg-secondary font-sans font-bold' type='submit' disabled={loading}>
         {

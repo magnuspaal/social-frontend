@@ -3,7 +3,6 @@ import AuthCookies from "@/services/interfaces/auth-cookies";
 import { logInfo, logVerbose } from "@/utils/development-utils";
 import { createContext, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import cookies from 'js-cookie'
 
 export const AuthContext = createContext<{
   user: AuthCookies,
@@ -47,7 +46,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const handleTokenRefresh = async (): Promise<{authenticated: boolean}> => {
-    const cookiesRefreshToken = cookies.get("refreshToken")
+    const cookiesRefreshToken = user.refreshToken
     if (cookiesRefreshToken) {
       return postRefreshToken(cookiesRefreshToken).then((body) => {
         login({authToken: body.token, refreshToken: body.refreshToken, expiresAt: body.expiresAt}, true)
