@@ -1,23 +1,22 @@
 import useAuthCookies from "@/hooks/use-auth-cookies";
-import AuthCookies from "@/services/interfaces/auth-cookies";
-import { logInfo, logVerbose } from "@/utils/development-utils";
+import { logInfo } from "@/utils/development-utils";
 import { createContext, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext<{
-  user: AuthCookies,
-  login: ((data: AuthCookies, doNotRedirect?: boolean) => void), 
+  authToken: string | undefined,
+  login: (doNotRedirect?: boolean) => void,
   logout: (() => void),
-  handleTokenRefresh: (() => Promise<{authenticated: boolean}>)
-}>({user: {}, login: () => {}, logout: () => {}, handleTokenRefresh: async () => {return {authenticated: false}}});
+  handleTokenRefresh: (() => Promise<boolean>)
+}>({authToken: undefined, login: () => {}, logout: () => {}, handleTokenRefresh: async () => {return false}});
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const { user, setUser, removeUser } = useAuthCookies();
+  const { authToken, getAuthToken, removeUser } = useAuthCookies();
 
   const navigate = useNavigate();
 
-  const login = (data: AuthCookies, doNotRedirect?: boolean) => {
-    setUser(data);
+  const login = (doNotRedirect?: boolean) => {
+    getAuthToken()
     if (!doNotRedirect) {
       navigate("/");
     }
@@ -28,47 +27,38 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     navigate("/login", { replace: true });
   };
 
-  const postRefreshToken = async (refreshToken: string) => {
+  const getRefreshToken = async (): Promise<boolean> => {
     return fetch(import.meta.env.VITE_AUTH_API_URL + "/refresh", 
-    {
-      method: "POST", 
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({refreshToken})}
-    )
-      .then(async (res: Response) => {
-        logInfo("Called:", import.meta.env.VITE_AUTH_API_URL + "/refresh", res.status)
-        if (res.ok) {
-          const body = await res.json()
-          logVerbose("Fetch body:", body)
-          return body
-        }
-      })
+      {method: "GET", credentials: 'include', headers: { "Content-Type": "application/json"}}
+    ).then(async (res: Response) => {
+      logInfo("Called:", import.meta.env.VITE_AUTH_API_URL + "/refresh", res.status)
+      return res.ok
+    })
   }
 
-  const handleTokenRefresh = async (): Promise<{authenticated: boolean}> => {
-    const cookiesRefreshToken = user.refreshToken
-    if (cookiesRefreshToken) {
-      return postRefreshToken(cookiesRefreshToken).then((body) => {
-        login({authToken: body.token, refreshToken: body.refreshToken, expiresAt: body.expiresAt}, true)
-        return {authenticated: true}
-      }).catch(() => {
+  const handleTokenRefresh = async (): Promise<boolean> => {
+    return getRefreshToken().then((refreshed: boolean) => {
+      if (!refreshed) {
         logout()
-        return {authenticated: false}
-      })
-    } else {
+        return false
+      } else {
+        login(true)
+        return true
+      }
+    }).catch(() => {
       logout()
-      return {authenticated: false}
-    }
+      return false
+    })
   }
 
   const value = useMemo(
     () => ({
-      user,
+      authToken,
       login,
       logout,
       handleTokenRefresh
     }),
-    [user]
+    [authToken]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

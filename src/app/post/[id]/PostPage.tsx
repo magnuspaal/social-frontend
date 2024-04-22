@@ -7,7 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { Post } from "@/types/post";
 import Loading from "@/components/common/Loading";
 import useApiService from "@/services/api-service";
-import { redirect, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function PostPage() {
 
@@ -15,6 +15,7 @@ export default function PostPage() {
 
   const apiService = useApiService()
   const { me } = useContext(MeContext)
+  const navigate = useNavigate()
 
   const isMe = () => me?.id == post?.user.id
 
@@ -24,7 +25,7 @@ export default function PostPage() {
   useEffect(() => {
     const getData = async () => {
       if (params.id) {
-        setPost(await apiService.getPost(parseInt(params.id)).catch(() => { redirect('/') }))
+        setPost(await apiService.getPost(parseInt(params.id)).catch(() => { navigate('/') }))
         setPostReplies(await apiService.getPostReplies(parseInt(params.id), 0, 50).catch(() => []))
       }
     }

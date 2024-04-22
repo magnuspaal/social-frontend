@@ -18,7 +18,7 @@ export default function LoginForm() {
   
   const { t } = useTranslation()
 
-  const { login } = useContext(AuthContext);
+  const { login } = useContext(AuthContext)
   const navigate = useNavigate()
 
   const submit = async(event: any) => {
@@ -26,11 +26,11 @@ export default function LoginForm() {
     setLoading(true)
     setRegisteredMessage(false)
     authService.postLogin(email, password)
-      .then(async (body) => {
-        login({authToken: body.token, refreshToken: body.refreshToken, expiresAt: body.expiresAt}, true)
+      .then(async () => {
+        login(true)
         await messagingService.getUserEncryption(password)
         setLoading(false)
-        navigate("/")
+        navigate("/", { replace: true })
       })
       .catch((codes: any) => {
         console.error(codes)

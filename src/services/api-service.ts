@@ -11,7 +11,7 @@ import { useContext } from "react"
 class ApiService extends AbstractApiService {
 
   constructor(
-    handleTokenRefresh: () => Promise<{authenticated: boolean}>
+    handleTokenRefresh: () => Promise<boolean>
   ) {
     super(import.meta.env.VITE_API_URL, handleTokenRefresh)
   }

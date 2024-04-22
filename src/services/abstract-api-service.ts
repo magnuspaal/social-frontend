@@ -4,11 +4,11 @@ import cookies from 'js-cookie'
 export abstract class AbstractApiService {
 
   private apiUrl: string
-  private handleTokenRefresh: (() => Promise<{authenticated: boolean}>) | undefined
+  private handleTokenRefresh: (() => Promise<boolean>) | undefined
 
   constructor(
     apiUrl: string, 
-    handleTokenRefresh?: () => Promise<{authenticated: boolean}>,
+    handleTokenRefresh?: () => Promise<boolean>,
   ) {
     this.apiUrl = apiUrl
     this.handleTokenRefresh = handleTokenRefresh
@@ -19,9 +19,10 @@ export abstract class AbstractApiService {
   makeFetch = async (url: string, headers: Record<any, any>, options: Record<any, any>) => {
     return fetch(this.apiUrl + url, {headers, credentials: 'include', ...options}).then(async (res: Response) => {
       logInfo("Called:", this.apiUrl + url, res.status)
+      const contentType = res.headers.get("Content-Type");
       if (!res.ok) {
         return this.handleResponseError(res);
-      } else {
+      } else if (contentType && contentType == "application/json") {
         const json = await res.json()
         logVerbose("Fetch body:", json)
         return json;
@@ -38,7 +39,7 @@ export abstract class AbstractApiService {
       logInfo("Called:", url, "Token expired:", isExpired, "Refresh token:", !!this.handleTokenRefresh)
 
       if (isExpired && this.handleTokenRefresh) {
-        const { authenticated } = await this.handleTokenRefresh()
+        const authenticated = await this.handleTokenRefresh()
         if (authenticated) {
           return this.makeFetch(url, headers, options)
         }
@@ -68,7 +69,7 @@ export abstract class AbstractApiService {
   }
 
   isTokenExpired = async (): Promise<boolean> => {
-    const expiresAt = localStorage.getItem("expiresAt")
+    const expiresAt = cookies.get("expiresAt")
     const authToken = cookies.get("authToken")
     if (expiresAt && authToken) {
       const expiresDate = new Date(expiresAt).getTime() / 1000

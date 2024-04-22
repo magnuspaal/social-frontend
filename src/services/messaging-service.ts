@@ -12,7 +12,7 @@ import { useContext } from "react"
 class MessagingService extends AbstractApiService {
 
   constructor(
-    handleTokenRefresh: () => Promise<{authenticated: boolean}>
+    handleTokenRefresh: () => Promise<boolean>
   ) {
     super(import.meta.env.VITE_MESSAGING_API_URL, handleTokenRefresh)
   }

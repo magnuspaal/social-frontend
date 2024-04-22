@@ -7,13 +7,9 @@ import { useContext } from "react";
 
 export default function Login() {
 
-  const { user } = useContext(AuthContext);
+  const { authToken } = useContext(AuthContext);
 
-  if (user?.authToken && user.refreshToken && user.expiresAt) {
-    return <Navigate to="/"></Navigate>
-  }
-
-  return (
+  return !authToken ?
     <div className="flex items-center justify-center h-full">
       <div className="flex items-center justify-center max-sm:flex-col">
         <div className="bg-blue-100 max-w-[300px] rounded border border-blue-700 p-3 sm:mr-6 max-sm:mb-3">
@@ -26,6 +22,5 @@ export default function Login() {
         </div>
         <LoginForm />
       </div>
-    </div>
-  )
+  </div> : <Navigate to="/" />
 }
