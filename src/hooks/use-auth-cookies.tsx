@@ -16,6 +16,7 @@ const useAuthCookies = () => {
   const removeUser = () => {
     cookies.remove("authToken")
     cookies.remove("expiresAt")
+    cookies.remove("refreshToken")
     localStorage.removeItem("privateKey")
   }
 
