@@ -1,9 +1,9 @@
 
 
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, MutableRefObject, SetStateAction, useState } from "react";
 import { ChromePicker } from "react-color";
 
-export default function ColorPicker({color, setColor, openUp}: {color: string, setColor: Dispatch<SetStateAction<string>>, openUp?: boolean}) {
+export default function ColorPicker({color, setColor, scrollElement}: {color: string, setColor: Dispatch<SetStateAction<string>>, scrollElement: MutableRefObject<HTMLDivElement | null>}) {
 
   const [open, setOpen] = useState<boolean>(false)
 
@@ -13,6 +13,14 @@ export default function ColorPicker({color, setColor, openUp}: {color: string, s
 
   const toggleOpen = () => {
     setOpen(!open)
+
+    if (scrollElement.current) {
+      if (!open) {
+        scrollElement.current.style.overflowY = 'hidden';
+      } else {
+        scrollElement.current.style.overflowY = 'auto';
+      }
+    }
   }
 
   return (
@@ -22,10 +30,10 @@ export default function ColorPicker({color, setColor, openUp}: {color: string, s
       </div>
       {
         open &&
-        <div className="relative">
+        <div className=''>
           <div className="fixed top-0 bottom-0 left-0 right-0" onClick={toggleOpen}></div>
           <ChromePicker
-            className={`absolute ${openUp ? 'bottom-8 right-0' : 'top-0 right-0'}`}
+            className={`absolute right-0 left-0 mr-auto ml-auto top-[50%]`}
             color={color}
             onChange={handleChange}
           />

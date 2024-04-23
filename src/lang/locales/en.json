@@ -113,12 +113,12 @@
         "your_bubble_color": "Your Bubble Color",
         "your_text_color": "Your Text Color", 
         "their_bubble_color": "Their Bubble Color",
-        "their_text_color": "Their Bubble Color",
+        "their_text_color": "Their Text Color",
         "background_color": "Background Color",
         "element_color": "Button Color",
         "text_readability": "Warning! Text readability will be too low.",
         "element_readability": "Warning! Element visibility will be too low.",
-        "element_text_readability": "'Warning! Element text readability will be too low.'",
+        "element_text_readability": "Warning! Element text readability will be too low.",
         "updated": "Chat colors updated!"
       }
     }
