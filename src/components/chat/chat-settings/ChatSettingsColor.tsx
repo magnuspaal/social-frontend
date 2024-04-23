@@ -1,17 +1,16 @@
 
 
 import ColorPicker from '@/components/common/ColorPicker';
-import { Dispatch, MutableRefObject, SetStateAction } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
 interface ChatSettingsColorProps {
   description: string, 
   color: string, 
   setColor: Dispatch<SetStateAction<string>>,
-  message?: string,
-  scrollElement: MutableRefObject<HTMLDivElement | null>
+  message?: string
 }
 
-export default function ChatSettingsColor({description, color, setColor, message, scrollElement}: ChatSettingsColorProps) {
+export default function ChatSettingsColor({description, color, setColor, message}: ChatSettingsColorProps) {
 
   return (
     <div className='flex flex-col w-full'>
@@ -25,7 +24,7 @@ export default function ChatSettingsColor({description, color, setColor, message
             </div>
           }
         </div>
-        <ColorPicker color={color} setColor={setColor} scrollElement={scrollElement}/>
+        <ColorPicker color={color} setColor={setColor} />
       </div>
     </div>
   )

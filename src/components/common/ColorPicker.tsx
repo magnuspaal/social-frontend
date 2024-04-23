@@ -1,26 +1,18 @@
+import { Dispatch, SetStateAction, useRef, useState } from "react";
+import { HexColorPicker } from "react-colorful";
 
-
-import { Dispatch, MutableRefObject, SetStateAction, useState } from "react";
-import { ChromePicker } from "react-color";
-
-export default function ColorPicker({color, setColor, scrollElement}: {color: string, setColor: Dispatch<SetStateAction<string>>, scrollElement: MutableRefObject<HTMLDivElement | null>}) {
+export default function ColorPicker({color, setColor}: {color: string, setColor: Dispatch<SetStateAction<string>> }) {
 
   const [open, setOpen] = useState<boolean>(false)
 
-  const handleChange = (color: {hex: string}) => {
-    setColor(color.hex);
+  const fixedElement = useRef<HTMLDivElement>(null);
+
+  const handleChange = (color: string) => {
+    setColor(color);
   };
 
   const toggleOpen = () => {
     setOpen(!open)
-
-    if (scrollElement.current) {
-      if (!open) {
-        scrollElement.current.style.overflowY = 'hidden';
-      } else {
-        scrollElement.current.style.overflowY = 'auto';
-      }
-    }
   }
 
   return (
@@ -30,13 +22,13 @@ export default function ColorPicker({color, setColor, scrollElement}: {color: st
       </div>
       {
         open &&
-        <div className=''>
-          <div className="fixed top-0 bottom-0 left-0 right-0" onClick={toggleOpen}></div>
-          <ChromePicker
-            className={`absolute right-0 left-0 mr-auto ml-auto top-[50%]`}
-            color={color}
-            onChange={handleChange}
-          />
+        <div>
+          <div ref={fixedElement} className="fixed top-0 bottom-0 left-0 right-0" onClick={toggleOpen}></div>
+          <div className={`fixed top-0 left-0 right-0 mr-auto ml-auto w-[200px] top-[50%] translate-y-[-50%]`}>
+            <HexColorPicker 
+              color={color} onChange={handleChange} 
+            />
+          </div>
         </div>
       }
     </div>

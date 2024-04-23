@@ -26,6 +26,9 @@ export const encryptText = async (text: string, key: string) => {
 }
 
 export const decryptText = async (encryptedText: string, key: string) => {
+  if (import.meta.env.VITE_LOCAL_NETWORK) {
+    return encryptedText
+  }
   try {
     const decryptKey = await crypto.subtle.importKey("pkcs8", Buffer.from(key, 'base64'), {name: "RSA-OAEP", hash: "SHA-256"}, true, ['decrypt'])
     const bufferSource = Buffer.from(encryptedText, 'base64');

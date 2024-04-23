@@ -1,7 +1,7 @@
 
 
 import { Chat } from '@/types/chat';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ChatSettingsColor from './ChatSettingsColor';
 import useMessagingService from '@/services/messaging-service';
 // @ts-ignore
@@ -18,8 +18,6 @@ export default function ChatSettingsPage({chat}: {chat: Chat}) {
   const dispatch = useAppDispatch()
 
   const { t } = useTranslation()
-
-  const scrollElement = useRef<HTMLDivElement | null>(null)
 
   const [myChatBubbleColor, setMyChatBubbleColor] = useState<string>(chat.chatSettings?.myChatBubbleColor ?? "#53DD6C")
   const [myChatTextColor, setMyChatTextColor] = useState<string>(chat.chatSettings?.myChatTextColor ?? "#000000")
@@ -95,7 +93,7 @@ export default function ChatSettingsPage({chat}: {chat: Chat}) {
   return (
     <div style={{background: backgroundColor}} className="sm:h-[70svh] h-full flex flex-col">
       <ChatHeaderElement color={textColor} iconColor={elementColor} chat={chat} isChatSettings={true} />
-      <div ref={scrollElement} className='flex flex-col items-center gap-2 overflow-y-auto relative'>
+      <div className='flex flex-col items-center gap-2 overflow-y-auto h-full relative'>
         <div className='flex w-full px-1 py-3'>
           <ChatSettingsDemo 
             myChatBubbleColor={myChatBubbleColor} 
@@ -109,32 +107,26 @@ export default function ChatSettingsPage({chat}: {chat: Chat}) {
           <ChatSettingsColor 
             description={t('chat.settings.colors.your_bubble_color')} 
             color={myChatBubbleColor} 
-            setColor={setMyChatBubbleColor} 
-            scrollElement={scrollElement} />
+            setColor={setMyChatBubbleColor} />
           <ChatSettingsColor 
             description={t('chat.settings.colors.your_text_color')} 
             color={myChatTextColor} setColor={setMyChatTextColor} 
-            message={`${!myContrast ? t("chat.settings.colors.text_readability") : ''}`}
-            scrollElement={scrollElement} />
+            message={`${!myContrast ? t("chat.settings.colors.text_readability") : ''}`} />
           <ChatSettingsColor 
             description={t('chat.settings.colors.their_bubble_color')} 
-            color={theirChatBubbleColor} setColor={setTheirChatBubbleColor} 
-            scrollElement={scrollElement} />
+            color={theirChatBubbleColor} setColor={setTheirChatBubbleColor} />
           <ChatSettingsColor 
             description={t('chat.settings.colors.their_text_color')} 
             color={theirChatTextColor} setColor={settheirChatTextColor} 
-            message={`${!theirContrast ? t("chat.settings.colors.text_readability") : ''}`}
-            scrollElement={scrollElement} />
+            message={`${!theirContrast ? t("chat.settings.colors.text_readability") : ''}`} />
           <ChatSettingsColor 
             description={t('chat.settings.colors.background_color')} 
             color={backgroundColor} setColor={setBackgroundColor} 
-            message={`${!textContrast ? t("chat.settings.colors.text_readability") : ''}`}
-            scrollElement={scrollElement} />
+            message={`${!textContrast ? t("chat.settings.colors.text_readability") : ''}`} />
           <ChatSettingsColor 
             description={t('chat.settings.colors.element_color')} 
             color={elementColor} setColor={setElementColor} 
-            message={`${!elementContrast ? t("chat.settings.colors.element_readability") : ''} ${!elementTextContrast ? t("chat.settings.colors.element_text_readability") : ''}`} 
-            scrollElement={scrollElement} />
+            message={`${!elementContrast ? t("chat.settings.colors.element_readability") : ''} ${!elementTextContrast ? t("chat.settings.colors.element_text_readability") : ''}`} />
         </div>
         <button 
           onClick={updateChatSettings} 
