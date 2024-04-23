@@ -1,12 +1,9 @@
-
-
-import Loading from "@/components/common/Loading";
 import ChatSettingsPage from "@/components/chat/chat-settings/ChatSettingsPage";
+import Loading from "@/components/common/Loading";
 import useMessagingService from "@/services/messaging-service";
 import { Chat } from "@/types/chat";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ProtectedRoute } from "@/ProtectedRoute";
 
 export default function ChatSettings() {
 
@@ -26,8 +23,8 @@ export default function ChatSettings() {
   }, [])
 
   return (
-    <ProtectedRoute>
+    <>
       { chat ? <ChatSettingsPage chat={chat} /> : <Loading />}
-    </ProtectedRoute>
+    </>
   )
 }

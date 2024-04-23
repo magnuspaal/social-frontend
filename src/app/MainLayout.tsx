@@ -9,7 +9,6 @@ import { User } from '@/types/user'
 import { useEffect, useState } from 'react'
 import Loading from '@/components/common/Loading'
 import { Outlet } from 'react-router-dom'
-import { ProtectedRoute } from '@/ProtectedRoute'
 
 export default function MainLayout() {
 
@@ -25,7 +24,7 @@ export default function MainLayout() {
   }, [])
 
   return (
-    <ProtectedRoute>
+    <>
       {
         me ? (
           <MessagingClientProvider>
@@ -54,6 +53,6 @@ export default function MainLayout() {
             </MeProvider>
           </MessagingClientProvider> ) : <Loading />
       }
-    </ProtectedRoute>
+    </>
   )
 }

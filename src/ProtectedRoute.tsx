@@ -1,8 +1,9 @@
 import { useContext, useEffect } from "react";
 import { AuthContext } from "./providers/auth-provider";
 import Loading from "./components/common/Loading";
+import { Outlet } from "react-router-dom";
 
-export const ProtectedRoute = ({children}: {children: React.ReactNode}) => {
+export const ProtectedRoute = () => {
 
   const { authToken, login, handleTokenRefresh } = useContext(AuthContext);
 
@@ -21,7 +22,7 @@ export const ProtectedRoute = ({children}: {children: React.ReactNode}) => {
     {
       authToken == undefined ?
       <Loading /> :
-      children
+      <Outlet />
     }
     </>
   )

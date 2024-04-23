@@ -3,7 +3,6 @@ import ChatWindow from "@/components/chat/ChatWindow";
 import useMessagingService from "@/services/messaging-service";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { ProtectedRoute } from "@/ProtectedRoute";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { removeChat, setChat } from "@/store/messaging-slice";
 
@@ -30,8 +29,8 @@ export default function ChatRoom() {
   }, [])
 
   return (
-    <ProtectedRoute>
+    <>
       { chat ? <ChatWindow chat={chat}/> : <Loading /> }
-    </ProtectedRoute>
+    </>
   )
 }
