@@ -5,13 +5,12 @@ import { Outlet } from "react-router-dom";
 
 export const ProtectedRoute = () => {
 
-  const { authToken, login, handleTokenRefresh } = useContext(AuthContext);
+  const { user, handleTokenRefresh } = useContext(AuthContext);
 
   useEffect(() => {
     const authenticate = async () => {
-      if (!authToken) {
+      if (!user.authToken) {
         await handleTokenRefresh()
-        login(true)
       }
     }
     authenticate()
@@ -20,7 +19,7 @@ export const ProtectedRoute = () => {
   return (
     <>
     {
-      authToken == undefined ?
+      !user.authToken ?
       <Loading /> :
       <Outlet />
     }

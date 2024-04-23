@@ -1,22 +1,23 @@
 import useAuthCookies from "@/hooks/use-auth-cookies";
+import AuthCookies from "@/services/interfaces/auth-cookies";
 import { logInfo } from "@/utils/development-utils";
 import { createContext, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext<{
-  authToken: string | undefined,
+  user: AuthCookies,
   login: (doNotRedirect?: boolean) => void,
   logout: (() => void),
   handleTokenRefresh: (() => Promise<boolean>)
-}>({authToken: undefined, login: () => {}, logout: () => {}, handleTokenRefresh: async () => {return false}});
+}>({user: {}, login: () => {}, logout: () => {}, handleTokenRefresh: async () => {return false}});
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const { authToken, getAuthToken, removeUser } = useAuthCookies();
+  const { user, getAuthCookies, removeUser } = useAuthCookies();
 
   const navigate = useNavigate();
 
   const login = (doNotRedirect?: boolean) => {
-    getAuthToken()
+    getAuthCookies()
     if (!doNotRedirect) {
       navigate("/");
     }
@@ -53,12 +54,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const value = useMemo(
     () => ({
-      authToken,
+      user,
       login,
       logout,
       handleTokenRefresh
     }),
-    [authToken]
+    [user]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

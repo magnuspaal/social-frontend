@@ -1,26 +1,33 @@
 // src/hooks/useLocalStorage.jsx
 
+import AuthCookies from '@/services/interfaces/auth-cookies';
 import cookies from 'js-cookie'
 import { useState } from 'react';
 
 const useAuthCookies = () => {
 
-  const [authToken, setAuthToken] = useState<string | undefined>(cookies.get("authToken"))
+  const [user, setUser] = useState<AuthCookies>({
+    authToken: cookies.get("authToken"),
+    expiresAt: cookies.get("expiresAt"),
+    privateKey: localStorage.getItem("privateKey") ?? undefined
+  })
 
-  const getAuthToken = () => {
-    const cookie = cookies.get("authToken")
-    setAuthToken(cookie)
-    return authToken
+  const getAuthCookies = (): AuthCookies => {
+    setUser({
+      authToken: cookies.get("authToken"),
+      expiresAt: cookies.get("expiresAt"),
+      privateKey: localStorage.getItem("privateKey") ?? undefined
+    })
+    return user
   }
 
   const removeUser = () => {
     cookies.remove("authToken")
     cookies.remove("expiresAt")
-    cookies.remove("refreshToken")
     localStorage.removeItem("privateKey")
   }
 
-  return {authToken, getAuthToken, removeUser};
+  return {user, getAuthCookies, removeUser};
 };
 
 export default useAuthCookies

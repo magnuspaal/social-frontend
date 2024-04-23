@@ -7,9 +7,9 @@ import { useContext } from "react";
 
 export default function Login() {
 
-  const { authToken } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
-  return !authToken ?
+  return !user.authToken || !user.expiresAt || !user.privateKey ?
     <div className="flex items-center justify-center h-full">
       <div className="flex items-center justify-center max-sm:flex-col">
         <div className="bg-blue-100 max-w-[300px] rounded border border-blue-700 p-3 sm:mr-6 max-sm:mb-3">
