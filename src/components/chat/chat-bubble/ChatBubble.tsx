@@ -25,7 +25,7 @@ export default function ChatBubble({message, chat}: {message: ChatMessage, chat:
           color: `${isMe ? myTextColor : theirTextColor}`,
           boxShadow: `rgba(0,0,0,0.05) 0px 1px 2px 0px`
         }} 
-        className={`flex max-w-[60%] text-sm rounded-md px-4 py-2 mx-2 ${isMe ? `place-self-end bg-secondary` : 'place-self-start bg-shade'}`}>
+        className={`flex max-w-[60%] rounded-md sm:text-sm px-4 py-2 mx-2 ${isMe ? `place-self-end bg-secondary` : 'place-self-start bg-shade'}`}>
           {message.content}
       </div>
     </div>

@@ -82,7 +82,7 @@ export default function LoginForm() {
         //   {t(`login.messages.${code}`) ?? t(`login.messages.default`)}
         // </p>)
       }</div>
-      <button className='p-4 rounded bg-secondary font-sans font-bold' type='submit' disabled={loading}>
+      <button className='p-4 rounded bg-secondary font-bold' type='submit' disabled={loading}>
         {
           loading
           ? 

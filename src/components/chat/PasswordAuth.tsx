@@ -52,7 +52,7 @@ export default function PasswordAuth() {
         <div>{
           errorCodes.map((code, index) => <p className='m-y-1.5 text-red-600 italic text-center' key={code + index}>{t(`login.messages.${code}`) ?? t('login.messages.default')}</p>)
         }</div>
-        <button className='p-4 rounded bg-secondary font-sans font-bold' type='submit' disabled={loading}>
+        <button className='p-4 rounded bg-secondary font-bold' type='submit' disabled={loading}>
           {
             loading
             ? 

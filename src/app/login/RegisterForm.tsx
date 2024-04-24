@@ -100,7 +100,7 @@ export default function RegisterForm() {
         {renderErrorMessageFor('lastname')}
       </div>
       
-      <button className='p-2 rounded bg-secondary font-sans font-bold' type='submit' disabled={loading}>
+      <button className='p-2 rounded bg-secondary font-bold' type='submit' disabled={loading}>
         {
           loading 
           ? 

@@ -23,7 +23,7 @@ export default function ChatBubbleHeaderElement({message, chat, displayTimestamp
     <div style={{color: chat.chatSettings?.textColor}} className="flex flex-col">
       {displayTimestamp && <div className={`text-xs text-center w-full my-2`}>{getMessageTimestamp(message.createdAt.toString())}</div>}
       {!displayTimestamp && displayGap && <div className='my-2'></div>}
-      {displayUsername && <div className={`text-[10px] font-normal mx-3  ${isMe ? 'place-self-end' : 'place-self-start'}`}>{message.sender.username}</div>}
+      {displayUsername && <div className={`text-[11px] font-normal mx-3  ${isMe ? 'place-self-end' : 'place-self-start'}`}>{message.sender.username}</div>}
     </div>
   )
 }
