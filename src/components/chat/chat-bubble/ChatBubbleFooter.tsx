@@ -8,6 +8,8 @@ export default function ChatBubbleFooter({message, chat, initialUser}: {message:
 
   const { me } = useContext(MeContext)
 
+  const isMyMessage = () => message.sender.id == me?.id
+
   const [latestSeenMessageUsers, setLatestSeenMessageUsers] = useState<string>(initialUser ?? "")
   const [display, setDisplay] = useState<boolean>(false)
 
@@ -26,8 +28,8 @@ export default function ChatBubbleFooter({message, chat, initialUser}: {message:
 
   return (
     <CSSTransition in={display} enter={!!message.options?.animate} onExited={() => setLatestSeenMessageUsers("")} timeout={800} classNames="message-slide">
-      <div style={{color: chat.chatSettings?.textColor}} className="flex flex-col">
-        <div className={`text-[10px] mx-4 text-right font-bold`}>{`${latestSeenMessageUsers}`}</div>
+      <div style={{color: chat.chatSettings?.elementColor}} className={`flex flex-col ${isMyMessage() ? 'text-right' : 'text-left'}`}>
+        <div className={`text-[10px] mx-4 font-bold`}>{`${latestSeenMessageUsers}`}</div>
       </div>
     </CSSTransition>
   )

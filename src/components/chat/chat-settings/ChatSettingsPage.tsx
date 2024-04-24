@@ -101,6 +101,7 @@ export default function ChatSettingsPage({chat}: {chat: Chat}) {
             theirChatBubbleColor={theirChatBubbleColor} 
             theirChatTextColor={theirChatTextColor} 
             textColor={textColor}
+            elementColor={elementColor}
           />
         </div>
         <div className='flex flex-col bg-white divide-y rounded-md max-w-[400px] w-full px-1'>

@@ -13,7 +13,8 @@ interface ChatSettingsDemoProps {
   myChatTextColor: string, 
   theirChatBubbleColor: string, 
   theirChatTextColor: string,
-  textColor: string
+  textColor: string,
+  elementColor: string
 }
 
 export default function ChatSettingsDemo({
@@ -21,7 +22,8 @@ export default function ChatSettingsDemo({
   myChatTextColor, 
   theirChatBubbleColor, 
   theirChatTextColor, 
-  textColor
+  textColor,
+  elementColor
 }: ChatSettingsDemoProps) {
 
   const { me } = useContext(MeContext)
@@ -42,7 +44,8 @@ export default function ChatSettingsDemo({
       myChatTextColor,
       theirChatBubbleColor,
       theirChatTextColor,
-      textColor
+      textColor,
+      elementColor
     },
     chatUsers: [
       {
