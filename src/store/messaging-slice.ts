@@ -8,11 +8,13 @@ export const messagingSlice = createSlice({
   initialState: {
     messages: [],
     writingMessage: {},
-    chat: undefined
+    chat: undefined,
+    activeUsers: []
   } as {
     messages: ChatMessage[],
     writingMessage: {[chatId: number] : User[] | undefined},
-    chat?: Chat
+    chat?: Chat,
+    activeUsers: number[]
   },
   reducers: {
     addMessage: (state, action: {payload: ChatMessage, type: string}) => {
@@ -55,10 +57,32 @@ export const messagingSlice = createSlice({
           return chatUser
         })
       }
+    },
+    addActiveUser: (state, action: {payload: User, type: string}) => {
+      const user = action.payload
+      const activeUser = state.activeUsers.find((activeUser) => activeUser == user.id)
+      if (!activeUser) {
+        state.activeUsers.push(user.id)
+      }
+    },
+    removeActiveUser: (state, action: {payload: User, type: string}) => {
+      const user = action.payload
+      state.activeUsers = state.activeUsers.filter((activeUser) => activeUser != user.id)
     }
   }
 })
 
-export const { addMessage, addMessages, clearAllMessages, setWritingMessage, clearWritingMessage, setChat, updateSeenMessages, removeChat } = messagingSlice.actions
+export const { 
+  addMessage, 
+  addMessages, 
+  clearAllMessages, 
+  setWritingMessage, 
+  clearWritingMessage, 
+  setChat, 
+  updateSeenMessages, 
+  removeChat,
+  addActiveUser,
+  removeActiveUser
+} = messagingSlice.actions
 
 export default messagingSlice.reducer

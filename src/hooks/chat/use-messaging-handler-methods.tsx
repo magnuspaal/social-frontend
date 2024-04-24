@@ -3,8 +3,8 @@
 import useTranslation from "@/lang/use-translation";
 import { AlertType, addAlert } from "@/store/alert-slice";
 import { useAppDispatch } from "@/store/hooks";
-import { addMessage, clearWritingMessage, setWritingMessage, updateSeenMessages } from "@/store/messaging-slice";
-import { ChatMessage } from "@/types/chat/chat-message/";
+import { addActiveUser, addMessage, clearWritingMessage, removeActiveUser, setWritingMessage, updateSeenMessages } from "@/store/messaging-slice";
+import { ActiveChatMessage, ChatMessage } from "@/types/chat/chat-message/";
 import { logInfo } from "@/utils/development-utils";
 import { decryptText } from "@/utils/encryption-utils";
 import { useCallback, useEffect, useRef } from "react";
@@ -17,7 +17,9 @@ const useMessagingHandlerMethods = (client: Client | undefined) => {
   const dispatch = useAppDispatch()
 
   const { t } = useTranslation();
-  const {submitSeen} = useMessagingPublisherMethods(client)
+  const { submitSeen, submitActive } = useMessagingPublisherMethods(client)
+
+  const timeout = useRef<NodeJS.Timeout>()
 
   const pathnameRef = useRef<string>("")
   const pathname = useLocation()
@@ -60,14 +62,26 @@ const useMessagingHandlerMethods = (client: Client | undefined) => {
     logInfo("Seen message (sender, seen message id):", message.sender.id, messageId)
     message.chatId
     dispatch(updateSeenMessages({messageId, chatId: message.chatId, senderId: message.sender.id}))
-  }, [])
+  }, [dispatch])
+
+  const handleActiveMessage = useCallback((message: ActiveChatMessage, isConnectMessage: boolean) => {
+    dispatch(addActiveUser(message.sender))
+    if (timeout.current) clearTimeout(timeout.current)
+    timeout.current = setTimeout(() => {
+      dispatch(removeActiveUser(message.sender))
+    }, 10 * 1000)
+    if (isConnectMessage) {
+      submitActive(message.owner.id)
+    }
+  }, [dispatch, submitActive])
 
   return {
     handleRegularMessage, 
     handleExceptionMessage, 
     handleWritingMessage, 
     handleWritingEndMessage,
-    handleSeenMessage
+    handleSeenMessage,
+    handleActiveMessage
   };
 } 
 

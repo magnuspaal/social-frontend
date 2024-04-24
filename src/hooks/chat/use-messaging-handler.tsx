@@ -4,6 +4,8 @@ import { Client, IMessage, StompSubscription } from "@stomp/stompjs";
 import { useCallback, useContext, useEffect, useState } from "react";
 import useMessagingHandlerMethods from "./use-messaging-handler-methods";
 import { AuthContext } from "@/providers/auth-provider";
+import { MeContext } from "@/providers/me-provider";
+import useMessagingPublisherMethods from "./use-messaging-publisher";
 
 const useMessagingHandler = (
   client: Client | undefined
@@ -16,10 +18,14 @@ const useMessagingHandler = (
     handleExceptionMessage, 
     handleWritingMessage, 
     handleWritingEndMessage,
-    handleSeenMessage
+    handleSeenMessage,
+    handleActiveMessage
   } = useMessagingHandlerMethods(client)
 
   const { logout } = useContext(AuthContext);
+  const { me } = useContext(MeContext);
+
+  const { startActivity } = useMessagingPublisherMethods(client) 
 
   const handleMessage = useCallback(async (message: IMessage, privateKey: string) => {
     const chatMessage: ChatMessage = JSON.parse(message.body)
@@ -37,10 +43,16 @@ const useMessagingHandler = (
       case ChatMessageType.SEEN:
         handleSeenMessage(chatMessage)
         break
+      case ChatMessageType.ACTIVE:
+        handleActiveMessage(chatMessage, false)
+        break
+      case ChatMessageType.CONNECT:
+        handleActiveMessage(chatMessage, true)
+        break;
       default:
         handleRegularMessage(chatMessage, privateKey)
     }
-  }, [handleExceptionMessage, handleRegularMessage, handleSeenMessage, handleWritingEndMessage, handleWritingMessage])
+  }, [handleActiveMessage, handleExceptionMessage, handleRegularMessage, handleSeenMessage, handleWritingEndMessage, handleWritingMessage])
 
   useEffect(() => {
     const privateKey = localStorage.getItem('privateKey')
@@ -49,13 +61,14 @@ const useMessagingHandler = (
       if (client && !subscription) {
         const stompSubscription = client.subscribe('/user/topic/message', async message => handleMessage(message, privateKey))
         setSubscription(stompSubscription)
+        if (me) startActivity(me.id)
       }
     } else {
       logout()
     }
 
     setLoading(false)
-  }, [client, setLoading, setSubscription, subscription, handleMessage, logout])
+  }, [client, setLoading, setSubscription, subscription, handleMessage, logout, me, startActivity])
 
   return loading;
 } 

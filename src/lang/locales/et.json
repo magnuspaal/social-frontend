@@ -118,7 +118,7 @@
         "element_color": "Nuppude värv",
         "text_readability": "Hoiatus! Teksti loetavus on liiga kehv.",
         "element_readability": "Hoiatus! Nuppude nähtavus on liiga kehv.",
-        "element_text_readability": "'Hoiatus! Nuppude teksti loetavus on liiga kehv.'",
+        "element_text_readability": "Hoiatus! Nuppude teksti loetavus on liiga kehv.",
         "updated": "Vestluse värvid uuendatud!"
       }
     }

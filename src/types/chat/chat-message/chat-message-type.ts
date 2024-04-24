@@ -3,5 +3,7 @@ export enum ChatMessageType {
   EXCEPTION = 'exception',
   WRITING = 'writing',
   WRITING_END = 'writing_end',
-  SEEN = 'seen'
+  SEEN = 'seen',
+  ACTIVE = 'active',
+  CONNECT = 'connect'
 }

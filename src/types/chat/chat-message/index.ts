@@ -15,3 +15,5 @@ export interface ChatMessage {
     animate?: boolean
   }
 }
+
+export type ActiveChatMessage = Pick<ChatMessage, "sender" | "owner" | "type">
