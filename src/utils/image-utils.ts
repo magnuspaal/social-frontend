@@ -1,4 +1,5 @@
 const imageApiUrl = import.meta.env.VITE_FILE_API_URL
+const imageApiMedia = import.meta.env.VITE_FILE_API_MEDIA
 
 export enum ImageSize {
   XS = "xs",
@@ -10,14 +11,14 @@ export const imageLoader = ({ src }: { src: string }) => {
   if (src.startsWith('public')) {
     return ''
   } else {
-    return `${imageApiUrl}/${src}`
+    return `${imageApiUrl}/${imageApiMedia}/${src}`
   }
 }
 
 export const getImageAddress = (name: string, size?: ImageSize) => {
   if (!size) {
-    return `${imageApiUrl}/${name}`
+    return `${imageApiUrl}/${imageApiMedia}/${name}`
   } else {
-    return `${imageApiUrl}/${size}/${name}`
+    return `${imageApiUrl}/${imageApiMedia}/${size}/${name}`
   }
 }

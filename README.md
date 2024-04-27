@@ -7,7 +7,9 @@ Add environment in .env
 ```
 VITE_AUTH_API_URL=http://localhost:8080/api/v1/auth
 VITE_API_URL=http://localhost:8081/api/v1
-VITE_FILE_API_URL=http://localhost:8082/media
+VITE_FILE_API_URL=http://localhost:8082
+VITE_FILE_API_V=/api/v1
+VITE_FILE_API_MEDIA=media
 VITE_MESSAGING_API_URL=http://localhost:8083/api/v1
 VITE_WEBSOCKET_URL=http://localhost:8083/api/v1/messaging
 

@@ -28,7 +28,7 @@ export default function ChatHeaderElement({chat, color, iconColor, isChatSetting
       <div style={{color: color}} className="mx-2 truncate font-bold flex flex-wrap gap-2">
         {users.map((user) => {
           return (
-            <div className='flex justify-center items-center gap-1'>
+            <div key={user.id} className='flex justify-center items-center gap-1'>
               {activeUsers.includes(user.id) 
                 ? <div style={{backgroundColor: iconColor}} className='rounded-full w-3 h-3'></div>
                 : <div className='rounded-full border border-black/60 w-3 h-3'></div>

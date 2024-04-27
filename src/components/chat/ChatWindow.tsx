@@ -60,7 +60,7 @@ export default function ChatWindow({chat}: {chat: Chat}) {
               <CSSTransition in={message?.options?.animate} appear={message?.options?.animate} timeout={500} classNames="message-slide">
                 <ChatBubbleHeader message={message} chat={chat}/>
               </CSSTransition>
-              <CSSTransition in={message?.options?.animate} appear={message?.options?.animate} timeout={500} classNames="message">
+              <CSSTransition in={message?.options?.animate} appear={message?.options?.animate} timeout={2000} classNames="message">
                 <ChatBubble message={message} chat={chat} />
               </CSSTransition>
               <ChatBubbleFooter message={message} chat={chat} />

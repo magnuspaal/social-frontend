@@ -2,8 +2,7 @@
 
 import { ChatMessage } from "@/types/chat/chat-message"
 import { UserEncryption } from "@/types/user-encryption"
-import { decryptPrivateKey, decryptText } from "@/utils/encryption-utils"
-import { AppError, AppErrorType } from "@/error/app-error"
+import { decryptMessages, decryptPrivateKey } from "@/utils/encryption-utils"
 import { Chat } from "@/types/chat"
 import { AbstractApiService } from "./abstract-api-service"
 import { AuthContext } from "@/providers/auth-provider"
@@ -17,11 +16,7 @@ class MessagingService extends AbstractApiService {
     super(import.meta.env.VITE_MESSAGING_API_URL, handleTokenRefresh)
   }
 
-  getApiHeaders = () => {
-    return {
-      "Content-Type": "application/json"
-    }
-  }
+  getApiHeaders = () => ({ "Content-Type": "application/json" })
 
   getChat = (id: number) => this.get(`/chat/${id}`)
 
@@ -41,25 +36,9 @@ class MessagingService extends AbstractApiService {
   getChatMessages = (offset: number, limit: number, id: number): Promise<ChatMessage[]> =>
     this.get(`/chat/${id}/messages?offset=${offset}&limit=${limit}`, {
       cache: "no-store"
-    }).then(async (messages: ChatMessage[]) => {
-      const key = localStorage.getItem("privateKey")
-      if (key) {
-        for (const message of messages) {
-          try {
-            message.content = await decryptText(message.content, key)
-          } catch (e: AppError | any) {
-            if (e.type == AppErrorType.DECRYPTION_FAILED) {
-              localStorage.removeItem('privateKey')
-              return []
-            } else {
-              throw e;
-            }
-          }
-        }
-        return messages
-      }
-      return []
-    })
+    }).then(async (messages: ChatMessage[]) => decryptMessages(messages))
+
+  uploadImage = (body: FormData, chatId: number) => this.post(`/file/upload/${chatId}`, body, {})
 
   private setEncryptionData = (encryptedPrivateKey: string, password: string, salt: string, iv: string) => {
     const privateKey = decryptPrivateKey(encryptedPrivateKey, password, salt, iv)

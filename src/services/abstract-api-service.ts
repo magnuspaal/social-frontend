@@ -14,9 +14,9 @@ export abstract class AbstractApiService {
     this.handleTokenRefresh = handleTokenRefresh
   }
 
-  getApiHeaders = () => ({});
+  getApiHeaders = () => {return {}}
 
-  makeFetch = async (url: string, headers: Record<any, any>, options: Record<any, any>) => {
+  makeFetch = async (url: string, headers?: Record<any, any>, options?: Record<any, any>) => {
     return fetch(this.apiUrl + url, {headers, credentials: 'include', ...options}).then(async (res: Response) => {
       logInfo("Called:", this.apiUrl + url, res.status)
       const contentType = res.headers.get("Content-Type");
@@ -26,14 +26,16 @@ export abstract class AbstractApiService {
         const json = await res.json()
         logVerbose("Fetch body:", json)
         return json;
+      } else if (contentType && contentType == "application/octet-stream") {
+        return res.body
       }
     }).catch(async (error) => {
       await this.handleFetchError(error)
     })
   }
 
-  private handleRequest = async (url: string, options: Record<any, any>) => {
-    const request = async (headers: Record<any, any>) => {
+  private handleRequest = async (url: string, options: Record<any, any>, headers?: Record<any, any>) => {
+    const request = async (headers?: Record<any, any>) => {
       const isExpired = await this.isTokenExpired()
 
       logInfo("Called:", url, "Token expired:", isExpired, "Refresh token:", !!this.handleTokenRefresh)
@@ -48,19 +50,19 @@ export abstract class AbstractApiService {
       }
     }
 
-    return request(this.getApiHeaders())
+    return request(headers)
   }
 
   async get(url: string, options?: Record<any, any>) {
     return this.handleRequest(url, { method: "GET", ...options })
   }
 
-  async post(url: string, body?: string | FormData, options?: Record<any, any>) {
-    return this.handleRequest(url, { method: "POST", body, ...options })
+  async post(url: string, body?: string | FormData, headers?: Record<any, any>, options?: Record<any, any>) {
+    return this.handleRequest(url, { method: "POST", body, ...options }, headers ?? this.getApiHeaders())
   }
 
   async patch(url: string, body?: string | FormData, options?: Record<any, any>) {
-    return this.handleRequest(url, { method: "PATCH", body, ...options })
+    return this.handleRequest(url, { method: "PATCH", body, ...options }, this.getApiHeaders())
   }
 
   handleResponseError = async (res: Response): Promise<any> => {

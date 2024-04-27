@@ -6,11 +6,7 @@ class AuthService extends AbstractApiService {
     super(import.meta.env.VITE_AUTH_API_URL)
   }
 
-  getApiHeaders = () => {
-    return {
-      "Content-Type": "application/json"
-    }
-  }
+  getApiHeaders = () => ({ "Content-Type": "application/json" })
 
   postRegister = async (email: string, password: string, firstName: string, lastName: string, username: string) => 
     this.post(`/register`, JSON.stringify({email, password, firstName, lastName, username}))

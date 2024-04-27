@@ -14,7 +14,7 @@ const useMessagingHandler = (
   const [subscription, setSubscription] = useState<StompSubscription>()
   const [loading, setLoading] = useState<boolean>()
   const { 
-    handleRegularMessage, 
+    handleMessage, 
     handleExceptionMessage, 
     handleWritingMessage, 
     handleWritingEndMessage,
@@ -27,7 +27,7 @@ const useMessagingHandler = (
 
   const { startActivity } = useMessagingPublisherMethods(client) 
 
-  const handleMessage = useCallback(async (message: IMessage, privateKey: string) => {
+  const handle = useCallback(async (message: IMessage, privateKey: string) => {
     const chatMessage: ChatMessage = JSON.parse(message.body)
 
     switch (chatMessage.type) {
@@ -50,16 +50,16 @@ const useMessagingHandler = (
         handleActiveMessage(chatMessage, true)
         break;
       default:
-        handleRegularMessage(chatMessage, privateKey)
+        handleMessage(chatMessage, privateKey)
     }
-  }, [handleActiveMessage, handleExceptionMessage, handleRegularMessage, handleSeenMessage, handleWritingEndMessage, handleWritingMessage])
+  }, [handleActiveMessage, handleExceptionMessage, handleMessage, handleSeenMessage, handleWritingEndMessage, handleWritingMessage])
 
   useEffect(() => {
     const privateKey = localStorage.getItem('privateKey')
     
     if (privateKey) {
       if (client && !subscription) {
-        const stompSubscription = client.subscribe('/user/topic/message', async message => handleMessage(message, privateKey))
+        const stompSubscription = client.subscribe('/user/topic/message', async message => handle(message, privateKey))
         setSubscription(stompSubscription)
         if (me) startActivity(me.id)
       }
@@ -68,7 +68,7 @@ const useMessagingHandler = (
     }
 
     setLoading(false)
-  }, [client, setLoading, setSubscription, subscription, handleMessage, logout, me, startActivity])
+  }, [client, setLoading, setSubscription, subscription, handleMessage, logout, me, startActivity, handle])
 
   return loading;
 } 

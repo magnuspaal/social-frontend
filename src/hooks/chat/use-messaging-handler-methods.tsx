@@ -6,7 +6,7 @@ import { useAppDispatch } from "@/store/hooks";
 import { addActiveUser, addMessage, clearWritingMessage, removeActiveUser, setWritingMessage, updateSeenMessages } from "@/store/messaging-slice";
 import { ActiveChatMessage, ChatMessage } from "@/types/chat/chat-message/";
 import { logInfo } from "@/utils/development-utils";
-import { decryptText } from "@/utils/encryption-utils";
+import { decryptMessage } from "@/utils/encryption-utils";
 import { useCallback, useEffect, useRef } from "react";
 import useMessagingPublisherMethods from "./use-messaging-publisher";
 import { Client } from "@stomp/stompjs";
@@ -28,9 +28,9 @@ const useMessagingHandlerMethods = (client: Client | undefined) => {
     pathnameRef.current = pathname.pathname
   }, [pathname])
 
-  const handleRegularMessage = useCallback(async (message: ChatMessage, privateKey: string) => {
-    const decryptedMessage = await decryptText(message.content, privateKey)
-    message.content = decryptedMessage ?? "Message could not be decrypted"
+  const handleMessage = useCallback(async (message: ChatMessage, privateKey: string) => {
+    await decryptMessage(message, privateKey)
+
     message.options = { animate: true }
 
     logInfo("Regular message:", message.chatMessageId)
@@ -76,7 +76,7 @@ const useMessagingHandlerMethods = (client: Client | undefined) => {
   }, [dispatch, submitActive])
 
   return {
-    handleRegularMessage, 
+    handleMessage, 
     handleExceptionMessage, 
     handleWritingMessage, 
     handleWritingEndMessage,
