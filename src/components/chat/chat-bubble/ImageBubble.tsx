@@ -27,7 +27,8 @@ export default function ImageBubble({message}: {message: ImageChatMessage}) {
       if (key) {
         const aesKey = await decryptText(message.chatImage.key, key)
         const image = decryptImage(imageString, aesKey, message.chatImage.iv)
-        setSrc(`data:image/jpg;base64,${image}`)
+        const fileType = filename.split(".")[1]
+        setSrc(`data:image/${fileType};base64,${image}`)
       }
     }
     getFile()
