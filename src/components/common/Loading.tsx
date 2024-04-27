@@ -1,8 +1,17 @@
-export default function Loading() {
+export default function Loading(params: {className?: string, color?: string, size?: number, borderWidth?: number}) {
   return (
-    <div className="flex h-full w-full flex-col">
-      <div className="flex justify-center p-6"> 
-        <span className="loader"></span>
+    <div className={`flex h-full flex-col ${params.className}`}>
+      <div className="flex justify-center"> 
+        <span 
+          style={{
+            width: params.size,
+            height: params.size,
+            borderWidth: params.borderWidth,
+            borderColor: params.color, 
+            borderBottomColor: "transparent"
+          }} 
+          className='loader'>
+        </span>
       </div>
     </div>
   )

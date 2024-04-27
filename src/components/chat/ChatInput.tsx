@@ -10,6 +10,7 @@ import { Client } from '@stomp/stompjs';
 import { useCallback, useContext, useRef, useState } from 'react';
 import SendSvg from '../svg/SendSvg';
 import useMessagingService from '@/services/messaging-service';
+import Loading from '../common/Loading';
 
 export default function ChatInput({chat, client}: {chat: Chat, client: Client}) {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -18,11 +19,13 @@ export default function ChatInput({chat, client}: {chat: Chat, client: Client}) 
 
   const messagingService = useMessagingService()
   const [value, setValue] = useState("");
+  const [loading, setLoading] = useState(false);
   
   const { clientPublish, submitWriting } = useMessagingPublisherMethods(client)
   const { selectedFile, renderImage, renderImageButton, renderImageInput, removeImage } = useImageInput()
     
   const submitMessage = useCallback(async () => {
+    setLoading(true)
     if (selectedFile && me) {
       const formData = new FormData();
       formData.append('image', selectedFile);
@@ -32,6 +35,7 @@ export default function ChatInput({chat, client}: {chat: Chat, client: Client}) 
       clientPublish(ChatMessageType.TEXT, me.id, chat.id, value)  
     }
     setValue("")
+    setLoading(false)
   }, [chat.id, clientPublish, me, messagingService, removeImage, selectedFile, value])
 
   useKeydownListener(submitMessage,'Enter')
@@ -47,7 +51,7 @@ export default function ChatInput({chat, client}: {chat: Chat, client: Client}) 
   return (
     <div style={{background: chat.chatSettings?.backgroundColor}} className={`flex my-4 mr-4 ml-4 items-end max-w-4 bg-background rounded`}>
       <div className='flex w-full relative'>
-        {renderImageButton('mb-2 mr-3 flex items-end', chat.chatSettings?.elementColor)}
+        {renderImageButton('mb-2 mr-3 flex items-end', chat.chatSettings?.elementColor, loading)}
         <div className='flex flex-col w-full relative'>
           {renderImage("mb-2 mt-2", 250)}
           {
@@ -69,8 +73,14 @@ export default function ChatInput({chat, client}: {chat: Chat, client: Client}) 
             style={{backgroundColor: chat.chatSettings?.elementColor, color: chat.chatSettings?.elementTextColor}}
             className="rounded bg-primary p-2 text-sm font-bold active:bg-secondary active:text-black text-white uppercase 
               disabled:hover:bg-primary disabled:hover:text-white absolute right-0 bottom-0"
-            onClick={submitMessage}>
-              <SendSvg color={chat.chatSettings?.elementTextColor}/>
+            onClick={submitMessage}
+            disabled={loading}  
+          >
+            { 
+              loading
+              ? <Loading className='' color={chat.chatSettings?.elementTextColor} size={24} borderWidth={3}/>
+              : <SendSvg color={chat.chatSettings?.elementTextColor}/>
+            }
           </button>
         }
       </div>
