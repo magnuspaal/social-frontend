@@ -25,6 +25,7 @@ const useAuthCookies = () => {
     cookies.remove("authToken")
     cookies.remove("expiresAt")
     localStorage.removeItem("privateKey")
+    setUser({})
   }
 
   return {user, getAuthCookies, removeUser};
