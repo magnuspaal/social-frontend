@@ -30,7 +30,10 @@ export default function ChatInput({chat, client}: {chat: Chat, client: Client}) 
       const formData = new FormData();
       formData.append('image', selectedFile);
       await messagingService.uploadImage(formData, chat.id)
-      removeImage()
+        .finally(() => {
+          removeImage()
+          setLoading(false)
+        })
     } else if (value && me) {
       clientPublish(ChatMessageType.TEXT, me.id, chat.id, value)  
     }
