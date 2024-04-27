@@ -24,8 +24,8 @@ export default function ChatRooms() {
 
   if (chats) {
     return (
-      <div className='flex flex-col divide-y divide-black/40'>
-        <div className='text-2xl font-bold uppercase tracking-wider mt-6 mb-3 ml-8'>{t('chat.chat')}</div>
+      <div className='flex flex-col divide-black/40'>
+        <div className='text-2xl font-bold uppercase tracking-wider pt-5 pb-2 pl-4 mb-2 border-b'>{t('chat.chat')}</div>
         {
           chats.map((chat) => <ChatPreview key={chat.id} chat={chat}></ChatPreview>)
         }

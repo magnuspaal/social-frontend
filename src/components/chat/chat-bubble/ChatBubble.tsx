@@ -16,7 +16,7 @@ export default function ChatBubble({message, chat}: {message: ChatMessage, chat:
     if (message.type == ChatMessageType.TEXT) {
       return <TextBubble message={message} chat={chat}/>
     } else if (message.type == ChatMessageType.IMAGE) {
-      return <ImageBubble message={message} chat={chat} />
+      return <ImageBubble message={message} />
     }
   }
 

@@ -1,15 +1,15 @@
 import { Chat } from "@/types/chat"
 import ChatMessagePreview from "./ChatMessagePreview"
 import { Link } from "react-router-dom"
+import ChatUsersList from "../ChatUsersList"
+import { colors } from "@/style/colors"
 
 export default function ChatPreview({chat}: {chat: Chat}) {
 
-  const usersString = chat.chatUsers.map((chatUser) => chatUser.user.username).join(', ')
-
   return (
-    <Link to={`/chat/${chat.id}`} className="flex flex-row items-center flex-wrap justify-center p-4 w-full">
+    <Link to={`/chat/${chat.id}`} className="flex flex-row items-center flex-wrap justify-center px-4 py-2 w-full">
       <div className="flex flex-col grow w-full">
-        <div className="truncate font-semibold text-sm mb-1">{usersString}</div>
+        <ChatUsersList chat={chat} color={chat.chatSettings?.textColor} iconColor={colors.active} className="flex flex-wrap font-medium gap-2"/>
         <ChatMessagePreview chat={chat}/>
       </div>
     </Link>

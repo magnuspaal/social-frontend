@@ -1,4 +1,6 @@
 import { AppError, AppErrorType } from '@/error/app-error';
+import { ChatMessage, TextChatMessage } from '@/types/chat/chat-message';
+import { ChatMessageType } from '@/types/chat/chat-message/chat-message-type';
 import { Buffer } from 'buffer';
 import CryptoJS from 'crypto-js';
 
@@ -39,5 +41,50 @@ export const decryptText = async (encryptedText: string, key: string) => {
       throw new AppError(AppErrorType.DECRYPTION_FAILED, e)
     }
     throw e;
+  }
+}
+
+export const decryptMessage = async (message: TextChatMessage, key: string) => {
+  try {
+    if (message.type == ChatMessageType.TEXT) {
+      const decryptedMessage = await decryptText(message.content, key)
+      message.content = decryptedMessage ?? "Message could not be decrypted"
+    } else if (message.type == ChatMessageType.IMAGE) {
+      message.content = "**image**"
+    }
+    return message
+  } catch (e: AppError | any) {
+    if (e.type == AppErrorType.DECRYPTION_FAILED) {
+      localStorage.removeItem('privateKey')
+      return []
+    } else {
+      throw e;
+    }
+  }
+}
+
+export const decryptMessages = async (messages: ChatMessage[]) => {
+  const key = localStorage.getItem("privateKey")
+  if (key) {
+    for (const message of messages) {
+      await decryptMessage(message, key)
+    }
+    return messages
+  }
+  return []
+}
+
+export const decryptImage = (imageBytes: string, key: string, iv: string) => {
+  let image;
+  try {
+    image = CryptoJS.AES.decrypt(
+      imageBytes, 
+      CryptoJS.enc.Base64.parse(key),
+      { iv: CryptoJS.enc.Base64.parse(iv),
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7 })
+    return image.toString(CryptoJS.enc.Base64)
+  } catch (error) {
+    console.error(error)
   }
 }

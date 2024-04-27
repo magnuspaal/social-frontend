@@ -8,7 +8,7 @@ import { MeContext } from '@/providers/me-provider';
 import useTranslation from '@/lang/use-translation';
 import ChatMessageLoading from './ChatMessageLoading';
 import { Chat } from '@/types/chat';
-import { decryptText } from '@/utils/encryption-utils';
+import { decryptMessage } from '@/utils/encryption-utils';
 
 export default function ChatMessagePreview({chat}: {chat: Chat}) {
   const { me } = useContext(MeContext)
@@ -41,11 +41,14 @@ export default function ChatMessagePreview({chat}: {chat: Chat}) {
       } else if (chat.latestMessage) {
         const key = localStorage.getItem("privateKey")
         if (key) {
-          const decrtypedText = await decryptText(chat.latestMessage.content, key)
-          const latestMessage = JSON.parse(JSON.stringify(chat.latestMessage))
-          latestMessage.content = decrtypedText
-          setLastMessage(latestMessage)
+          const decryptedMessage = await decryptMessage(chat.latestMessage, key);
 
+          let latestMessage;
+          if (decryptedMessage) {
+            latestMessage = JSON.parse(JSON.stringify(decryptedMessage))
+            setLastMessage(latestMessage)
+          }
+          
           const latestSeenMessage = chat.chatUsers.find((chatUser) => chatUser.user.id == me?.id)?.latestSeenMessage
 
           if (latestSeenMessage && latestMessage && latestSeenMessage != latestMessage.chatMessageId) {
@@ -69,14 +72,14 @@ export default function ChatMessagePreview({chat}: {chat: Chat}) {
     return (
       <div>
         {lastMessage && 
-          <div className="flex flex-col ml-2">
-            <p className={`truncate text-sm  ${isUnread && 'font-bold'}`}>
+          <div className="flex flex-col ml-4">
+            <p className={`truncate text-sm text-neutral-700 ${isUnread && 'font-bold'}`}>
               <span>
                 {`${me?.id == lastMessage.sender.id ? t("common.you") : lastMessage.sender.username}: `}
               </span>
               <span >{`${lastMessage.content}`}</span>
             </p>
-            <p className='text-xs'>{`${getMessageTimestamp(lastMessage.createdAt)}`}</p>
+            <p className='text-xs text-neutral-700'>{`${getMessageTimestamp(lastMessage.createdAt)}`}</p>
           </div>
         }
       </div>

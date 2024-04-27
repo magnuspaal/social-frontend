@@ -45,20 +45,17 @@ export default function ChatInput({chat, client}: {chat: Chat, client: Client}) 
   const displaySendButton = () => value || selectedFile
 
   return (
-    <div style={{background: chat.chatSettings?.backgroundColor}} className={`flex p-3 items-end max-w-4 bg-background rounded`}>
+    <div style={{background: chat.chatSettings?.backgroundColor}} className={`flex my-4 mr-4 ml-4 items-end max-w-4 bg-background rounded`}>
       <div className='flex w-full relative'>
-        {renderImageButton('mb-2 mr-2 flex items-end', chat.chatSettings?.elementColor)}
-        <div className='flex flex-col w-full'>
+        {renderImageButton('mb-2 mr-3 flex items-end', chat.chatSettings?.elementColor)}
+        <div className='flex flex-col w-full relative'>
           {renderImage("mb-2 mt-2", 250)}
           {
             !selectedFile &&
             <textarea 
               onChange={handleChange} 
               placeholder={t('chat.write_message')}
-              className={`h-[40px] textarea w-full overflow-auto m-h-10 text-base resize-none p-2 overflow-hidden bg-background focus:outline-0 rounded-md pr-[45px]`}
-              style={{
-                boxShadow: `rgba(0,0,0,0.05) 0px 1px 2px 0px`
-              }} 
+              className={`h-[40px] textarea w-full overflow-auto m-h-10 text-base resize-none p-2 overflow-hidden bg-background focus:outline-0 rounded-md pr-[45px] shadow-dark`}
               id="multiliner" 
               name="multiliner"
               ref={textAreaRef}

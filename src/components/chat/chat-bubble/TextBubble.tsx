@@ -18,10 +18,9 @@ export default function TextBubble({message, chat}: {message: ChatMessage, chat:
       style={{
         wordBreak: "break-word", 
         background: `${isMe ? myColor : theirColor}`, 
-        color: `${isMe ? myTextColor : theirTextColor}`,
-        boxShadow: `rgba(0,0,0,0.05) 0px 1px 2px 0px`
+        color: `${isMe ? myTextColor : theirTextColor}`
       }} 
-      className={`flex max-w-[60%] rounded-md sm:text-sm px-4 py-2 mx-2 ${isMe ? `place-self-end bg-secondary` : 'place-self-start bg-shade'}`}>
+      className={`flex max-w-[60%] rounded-md sm:text-sm px-4 py-2 mx-2 shadow-light ${isMe ? `place-self-end bg-secondary` : 'place-self-start bg-shade'}`}>
         {message.content}
     </div>
   )
