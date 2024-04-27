@@ -14,11 +14,13 @@ import FollowingPage from './app/profile/[id]/following/FollowingPage'
 import PostPage from './app/post/[id]/PostPage'
 import ProfileSettingsPage from './app/profile/settings/ProfileSettingsPage'
 import { ProtectedRoute } from './ProtectedRoute'
+import Register from './app/login/Register'
 
 export default function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       <Route element={<ProtectedRoute />}>
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
