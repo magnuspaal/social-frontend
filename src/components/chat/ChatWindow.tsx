@@ -1,5 +1,3 @@
-
-
 import { useContext, useEffect, useRef } from 'react';
 import { addMessages } from "@/store/messaging-slice";
 import ChatInput from './ChatInput';
@@ -18,6 +16,7 @@ import ChatBubbleHeader from './chat-bubble/ChatBubbleHeader';
 import ChatBubbleFooter from './chat-bubble/ChatBubbleFooter';
 import TransitionWrapper from '../common/TransitionWrapper';
 import Loading from '../common/Loading';
+import { colors } from '@/style/colors';
 
 export default function ChatWindow({chat}: {chat: Chat}) {
 
@@ -51,8 +50,8 @@ export default function ChatWindow({chat}: {chat: Chat}) {
   }, [messages])
 
   return (
-    <div style={{background: chat.chatSettings?.backgroundColor}} className="sm:h-[70svh] h-full flex flex-col sm:rounded-md sm:shadow-up">
-      <ChatHeader color={chat.chatSettings?.textColor} iconColor={chat.chatSettings?.elementColor ?? "#503EC4"} chat={chat}/>
+    <div style={{background: chat.chatSettings?.backgroundColor}} className="sm:h-[80svh] h-full flex flex-col sm:rounded-md sm:shadow-up">
+      <ChatHeader color={chat.chatSettings?.textColor} iconColor={chat.chatSettings?.elementColor ?? colors.primary} chat={chat}/>
       <div className="overflow-y-scroll flex flex-col-reverse h-full w-full" ref={chatWindowRef}>
         <ChatWriting chat={chat}/>
         <TransitionGroup component={null}>   

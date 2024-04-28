@@ -4,6 +4,7 @@ import ImgSvg from '@/components/svg/ImgSvg';
 import { useAppDispatch } from '@/store/hooks';
 import { AlertType, addAlert } from '@/store/alert-slice';
 import useTranslation from '@/lang/use-translation';
+import { setFileInputOpen } from '@/store/navigation-slice';
 
 export default function useImageInput() {
 
@@ -37,6 +38,7 @@ export default function useImageInput() {
   const onImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const eventTarget = e.target as HTMLInputElement
     setSelectedFile(eventTarget.files ? eventTarget.files[0] : null)
+    dispatch(setFileInputOpen(false))
   }
   
   const removeImage = () => {
@@ -48,6 +50,7 @@ export default function useImageInput() {
   }
 
   const openFileSelector = () => {
+    dispatch(setFileInputOpen(true))
     inputFile.current?.click();
   };
 
