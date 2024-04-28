@@ -58,19 +58,22 @@ export default function ChatSettingsDemo({
   const message1 = {
     content: "Hey! How's it going?",
     createdAt: "2024-02-28T12:12:58Z",
-    sender: sender1
+    sender: sender1,
+    type: "text"
   } as ChatMessage
 
   const message2 = {
     content: "Fine! How about you?",
-    sender: sender2
+    sender: sender2,
+    type: "text"
   } as ChatMessage
 
   const message3 = {
     content: "I'm doing fine.",
     createdAt: "2024-02-28T12:13:30Z",
     sender: sender1,
-    chatMessageId: 3
+    chatMessageId: 3,
+    type: "text"
   } as ChatMessage
 
   return (

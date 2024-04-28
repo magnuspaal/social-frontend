@@ -24,7 +24,11 @@ export default function ChatSettings() {
 
   return (
     <>
-      { chat ? <ChatSettingsPage chat={chat} /> : <Loading />}
+      { chat ? <ChatSettingsPage chat={chat} /> :        
+        <div className='flex justify-center items-center h-full w-full'>
+          <Loading size={75} borderWidth={8}/>
+        </div>
+      }
     </>
   )
 }

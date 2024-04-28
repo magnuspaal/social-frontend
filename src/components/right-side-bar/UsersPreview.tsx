@@ -26,6 +26,9 @@ export default function UsersPreview() {
         {users.map(((user) => <UserPreview user={user} key={user.id} />))}
       </div>
     )
-  } else return <Loading></Loading>
-
+  } else (
+    <div className='flex justify-center items-center h-full w-full'>
+      <Loading size={75} borderWidth={8}/>
+    </div>
+  )
 }

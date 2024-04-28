@@ -44,7 +44,7 @@ const useInfiniteScroll = (
   const handleScroll = useCallback(() => {
     let bottom: boolean = false
     if (scrollElement?.current) {
-      bottom = Math.ceil(-scrollElement.current.scrollTop + 60) >= scrollElement.current.scrollHeight - scrollElement.current.offsetHeight
+      bottom = Math.ceil(-scrollElement.current.scrollTop + 500) >= scrollElement.current.scrollHeight - scrollElement.current.offsetHeight
     } else {
       bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 1000
     }

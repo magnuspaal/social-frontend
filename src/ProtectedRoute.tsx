@@ -20,7 +20,9 @@ export const ProtectedRoute = () => {
     <>
     {
       !user.authToken ?
-      <Loading /> :
+      <div className='flex justify-center items-center h-full w-full'>
+        <Loading size={100} borderWidth={10}/>
+      </div> :
       <Outlet />
     }
     </>

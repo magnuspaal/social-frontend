@@ -40,9 +40,6 @@ export default function MainLayout() {
                   <div className='md:w-[600px] max-w-[600px] flex w-full h-full md:mr-5'>
                     <Outlet />
                   </div>
-                  <div className='max-md:hidden'>
-                    {/* <RightSideBar/> */}
-                  </div>
                 </div>
               </div>
             </div>
@@ -51,7 +48,10 @@ export default function MainLayout() {
             <SubmitPostModal />
           </div>
           </MessagingClientProvider>
-        </MeProvider>) : <Loading />
+        </MeProvider>) : 
+        <div className='flex justify-center items-center h-full w-full'>
+          <Loading size={100} borderWidth={10}/>
+        </div>
       }
     </>
   )

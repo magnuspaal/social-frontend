@@ -91,7 +91,7 @@ export default function ChatSettingsPage({chat}: {chat: Chat}) {
   }
 
   return (
-    <div style={{background: backgroundColor}} className="sm:h-[70svh] h-full flex flex-col">
+    <div style={{background: backgroundColor}} className="sm:h-[70svh] h-full flex flex-col sm:rounded-md sm:shadow-up">
       <ChatHeaderElement color={textColor} iconColor={elementColor} chat={chat} isChatSettings={true} />
       <div className='flex flex-col items-center gap-2 overflow-y-auto h-full relative'>
         <div className='flex w-full px-1 py-3'>

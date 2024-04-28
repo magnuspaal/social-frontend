@@ -2,6 +2,7 @@ import { Chat } from '@/types/chat';
 import { useAppSelector } from '@/store/hooks';
 import { useContext } from 'react';
 import { MeContext } from '@/providers/me-provider';
+import { hexToRgbA } from '@/utils/color-utils';
 
 interface ChatUsersListProps {
   chat: Chat, 
@@ -23,7 +24,7 @@ export default function ChatUsersList({chat, color, iconColor, className}: ChatU
           <div key={user.id} className='flex justify-center items-center gap-1'>
             {activeUsers.includes(user.id) 
               ? <div style={{backgroundColor: iconColor}} className='rounded-full w-3 h-3'></div>
-              : <div className='rounded-full border border-black/60 w-3 h-3'></div>
+              : <div style={{borderColor: hexToRgbA(color ?? "#000", 0.6)}} className='rounded-full border w-3 h-3'></div>
             }
             <p>{user.username}</p>
           </div>

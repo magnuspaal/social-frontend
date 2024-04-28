@@ -33,5 +33,9 @@ export default function ProfileLayout() {
         </div>
       </div>
     )
-  } else return <Loading />
+  } else return (
+    <div className='flex justify-center items-center h-full w-full'>
+      <Loading size={75} borderWidth={8}/>
+    </div>
+  )   
 }

@@ -17,6 +17,7 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import ChatBubbleHeader from './chat-bubble/ChatBubbleHeader';
 import ChatBubbleFooter from './chat-bubble/ChatBubbleFooter';
 import TransitionWrapper from '../common/TransitionWrapper';
+import Loading from '../common/Loading';
 
 export default function ChatWindow({chat}: {chat: Chat}) {
 
@@ -36,7 +37,7 @@ export default function ChatWindow({chat}: {chat: Chat}) {
     addMessages,
     undefined,
     chatWindowRef,
-    {id: chat.id, limit: 10}
+    {id: chat.id, limit: 30}
   )
 
   const { client } = useContext(MessagingClientContext)
@@ -68,7 +69,9 @@ export default function ChatWindow({chat}: {chat: Chat}) {
           )}
         </TransitionGroup>
         {!endOfMessages &&
-          <div className="flex justify-center p-6"><span className="loader h-[30px] w-[30px]"></span></div>
+          <div className="flex justify-center p-6">
+            <Loading noTimeout={true} size={25} borderWidth={5} color={chat.chatSettings?.elementColor}/>
+          </div>
         }
       </div>
       {client ? 

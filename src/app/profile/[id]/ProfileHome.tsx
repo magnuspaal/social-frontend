@@ -10,6 +10,12 @@ export default function ProfileHome() {
   const user = useOutletContext<User>();
 
   return (
-    <div>{ user ? <UserPostList userId={user.id}/> : <Loading /> }</div>
+    <div>
+      { user ? <UserPostList userId={user.id}/> : 
+        <div className='flex justify-center items-center h-full w-full'>
+          <Loading size={75} borderWidth={8}/>
+        </div> 
+      }
+    </div>
   )
 }
