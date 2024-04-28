@@ -69,7 +69,6 @@ export default function ChatInput({chat, client}: {chat: Chat, client: Client}) 
               value={value}
             />
           }
-
         </div>
         { displaySendButton() &&
           <button

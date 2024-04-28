@@ -76,7 +76,7 @@ export default function ChatWindow({chat}: {chat: Chat}) {
       </div>
       {client ? 
         <ChatInput chat={chat} client={client}/> : 
-        <div className="flex justify-center p-6"><span className="loader"></span></div>
+        <Loading color={chat.chatSettings?.elementColor} size={25} borderWidth={5}/>
       }
     </div>
   )
