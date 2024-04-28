@@ -6,7 +6,7 @@ export default function ChatLayout() {
   useDisableScroll(true)
 
   return (
-    <div className="max-sm:absolute max-sm:bottom-0 max-sm:pb-[66px] divide-black/40 sm:rounded flex h-full w-full flex-col">
+    <div className="max-sm:absolute max-sm:bottom-0 max-sm:pb-[66px] sm:rounded flex h-full w-full flex-col">
       <Outlet />
     </div>
   )

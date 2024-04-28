@@ -77,7 +77,7 @@ export default function SubmitPost() {
   }
 
   return (
-    <div className="flex border border-black/40 border-b-4 border-b-black rounded mb-5 items-start overflow-hidden bg-background w-full">
+    <div className="flex shadow-up border-b-4 border-b-black sm:rounded-md mb-5 items-start overflow-hidden bg-background w-full">
       <div className="flex flex-col w-full">
           {
             loading ?

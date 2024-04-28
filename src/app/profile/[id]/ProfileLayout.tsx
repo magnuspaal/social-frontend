@@ -26,7 +26,7 @@ export default function ProfileLayout() {
   
   if (user) {
     return (
-      <div className="divide-black/40 border border-black/40 rounded w-full">
+      <div className="shadow-up rounded-md w-full">
         <div className="grid gap-3">
           <Profile user={user} />
           <Outlet context={user} />

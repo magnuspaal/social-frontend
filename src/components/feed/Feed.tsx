@@ -16,8 +16,8 @@ export default function Feed() {
   )
 
   return (
-    <div className="border border-black/40 rounded overflow-hidden">
-      <TransitionGroup className="grid divide-y divide-black/40">        
+    <div className="rounded-md overflow-hidden shadow-up">
+      <TransitionGroup className="grid divide-y divide-black/10">        
         {posts?.map((post: any) => 
           <CSSTransition
           key={post.id}

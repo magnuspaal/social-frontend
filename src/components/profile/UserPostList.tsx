@@ -25,7 +25,7 @@ export default function UserPostList({ userId }: { userId: number }) {
     {id: userId})
 
   return (
-    <div className="border-t border-black/40 overflow-hidden">
+    <div className="border-t border-black/10 overflow-hidden">
       <TransitionGroup className="grid divide-y divide-black/40">
         {posts?.map((post: Post) => 
           <CSSTransition

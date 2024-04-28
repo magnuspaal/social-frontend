@@ -50,7 +50,7 @@ export default function ChatWindow({chat}: {chat: Chat}) {
   }, [messages])
 
   return (
-    <div style={{background: chat.chatSettings?.backgroundColor}} className="sm:h-[70svh] h-full flex flex-col rounded">
+    <div style={{background: chat.chatSettings?.backgroundColor}} className="sm:h-[70svh] h-full flex flex-col sm:rounded-md sm:shadow-up">
       <ChatHeader color={chat.chatSettings?.textColor} iconColor={chat.chatSettings?.elementColor ?? "#503EC4"} chat={chat}/>
       <div className="overflow-y-scroll flex flex-col-reverse h-full w-full" ref={chatWindowRef}>
         <ChatWriting chat={chat}/>
