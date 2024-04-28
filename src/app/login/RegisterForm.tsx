@@ -1,6 +1,6 @@
 
 
-import { useState } from 'react'
+import { FormEventHandler, useState } from 'react'
 import useAuthService from '@/services/auth-service';
 import useTranslation from '@/lang/use-translation';
 
@@ -19,8 +19,9 @@ export default function RegisterForm() {
 
   const authService = useAuthService()
 
-  const submit = async(event: any) => {
+  const submit: FormEventHandler<HTMLFormElement> = async(event) => {
     event.preventDefault()
+    event.stopPropagation()
     setLoading(true)
 
     await authService.postRegister(email, password, firstName, lastName, username)

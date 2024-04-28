@@ -10,6 +10,7 @@ import RepostSvg from "../svg/RepostSvg";
 import ReplySvg from "../svg/ReplySvg";
 import HeartSvg from "../svg/HeartSvg";
 import { colors } from "@/style/colors"
+import { MouseEventHandler } from "react";
 
 export default function PostActions({ 
   appendRepost = false,
@@ -20,17 +21,18 @@ export default function PostActions({
   const dispatch = useAppDispatch();
   const apiService = useApiService()
 
-  const handleLike = async (event: any) => {
+  const handleLike: MouseEventHandler<HTMLButtonElement> = async (event) => {
     event.preventDefault()
+    event.stopPropagation()
     const newPost = await apiService.likePost(post.id)
     if (newPost) {
       dispatch(updatePost(newPost))
     }
-    // router.refresh()
   }
 
-  const handleRepost = async (event: any) => {
+  const handleRepost: MouseEventHandler<HTMLButtonElement> = async (event) => {
     event.preventDefault()
+    event.stopPropagation()
     const newPost = await apiService.repostPost(repostPost.id)
     if (appendRepost) {
       if (newPost.deletedAt) {
@@ -42,11 +44,11 @@ export default function PostActions({
     if (newPost.repostParent) {
       dispatch(updatePost(newPost.repostParent))
     }
-    // router.refresh()
   }
 
-  const handleReply = (event: any) => {
+  const handleReply: MouseEventHandler<HTMLButtonElement> = (event) => {
     event.preventDefault()
+    event.stopPropagation()
     dispatch(setSubmitPostOverlay({open: true, replyParent: post}))
   }
 

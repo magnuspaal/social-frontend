@@ -43,7 +43,7 @@ export default function SinglePost({
   }
 
   const onClick = () => {
-    navigate(`/post/${post.id}`)
+    if (clickable) navigate(`/post/${post.id}`)
   }
 
 

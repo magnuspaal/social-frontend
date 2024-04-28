@@ -5,6 +5,7 @@ import PostHeader from "./header/PostHeader";
 import { getImageAddress } from "@/utils/image-utils";
 import { useAppDispatch } from "@/store/hooks";
 import { setOverlayImage } from "@/store/navigation-slice";
+import { MouseEventHandler } from "react";
 
 export default function DefaultPost({
     post, 
@@ -14,9 +15,10 @@ export default function DefaultPost({
 
   const dispatch = useAppDispatch()
 
-  const showImageOverlay = (event: any) => {
+  const showImageOverlay: MouseEventHandler<HTMLDivElement> = (event) => {
     if (clickablePicture) {
       event.preventDefault()
+      event.stopPropagation()
       dispatch(setOverlayImage(post.imageName));
     }
   }

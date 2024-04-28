@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { FormEventHandler, useContext, useState } from 'react'
 import useAuthService from '@/services/auth-service';
 import useTranslation from '@/lang/use-translation';
 import useMessagingService from '@/services/messaging-service';
@@ -21,8 +21,9 @@ export default function LoginForm() {
   const { login } = useContext(AuthContext)
   const navigate = useNavigate()
 
-  const submit = async(event: any) => {
+  const submit: FormEventHandler<HTMLFormElement> = async(event) => {
     event.preventDefault()
+    event.stopPropagation()
     setLoading(true)
     setRegisteredMessage(false)
     authService.postLogin(email, password)

@@ -23,7 +23,7 @@ export default function ImageOverlay() {
   return overlayImage && (
     <div className="fixed w-full h-full top-0 flex justify-center bg-black/80 h-screen py-20 z-40">
       <button onClick={closeOverlay} className="absolute top-10 right-10 rounded-full bg-background">
-        <CloseSvg size={30}></CloseSvg>
+        <CloseSvg size={30} />
       </button>
       <img
         src={getImageAddress(overlayImage, ImageSize.LG)} 

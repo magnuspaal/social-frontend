@@ -6,6 +6,7 @@ import { ReplyPostProps } from "../types/PostProps";
 import PostHeader from "./header/PostHeader";
 
 import useTranslation from "@/lang/use-translation";
+import { MouseEventHandler } from "react";
 
 export default function ReplyPost({
     post, 
@@ -18,9 +19,10 @@ export default function ReplyPost({
 
   const navigate = useNavigate()
 
-  const handleClick = (event: any) => {
+  const handleClick: MouseEventHandler<HTMLDivElement> = (event) => {
     if (clickableReplyHeader) {
       event.preventDefault()
+      event.stopPropagation()
       navigate(`/post/${post.replyParent.id}`)
     }
   }

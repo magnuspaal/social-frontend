@@ -6,6 +6,7 @@ import { ImageSize, getImageAddress } from "@/utils/image-utils";
 import useTranslation from "@/lang/use-translation";
 import { useNavigate } from "react-router-dom";
 import BlankProfileImageSvg from "@/components/svg/BlankProfileImageSvg";
+import { MouseEventHandler } from "react";
 
 export default function PostHeader({post, children, clickable = true}: {post: Post, children?: React.ReactNode, clickable?: boolean}) {
 
@@ -13,9 +14,10 @@ export default function PostHeader({post, children, clickable = true}: {post: Po
 
   const navigate = useNavigate()
 
-  const handleClick = (event: any) => {
+  const handleClick: MouseEventHandler<HTMLDivElement>= (event) => {
     if (clickable) {
       event.preventDefault()
+      event.stopPropagation()
       navigate(`/profile/${post.user.id}`)
     }
   }

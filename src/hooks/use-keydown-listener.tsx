@@ -6,6 +6,7 @@ const useKeydownListener = (callback: () => Promise<void>, key: string) => {
   const handleEnter = useCallback((event: KeyboardEvent) => {
     if (event.key === key) {
       event.preventDefault()
+      event.stopPropagation()
       callback()
     }
   }, [callback, key])
