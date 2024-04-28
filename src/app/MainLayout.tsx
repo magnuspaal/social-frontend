@@ -8,18 +8,22 @@ import useApiService from '@/services/api-service'
 import { User } from '@/types/user'
 import { useEffect, useState } from 'react'
 import Loading from '@/components/common/Loading'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 
 export default function MainLayout() {
 
   const apiService = useApiService()
 
   const [me, setMe] = useState<User>()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const getMe = async () => {
       setMe(await apiService.getMe())
     }
+    addEventListener("visibilitychange", () => {
+      if (document.visibilityState == 'visible') navigate(0)
+    });
     getMe()
   }, [])
 
