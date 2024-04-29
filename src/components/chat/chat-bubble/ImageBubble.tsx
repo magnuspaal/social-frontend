@@ -1,12 +1,14 @@
 
+import ImgSvg from '@/components/svg/ImgSvg';
 import { MeContext } from '@/providers/me-provider';
 import useFileService from '@/services/file-service';
+import { Chat } from '@/types/chat';
 import { ImageChatMessage } from '@/types/chat/chat-message';
 import { decryptImage, decryptText } from '@/utils/encryption-utils';
 import { getStringFromReadableStream } from '@/utils/reader-utils';
 import { useContext, useEffect, useState } from 'react';
 
-export default function ImageBubble({message}: {message: ImageChatMessage}) {
+export default function ImageBubble({message, chat}: {message: ImageChatMessage, chat: Chat}) {
   const fileService = useFileService()
 
   const { me } = useContext(MeContext)
@@ -36,11 +38,23 @@ export default function ImageBubble({message}: {message: ImageChatMessage}) {
 
   return (
     <div 
-      className={`flex mx-2 my-1 ${isMe ? `place-self-end` : 'place-self-start'}`}>
-      <img 
-        src={src} 
-        className="rounded-xl shadow-light" 
-        width={250} />
+    className={`flex mx-2 my-1 ${isMe ? `place-self-end` : 'place-self-start'}`}>
+    {
+      src ? 
+
+        <img 
+          src={src} 
+          className="rounded-xl shadow-light" 
+          width={250} />
+      :
+      <div 
+        style={{width: "250px", height: 250 / ((message.chatImage.ratio ?? 100000) / 100000), 
+        backgroundColor: isMe ? chat.chatSettings?.myChatBubbleColor : chat.chatSettings?.theirChatBubbleColor}} 
+        className='animate-pulse rounded-xl flex justify-center items-center opacity-15'
+      >
+        <ImgSvg size={30} color={isMe ? chat.chatSettings?.myChatTextColor : chat.chatSettings?.theirChatTextColor}/>
+      </div>
+    }
     </div>
   )
 }

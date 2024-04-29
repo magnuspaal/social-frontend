@@ -5,4 +5,5 @@ export interface ChatImage {
   key: string
   iv: string
   filename: string
+  ratio: number
 }
