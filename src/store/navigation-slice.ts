@@ -5,12 +5,10 @@ export const navigationSlice = createSlice({
   name: 'navigation',
   initialState: {
     overlayImage: '',
-    submitPostOverlay: {},
-    fileInputOpen: false
+    submitPostOverlay: {}
   } as {
     overlayImage: string,
-    submitPostOverlay: {open: boolean, replyParent?: Post},
-    fileInputOpen: boolean
+    submitPostOverlay: {open: boolean, replyParent?: Post}
   },
   reducers: {
     setOverlayImage: (state, action: {payload: string}) => {
@@ -21,13 +19,10 @@ export const navigationSlice = createSlice({
     },
     setSubmitPostOverlay: (state, action: {payload: {open: boolean, replyParent?: Post}}) => {
       state.submitPostOverlay = action.payload
-    },
-    setFileInputOpen: (state, action: {payload: boolean, type: string}) => {
-      state.fileInputOpen = action.payload
     }
   }
 })
 
-export const { setOverlayImage, clearOverlayImage, setSubmitPostOverlay, setFileInputOpen } = navigationSlice.actions
+export const { setOverlayImage, clearOverlayImage, setSubmitPostOverlay } = navigationSlice.actions
 
 export default navigationSlice.reducer

@@ -1,10 +1,10 @@
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import CloseSvg from '@/components/svg/CloseSvg';
 import ImgSvg from '@/components/svg/ImgSvg';
 import { useAppDispatch } from '@/store/hooks';
 import { AlertType, addAlert } from '@/store/alert-slice';
 import useTranslation from '@/lang/use-translation';
-import { setFileInputOpen } from '@/store/navigation-slice';
+import { NavigationContext } from '@/providers/navigation-provider';
 
 export default function useImageInput() {
 
@@ -12,6 +12,7 @@ export default function useImageInput() {
 
   const { t } = useTranslation()
 
+  const { fileInputOpen } = useContext(NavigationContext)
   const inputFile = useRef<HTMLInputElement | null>(null)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [currentImage, setCurrentImage] = useState<string | null>(null)
@@ -38,7 +39,6 @@ export default function useImageInput() {
   const onImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const eventTarget = e.target as HTMLInputElement
     setSelectedFile(eventTarget.files ? eventTarget.files[0] : null)
-    dispatch(setFileInputOpen(false))
   }
   
   const removeImage = () => {
@@ -50,7 +50,7 @@ export default function useImageInput() {
   }
 
   const openFileSelector = () => {
-    dispatch(setFileInputOpen(true))
+    if (fileInputOpen) fileInputOpen.current = true
     inputFile.current?.click();
   };
 

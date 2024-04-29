@@ -6,28 +6,32 @@ import { MeProvider } from '@/providers/me-provider'
 import { MessagingClientProvider } from '@/providers/messaging-client-provider'
 import useApiService from '@/services/api-service'
 import { User } from '@/types/user'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Loading from '@/components/common/Loading'
 import { Outlet, useNavigate } from 'react-router-dom'
-import { useAppSelector } from '@/store/hooks'
+import { NavigationContext } from '@/providers/navigation-provider'
 
 export default function MainLayout() {
 
   const apiService = useApiService()
 
+  const { fileInputOpen } = useContext(NavigationContext)
   const [me, setMe] = useState<User>()
   const navigate = useNavigate()
-
-  const fileInputOpen = useAppSelector((state) => state.navigation.fileInputOpen)
 
   useEffect(() => {
     const getMe = async () => {
       setMe(await apiService.getMe())
     }
-    addEventListener("visibilitychange", () => {
-      if (document.visibilityState == 'visible' && !fileInputOpen) navigate(0)
-    });
+    
+    const handleVisibilityChange = () => {
+      if (fileInputOpen?.current && document.visibilityState != 'hidden') {
+        fileInputOpen.current = false
+      } else if (document.visibilityState == 'visible') navigate(0)
+    }    
+
     getMe()
+    addEventListener("visibilitychange", handleVisibilityChange);
   }, [])
 
   return (
@@ -40,7 +44,7 @@ export default function MainLayout() {
             <AlertModal/>
             <div className='flex justify-center w-full'>
               <div className='max-md:grid-cols-10 max-xl:grid-cols-8 grid-cols-4 grid w-full max-w-[1850px]'>
-                <div className='sm:sticky sm:top-5 h-fit flex items-start justify-end col-span-1 max-sm:fixed bottom-0 z-40 max-sm:w-full'>
+                <div className='sm:sticky sm:top-5 h-fit flex items-start justify-end col-span-1 max-sm:fixed bottom-0 max-sm:z-20 max-sm:w-full'>
                   <LeftSideBar />
                 </div>
                 <div className="max-sm:col-span-10 max-md:col-span-8 max-xl:col-span-7 col-span-3 flex items-start sm:max-md:ml-1 md:ml-5">

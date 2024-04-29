@@ -5,13 +5,16 @@ import { StoreProvider } from './store/store-provider'
 import App from './App'
 import { AuthProvider } from './providers/auth-provider'
 import { BrowserRouter } from 'react-router-dom'
+import { NavigationProvider } from './providers/navigation-provider'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <LanguageProvider>
     <StoreProvider>
       <BrowserRouter>
         <AuthProvider>
-          <App />
+          <NavigationProvider>
+            <App />
+          </NavigationProvider>
         </AuthProvider>
       </BrowserRouter>
     </StoreProvider>
