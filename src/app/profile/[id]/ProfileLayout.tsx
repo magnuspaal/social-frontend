@@ -29,7 +29,7 @@ export default function ProfileLayout() {
       <div className="shadow-up rounded-md w-full">
         <div className="grid gap-3">
           <Profile user={user} />
-          <Outlet context={user} />
+          <Outlet />
         </div>
       </div>
     )

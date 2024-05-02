@@ -10,7 +10,7 @@ import { UserSettingsKey, UserSettingsValue } from "@/types/user";
 import useTranslation from "@/lang/use-translation";
 import { MeContext } from "@/providers/me-provider";
 
-export default function ReplyToPost({ postId, onPost, className }: { postId: number, onPost?: any, className?: string }) {
+export default function ReplyToPost({ postId, onPost, className = "" }: { postId: number, onPost?: any, className?: string }) {
 
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
@@ -34,6 +34,7 @@ export default function ReplyToPost({ postId, onPost, className }: { postId: num
       formData.append('content', value);
       await apiService.postReply(formData, postId)
         .then((response) => {
+          response.reply.options = { animate: true }
           dispatch(updatePost(response.replyParent))
           if (response.reply) {
             dispatch(addPost(response.reply))
@@ -67,7 +68,7 @@ export default function ReplyToPost({ postId, onPost, className }: { postId: num
       <textarea 
         onChange={handleChange} 
         placeholder={t('post.reply')}
-        className="h-[52px] textarea w-full overflow-auto m-h-10 p-3 text-xl resize-none h-14 overflow-hidden bg-background focus:outline-0"
+        className="h-[52px] textarea w-full overflow-auto p-3 text-xl resize-none h-14 overflow-hidden bg-background focus:outline-0"
         id="multiliner" 
         name="multiliner"
         ref={textAreaRef}

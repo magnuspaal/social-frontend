@@ -63,6 +63,7 @@ export default function SubmitPost() {
       }
       await apiService.createPost(formData)
         .then((post) => {
+          post.options = { animate: true }
           removeImage()
           dispatch(addPost(post))
         })

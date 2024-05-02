@@ -15,6 +15,10 @@ export interface Post {
   replyParent: Post | null;
   repostParent: Post | null;
   imageName: string;
+
+  options?: {
+    animate?: boolean
+  }
 }
 
 export interface Repost extends Omit<Post, 'repostParent'> {

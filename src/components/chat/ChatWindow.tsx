@@ -29,7 +29,7 @@ export default function ChatWindow({chat}: {chat: Chat}) {
     return messages.filter((message: ChatMessage) => message.chatId === chat.id)
   })
 
-  const [messages,  endOfMessages] = useInfiniteScroll(
+  const {elements,  endOfElements}: {elements: ChatMessage[], endOfElements: boolean} = useInfiniteScroll(
     messagingService.getChatMessages,
     messageSelector,
     addMessages,
@@ -39,12 +39,12 @@ export default function ChatWindow({chat}: {chat: Chat}) {
   )
 
   useEffect(() => {
-    if (messages) {
+    if (elements) {
       if (chatWindowRef.current && -chatWindowRef.current.scrollTop < 100) {
         chatWindowRef.current.scrollTo({top: 0});
       }
     }
-  }, [messages])
+  }, [elements])
 
   return (
     <div style={{background: chat.chatSettings?.backgroundColor}} className="sm:h-[80svh] h-full flex flex-col sm:rounded-md sm:shadow-up">
@@ -52,19 +52,19 @@ export default function ChatWindow({chat}: {chat: Chat}) {
       <div className="overflow-y-scroll flex flex-col-reverse h-full w-full" ref={chatWindowRef}>
         <ChatWriting chat={chat}/>
         <TransitionGroup component={null}>   
-          {messages?.map((message: ChatMessage) => 
+          {elements?.map((message: ChatMessage) => 
             <TransitionWrapper key={message.id}>
-              <CSSTransition in={message?.options?.animate} appear={message?.options?.animate} timeout={500} classNames="message-slide">
+              <CSSTransition in={message.options?.animate} appear={message.options?.animate} timeout={500} classNames="message-slide">
                 <ChatBubbleHeader message={message} chat={chat}/>
               </CSSTransition>
-              <CSSTransition in={message?.options?.animate} appear={message?.options?.animate} timeout={2000} classNames="message">
+              <CSSTransition in={message.options?.animate} appear={message.options?.animate} timeout={2000} classNames="message">
                 <ChatBubble message={message} chat={chat} />
               </CSSTransition>
               <ChatBubbleFooter message={message} chat={chat} />
             </TransitionWrapper>
           )}
         </TransitionGroup>
-        {!endOfMessages &&
+        {!endOfElements &&
           <div className="flex justify-center p-6">
             <Loading noTimeout={true} size={25} borderWidth={5} color={chat.chatSettings?.elementColor}/>
           </div>

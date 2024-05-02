@@ -8,6 +8,9 @@ import { Post } from "@/types/post";
 import Loading from "@/components/common/Loading";
 import useApiService from "@/services/api-service";
 import { useNavigate, useParams } from "react-router-dom";
+import PostReplies from "@/components/post/PostReplies";
+import useInfiniteScroll from "@/hooks/use-infinite-scroll";
+import { addPosts, clearPosts } from "@/store/post-slice";
 
 export default function PostPage() {
 
@@ -20,31 +23,31 @@ export default function PostPage() {
   const isMe = () => me?.id == post?.user.id
 
   const [post, setPost] = useState<Post | void>()
-  const [postReplies, setPostReplies] = useState<Post[]>()
+
+  const {elements, endOfElements}: {elements: Post[], endOfElements: boolean} = useInfiniteScroll(
+    apiService.getPostReplies,
+    (state) => state.post.posts,
+    addPosts,
+    clearPosts,
+    undefined,
+    { id: parseInt(params.id!) }
+  );
 
   useEffect(() => {
     const getData = async () => {
       if (params.id) {
         setPost(await apiService.getPost(parseInt(params.id)).catch(() => { navigate('/') }))
-        setPostReplies(await apiService.getPostReplies(parseInt(params.id), 0, 50).catch(() => []))
       }
     }
     getData()
-  }, [params])
+  }, [params, elements])
 
-  if (post && postReplies) {
+  if (post) {
     return (
-      <div className="p-2 grid divide-y divide-black/40 border border-black/40 rounded w-full">
+      <div className="p-2 grid divide-y divide-black/10 border shadow-up rounded w-full">
         <SinglePost key={"post-" + post.id} isMe={isMe()} post={post} clickable={false}/>
         <ReplyToPost postId={post.id}/>
-        { postReplies.length != 0 &&
-          <div>
-            <h2 className="pl-2 py-4 text-xl font-bold">Replies</h2>
-            <div className="grid divide-y divide-black/40 border border-black/40"> 
-              {postReplies.map((post: any) => <SinglePost clickable={false} includeReplyHeader={false} key={"reply-" + post.id} post={post} />)}
-            </div>
-          </div>
-        }
+        <PostReplies postReplies={elements} endOfPostReplies={endOfElements} />
       </div>
     )
   } else return (

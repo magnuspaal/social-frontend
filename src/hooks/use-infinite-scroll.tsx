@@ -1,13 +1,15 @@
 
 
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { RootState } from "@/store/store";
+import { ActionCreatorWithPayload, ActionCreatorWithoutPayload } from "@reduxjs/toolkit";
 import { RefObject, useCallback, useEffect, useRef, useState } from "react";
 
 const useInfiniteScroll = (
-  getFunction: Function, 
-  stateFunction: (state: any) => any,
-  addFunction: Function,
-  clearFunction?: Function,
+  getFunction: ((length: number, limit: number, id?: number) => Promise<any[]>), 
+  stateFunction: ((state: RootState) => any[]),
+  addFunction: ActionCreatorWithPayload<any[], "post/addPosts" | "messaging/addMessages">,
+  clearFunction?: ActionCreatorWithoutPayload<"post/clearPosts">,
   scrollElement?: RefObject<HTMLDivElement>,
   options?: { id?: number, limit?: number}) => {
 
@@ -21,17 +23,11 @@ const useInfiniteScroll = (
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (clearFunction) {
-      dispatch(clearFunction())
-    }
-  }, [])
-
   const getMoreElements = useCallback(async() => {
     if (!endOfElements && !loadingMoreElements.current) {
       loadingMoreElements.current = true
       const newPosts = await getFunction(elements.length, options?.limit ?? 10, options?.id)
-        .catch((error: any) => setError(() => {throw error}))
+        .catch((error: Error) => setError(() => {throw error}))
       if (newPosts?.length) {
         dispatch(addFunction(newPosts))
       } else {
@@ -64,10 +60,10 @@ const useInfiniteScroll = (
   useEffect(() => {
     const fetchElements = async () => {
       if (!loadingMoreElements.current) {
-        loadingMoreElements.current = true
+      loadingMoreElements.current = true
         const newElements = await getFunction(0, options?.limit ?? 10, options?.id)
-          .catch((error: any) => setError(() => {throw error}))
-        if (newElements) {
+          .catch((error: Error) => setError(() => {throw error}))
+        if (newElements) {          
           dispatch(addFunction(newElements))
           if (newElements.length < (options?.limit ?? 10)) {
             setEndOfElements(true)
@@ -77,7 +73,11 @@ const useInfiniteScroll = (
       }
     }
     fetchElements()
-  }, [])
+
+    return (() => {
+      if (clearFunction) dispatch(clearFunction())
+    })
+  }, [options?.id])
 
   useEffect(() => {
     scrollDebounce()
@@ -93,7 +93,7 @@ const useInfiniteScroll = (
     };
   }, [handleScroll, scrollDebounce, scrollElement]);
 
-  return [elements, endOfElements]
+  return {elements, endOfElements}
 } 
 
 export default useInfiniteScroll;

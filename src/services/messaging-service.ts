@@ -33,7 +33,7 @@ class MessagingService extends AbstractApiService {
 
   getPrivateChat = (userId: number): Promise<Chat | null> => this.get(`/user/${userId}/chat`)
 
-  getChatMessages = (offset: number, limit: number, id: number): Promise<ChatMessage[]> =>
+  getChatMessages = (offset: number, limit: number, id?: number): Promise<ChatMessage[]> =>
     this.get(`/chat/${id}/messages?offset=${offset}&limit=${limit}`, {
       cache: "no-store"
     }).then(async (messages: ChatMessage[]) => decryptMessages(messages))

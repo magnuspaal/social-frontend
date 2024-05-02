@@ -23,7 +23,7 @@ class ApiService extends AbstractApiService {
       cache: "no-store"
     })
 
-  getUserPosts = (offset: number, limit: number, id: number): Promise<Post[]> => 
+  getUserPosts = (offset: number, limit: number, id?: number): Promise<Post[]> => 
     this.get(`/user/${id}/posts?offset=${offset}&limit=${limit}`, {
       cache: "no-store"
     })
@@ -48,7 +48,7 @@ class ApiService extends AbstractApiService {
 
   getUserFollowing = (id: number): Promise<User[]> => this.get(`/user/${id}/following`)
 
-  getPostReplies = (id: number, offset: number, limit: number): Promise<Post[]> => this.get(`/post/${id}/replies?offset=${offset}&limit=${limit}`)
+  getPostReplies = (offset: number, limit: number, id?: number): Promise<Post[]> => this.get(`/post/${id}/replies?offset=${offset}&limit=${limit}`)
 
   getUser = (id: number): Promise<User> => this.get(`/user/${id}`)
   
