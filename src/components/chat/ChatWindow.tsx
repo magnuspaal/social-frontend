@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { addMessages } from "@/store/messaging-slice";
 import ChatInput from './ChatInput';
 import useMessagingService from '@/services/messaging-service';
@@ -7,7 +7,6 @@ import ChatBubble from './chat-bubble/ChatBubble';
 import useDisableScroll from '@/hooks/use-disable-scroll';
 import ChatHeader from './ChatHeader';
 import { Chat } from '@/types/chat';
-import { MessagingClientContext } from '@/providers/messaging-client-provider';
 import { ChatMessage } from '@/types/chat/chat-message';
 import { createSelector } from '@reduxjs/toolkit';
 import ChatWriting from './chat-bubble/ChatWriting';
@@ -38,8 +37,6 @@ export default function ChatWindow({chat}: {chat: Chat}) {
     chatWindowRef,
     {id: chat.id, limit: 30}
   )
-
-  const { client } = useContext(MessagingClientContext)
 
   useEffect(() => {
     if (messages) {
@@ -73,10 +70,7 @@ export default function ChatWindow({chat}: {chat: Chat}) {
           </div>
         }
       </div>
-      {client ? 
-        <ChatInput chat={chat} client={client}/> : 
-        <Loading color={chat.chatSettings?.elementColor} size={25} borderWidth={5}/>
-      }
+      <ChatInput chat={chat} />
     </div>
   )
 }

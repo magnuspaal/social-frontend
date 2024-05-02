@@ -6,13 +6,13 @@ import useTranslation from '@/lang/use-translation';
 import { MeContext } from '@/providers/me-provider';
 import { Chat } from '@/types/chat';
 import { ChatMessageType } from '@/types/chat/chat-message/chat-message-type';
-import { Client } from '@stomp/stompjs';
 import { useCallback, useContext, useRef, useState } from 'react';
 import SendSvg from '../svg/SendSvg';
 import useMessagingService from '@/services/messaging-service';
 import Loading from '../common/Loading';
+import { MessagingClientContext } from '@/providers/messaging-client-provider';
 
-export default function ChatInput({chat, client}: {chat: Chat, client: Client}) {
+export default function ChatInput({chat}: {chat: Chat}) {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const { t } = useTranslation()
   const { me } = useContext(MeContext)
@@ -20,10 +20,12 @@ export default function ChatInput({chat, client}: {chat: Chat, client: Client}) 
   const messagingService = useMessagingService()
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
-  
+
+  const { client } = useContext(MessagingClientContext)
+      
   const { clientPublish, submitWriting } = useMessagingPublisherMethods(client)
   const { selectedFile, renderImage, renderImageButton, renderImageInput, removeImage } = useImageInput()
-    
+
   const submitMessage = useCallback(async () => {
     setLoading(true)
     if (selectedFile && me) {
@@ -80,7 +82,7 @@ export default function ChatInput({chat, client}: {chat: Chat, client: Client}) 
           >
             { 
               loading
-              ? <Loading className='' color={chat.chatSettings?.elementTextColor} size={24} borderWidth={3}/>
+              ? <Loading className='' color={chat.chatSettings?.elementTextColor} size={24} borderWidth={3} noTimeout={true}/>
               : <SendSvg color={chat.chatSettings?.elementTextColor}/>
             }
           </button>
