@@ -19,7 +19,7 @@ export default function Feed() {
   )
 
   return (
-    <div className="rounded-md overflow-hidden shadow-up">
+    <div className="rounded-md overflow-hidden sm:shadow-up">
       <div className="grid divide-y divide-black/10">
         <TransitionGroup component={null}>        
           {elements?.map((post: Post) =>
