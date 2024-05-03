@@ -1,12 +1,13 @@
 import { MeContext } from '@/providers/me-provider';
 import { Chat } from '@/types/chat';
 import { ChatMessage } from '@/types/chat/chat-message';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
 export default function ChatBubbleFooter({message, chat, initialUser}: {message: ChatMessage, chat: Chat, initialUser?: string}) {
 
   const { me } = useContext(MeContext)
+  const divRef = useRef<HTMLDivElement>(null)
 
   const isMyMessage = () => message.sender.id == me?.id
 
@@ -27,8 +28,8 @@ export default function ChatBubbleFooter({message, chat, initialUser}: {message:
   }, [chat])
 
   return (
-    <CSSTransition in={display} enter={!!message.options?.animate} onExited={() => setLatestSeenMessageUsers("")} timeout={800} classNames="message-slide">
-      <div style={{color: chat.chatSettings?.elementColor}} className={`flex flex-col ${isMyMessage() ? 'text-right' : 'text-left'}`}>
+    <CSSTransition nodeRef={divRef} in={display} enter={!!message.options?.animate} onExited={() => setLatestSeenMessageUsers("")} timeout={800} classNames="message-slide">
+      <div ref={divRef} style={{color: chat.chatSettings?.elementColor}} className={`flex flex-col ${isMyMessage() ? 'text-right' : 'text-left'}`}>
         <div className={`text-[11px] mx-3 font-bold`}>{`${latestSeenMessageUsers}`}</div>
       </div>
     </CSSTransition>

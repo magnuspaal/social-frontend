@@ -8,12 +8,13 @@ const useMessagingPublisherMethods = (client: Client | undefined) => {
 
   const [currentTimeout, setTO] = useState<NodeJS.Timeout>()
 
-  const clientPublish = useCallback((type: ChatMessageType, from: number, to?: number, value?: string) => {
+  const clientPublish = useCallback((type: ChatMessageType, from: number, to?: number, value?: string, chatMessageId?: number) => {
     client && client.publish({ destination: '/app/message', body: JSON.stringify({
       type,
       content: value,
       from,
-      to })
+      to,
+      chatMessageId })
     });
   }, [client])
 
@@ -40,8 +41,12 @@ const useMessagingPublisherMethods = (client: Client | undefined) => {
       submitActive(from)
     }, 10 * 1000)
   }, [clientPublish, submitActive])
+  
+  const submitReaction = useCallback((from: number, to: number, value: string, chatMessageId: number) => {
+    clientPublish(ChatMessageType.REACTION, from, to, value, chatMessageId);
+  }, [clientPublish])
 
-  return {clientPublish, submitWriting, submitSeen, startActivity, submitActive}
+  return {clientPublish, submitWriting, submitSeen, startActivity, submitActive, submitReaction}
 } 
 
 export default useMessagingPublisherMethods

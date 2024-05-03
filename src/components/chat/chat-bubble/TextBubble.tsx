@@ -20,7 +20,7 @@ export default function TextBubble({message, chat}: {message: ChatMessage, chat:
         background: `${isMe ? myColor : theirColor}`, 
         color: `${isMe ? myTextColor : theirTextColor}`
       }} 
-      className={`flex max-w-[60%] rounded-md sm:text-sm px-4 py-2 mx-2 shadow-light ${isMe ? `place-self-end bg-secondary` : 'place-self-start bg-shade'}`}>
+      className={`rounded-md sm:text-sm px-4 py-2 mx-2 shadow-light ${isMe ? `bg-secondary` : 'bg-shade'}`}>
         {message.content}
     </div>
   )

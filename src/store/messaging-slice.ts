@@ -1,7 +1,8 @@
 import { Chat } from "@/types/chat";
-import { ChatMessage } from "@/types/chat/chat-message";
+import { ChatMessage, ReactionChatMessage } from "@/types/chat/chat-message";
 import { User } from "@/types/user";
 import { createSlice } from "@reduxjs/toolkit";
+import { Buffer } from "buffer";
 
 export const messagingSlice = createSlice({
   name: 'messaging',
@@ -47,6 +48,20 @@ export const messagingSlice = createSlice({
     removeChat: (state) => {
       state.chat = undefined
     },
+    addReaction: (state, action: {payload: ReactionChatMessage, type: string}) => {
+      const reactionMessage = action.payload
+      state.messages = state.messages.map((message: ChatMessage) => {
+        if (message.chatMessageId == reactionMessage.chatMessageId && message.chatId == reactionMessage.chatId) { 
+          message.messageReactions.push({
+            id: reactionMessage.id,
+            createdAt: reactionMessage.createdAt,
+            reaction: Buffer.from(reactionMessage.content, 'base64').toString('utf-8'),
+            user: reactionMessage.sender
+          })
+        }
+        return message
+      })
+    },
     updateSeenMessages: (state, action: {payload: {messageId: number, chatId: number, senderId: number}, type: string}) => {
       const {messageId, chatId, senderId} = action.payload
       if (state.chat?.id == chatId) {
@@ -82,7 +97,8 @@ export const {
   updateSeenMessages, 
   removeChat,
   addActiveUser,
-  removeActiveUser
+  removeActiveUser,
+  addReaction
 } = messagingSlice.actions
 
 export default messagingSlice.reducer

@@ -19,7 +19,8 @@ const useMessagingHandler = (
     handleWritingMessage, 
     handleWritingEndMessage,
     handleSeenMessage,
-    handleActiveMessage
+    handleActiveMessage,
+    handleReactionMessage
   } = useMessagingHandlerMethods(client)
 
   const { logout } = useContext(AuthContext);
@@ -31,6 +32,12 @@ const useMessagingHandler = (
     const chatMessage: ChatMessage = JSON.parse(message.body)
 
     switch (chatMessage.type) {
+      case ChatMessageType.TEXT || ChatMessageType.IMAGE:
+        handleMessage(chatMessage, privateKey)
+        break
+      case ChatMessageType.REACTION:
+        handleReactionMessage(chatMessage)
+        break;
       case ChatMessageType.EXCEPTION:
         handleExceptionMessage(chatMessage)
         break
@@ -52,7 +59,7 @@ const useMessagingHandler = (
       default:
         handleMessage(chatMessage, privateKey)
     }
-  }, [handleActiveMessage, handleExceptionMessage, handleMessage, handleSeenMessage, handleWritingEndMessage, handleWritingMessage])
+  }, [handleActiveMessage, handleExceptionMessage, handleMessage, handleReactionMessage, handleSeenMessage, handleWritingEndMessage, handleWritingMessage])
 
   useEffect(() => {
     const privateKey = localStorage.getItem('privateKey')

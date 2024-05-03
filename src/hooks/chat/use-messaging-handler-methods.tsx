@@ -3,8 +3,8 @@
 import useTranslation from "@/lang/use-translation";
 import { AlertType, addAlert } from "@/store/alert-slice";
 import { useAppDispatch } from "@/store/hooks";
-import { addActiveUser, addMessage, clearWritingMessage, removeActiveUser, setWritingMessage, updateSeenMessages } from "@/store/messaging-slice";
-import { ActiveChatMessage, ChatMessage } from "@/types/chat/chat-message/";
+import { addActiveUser, addMessage, addReaction, clearWritingMessage, removeActiveUser, setWritingMessage, updateSeenMessages } from "@/store/messaging-slice";
+import { ActiveChatMessage, ChatMessage, ReactionChatMessage } from "@/types/chat/chat-message/";
 import { logInfo } from "@/utils/development-utils";
 import { decryptMessage } from "@/utils/encryption-utils";
 import { useCallback, useEffect, useRef } from "react";
@@ -75,13 +75,18 @@ const useMessagingHandlerMethods = (client: Client | undefined) => {
     }
   }, [dispatch, submitActive])
 
+  const handleReactionMessage = useCallback((message: ReactionChatMessage) => {
+    dispatch(addReaction(message))
+  }, [dispatch])
+
   return {
     handleMessage, 
     handleExceptionMessage, 
     handleWritingMessage, 
     handleWritingEndMessage,
     handleSeenMessage,
-    handleActiveMessage
+    handleActiveMessage,
+    handleReactionMessage
   };
 } 
 
