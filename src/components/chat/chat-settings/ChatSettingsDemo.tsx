@@ -7,6 +7,7 @@ import { Chat } from '@/types/chat';
 import { MeContext } from '@/providers/me-provider';
 import ChatBubbleHeaderElement from '../chat-bubble/ChatBubbleHeaderElement';
 import ChatBubbleFooter from '../chat-bubble/ChatBubbleFooter';
+import { MessageReaction } from '@/types/chat/chat-message/message-reaction';
 
 interface ChatSettingsDemoProps {
   myChatBubbleColor: string, 
@@ -59,13 +60,15 @@ export default function ChatSettingsDemo({
     content: "Hey! How's it going?",
     createdAt: "2024-02-28T12:12:58Z",
     sender: sender1,
-    type: "text"
+    type: "text",
+    messageReactions: [] as MessageReaction[]
   } as ChatMessage
 
   const message2 = {
     content: "Fine! How about you?",
     sender: sender2,
-    type: "text"
+    type: "text",
+    messageReactions: [] as MessageReaction[]
   } as ChatMessage
 
   const message3 = {
@@ -73,17 +76,21 @@ export default function ChatSettingsDemo({
     createdAt: "2024-02-28T12:13:30Z",
     sender: sender1,
     chatMessageId: 3,
-    type: "text"
+    type: "text",
+    messageReactions: [{
+      id: 1,
+      reaction: "0x2764",
+    }] as MessageReaction[]
   } as ChatMessage
 
   return (
     <div className='flex flex-col w-full rounded-md'>
       <ChatBubbleHeaderElement message={message1} chat={chat} displayTimestamp={true} displayUsername={true}/>
-      <ChatBubble message={message1} chat={chat}/>
+      <ChatBubble message={message1} chat={chat} notClickable={true}/>
       <ChatBubbleHeaderElement message={message2} chat={chat} displayUsername={true}/>
-      <ChatBubble message={message2} chat={chat}/>
+      <ChatBubble message={message2} chat={chat} notClickable={true}/>
       <ChatBubbleHeaderElement message={message3} chat={chat} displayTimestamp={true} displayUsername={true}/>
-      <ChatBubble message={message3} chat={chat}/>
+      <ChatBubble message={message3} chat={chat} notClickable={true}/>
       <ChatBubbleFooter message={message3} chat={chat} initialUser={sender2.username}/>
     </div>
   )

@@ -10,14 +10,14 @@ import ImageBubble from './ImageBubble';
 import useLongPress from '@/hooks/use-long-press';
 import ChatBubbleReactions from './ChatBubbleReactions';
 
-export default function ChatBubble({message, chat}: {message: ChatMessage, chat: Chat}) {
+export default function ChatBubble({message, chat, notClickable}: {message: ChatMessage, chat: Chat, notClickable?: boolean}) {
   const { me } = useContext(MeContext)
   const isMe = message.sender.id == me?.id
 
   const [reactionSelectorShown, setReactionSelectorShown] = useState<boolean>(false)
 
   const onLongPress = () => {
-    setReactionSelectorShown(!reactionSelectorShown)
+    if (!notClickable) setReactionSelectorShown(!reactionSelectorShown)
   };
 
   const onClick = () => {}
