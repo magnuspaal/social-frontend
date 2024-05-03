@@ -1,10 +1,10 @@
-
-
 import useTranslation from "@/lang/use-translation";
 import { RepostPostProps } from "../types/PostProps";
 import SinglePost from "./SinglePost";
 import PostHeader from "./header/PostHeader";
 import RepostSvg from "../svg/RepostSvg";
+import { MouseEventHandler } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 export default function RepostPost({
@@ -16,13 +16,23 @@ export default function RepostPost({
   }: RepostPostProps) {
 
   const { t } = useTranslation()
+  const navigate = useNavigate()
 
   const singlePostProps = {clickablePicture, clickableHeader, clickableReplyHeader}
+
+
+  const handleClick: MouseEventHandler<HTMLDivElement> = (event) => {
+    if (clickableReplyHeader) {
+      event.preventDefault()
+      event.stopPropagation()
+      navigate(`/post/${post.repostParent.id}`)
+    }
+  }
 
   return (
     <div>
       <PostHeader post={post}> 
-        <div className={`text-xs font-normal flex flex-row mt-1 gap-1`}>
+        <div onClick={handleClick} className={`text-xs font-normal flex flex-row mt-1 gap-1 hover:underline hover:cursor-pointer`}>
           <RepostSvg size={15} />
           {t('post.reposted_by')}
         </div>
