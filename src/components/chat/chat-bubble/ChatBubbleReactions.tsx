@@ -44,8 +44,8 @@ export default function ChatBubbleReactions({message, reactionSelectorShown, set
         <CSSTransition key={reactionSelectorShown ? 'selector' + message.id : 'display' + message.id} timeout={200} classNames="reaction">
           {
             reactionSelectorShown ? 
-            <><div className='flex gap-1 bg-white p-1 absolute bottom-[-15px] right-1 rounded-full shadow z-20'>
-              <button onClick={postReaction} className='text-[20px] px-1 hover:scale-110'>
+            <><div className='flex gap-1 bg-white p-1 absolute bottom-[-15px] right-1 rounded-full shadow z-20 not-selectable'>
+              <button onClick={postReaction} onTouchStart={postReaction} className='text-[20px] px-1'>
                 {String.fromCodePoint(0x2764)}
               </button>
             </div></>

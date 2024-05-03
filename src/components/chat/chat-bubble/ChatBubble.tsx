@@ -38,7 +38,7 @@ export default function ChatBubble({message, chat}: {message: ChatMessage, chat:
   }
 
   return (
-    <div className={`flex flex-col my-[2px] select-none ${isMe ? 'right' : 'left'}`}>
+    <div className={`flex flex-col my-[2px] select-none not-selectable ${isMe ? 'right' : 'left'}`}>
       <div {...longPressEvent} className={`flex max-w-[60%] relative ${message.messageReactions.length && "mb-5"} ${isMe ? `place-self-end` : 'place-self-start'}`}>
         {renderChatBubble()}
         <ChatBubbleReactions message={message} reactionSelectorShown={reactionSelectorShown} setReactionSelectorShown={setReactionSelectorShown}/>
