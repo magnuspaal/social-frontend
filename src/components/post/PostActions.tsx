@@ -80,9 +80,9 @@ export default function PostActions({
           >
             <div className={`flex flex-row`}>
               <button onClick={handleRepost} className="flex flex-row items-center">
-                <RepostSvg size={20} color={`${(repostPost?.reposted ?? post.reposted) ? colors.tertiary : colors.black}`}/>
-                <div className={`w-8 ml-2 font-semibold text-start ${(repostPost?.reposted ?? post.reposted) && "text-tertiary"}`}>
-                  {repostPost?.repostCount ?? post.repostCount}
+                <RepostSvg size={20} color={`${(post.reposted) ? colors.tertiary : colors.black}`}/>
+                <div className={`w-8 ml-2 font-semibold text-start ${(post.reposted) && "text-tertiary"}`}>
+                  {post.repostCount}
                 </div>
               </button>
             </div>
@@ -91,14 +91,14 @@ export default function PostActions({
 
         <SwitchTransition mode={'out-in'}>
           <CSSTransition 
-            key={repostPost?.replyCount ?? post.replyCount} 
+            key={post.replyCount} 
             timeout={250 * 0.75} 
             classNames={{enter: "bounce-enter", appear: "bounce-enter", exit: "bounce-exit"}}
           >
             <div className={`flex flex-row`}>
               <button onClick={handleReply} className="flex flex-row items-center">
                 <ReplySvg size={18} />
-                <div className="w-8 ml-2 font-semibold text-start">{repostPost?.replyCount ?? post.replyCount}</div>
+                <div className="w-8 ml-2 font-semibold text-start">{post.replyCount}</div>
               </button>
             </div>
           </CSSTransition> 
